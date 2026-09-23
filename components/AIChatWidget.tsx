@@ -106,8 +106,8 @@ export default function AIChatWidget({ locale }: AIChatWidgetProps) {
 
   const quickPicks =
     locale === "vi"
-      ? ["Cải tạo phòng tắm", "Làm mới sàn gỗ", "Đóng tủ bếp", "Báo giá trọn gói"]
-      : ["Bathroom Renovation", "Flooring Solution", "Kitchen Cabinets", "Get a Free Quote"];
+      ? (aiConfig?.leadCapture?.promptChips_vi || ["Cải tạo phòng tắm", "Làm mới sàn gỗ", "Đóng tủ bếp", "Báo giá trọn gói"])
+      : (aiConfig?.leadCapture?.promptChips_en || ["Bathroom Renovation", "Flooring Solution", "Kitchen Cabinets", "Get a Free Quote"]);
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -137,11 +137,13 @@ export default function AIChatWidget({ locale }: AIChatWidgetProps) {
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-sm leading-tight flex items-center gap-1.5">
-                  NS Building AI Assistant
+                  {aiConfig?.general?.botName || "NS Building AI Assistant"}
                   <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
                 </span>
                 <span className="text-[11px] text-slate-300">
-                  {locale === "vi" ? "Trực tuyến 24/7 &bull; Tiếp nhận báo giá" : "Online 24/7 &bull; Instant Quote Intake"}
+                  {locale === "vi"
+                    ? (aiConfig?.general?.botSubtitle_vi || "Trực tuyến 24/7 &bull; Tiếp nhận báo giá")
+                    : (aiConfig?.general?.botSubtitle_en || "Online 24/7 &bull; Instant Quote Intake")}
                 </span>
               </div>
             </div>
