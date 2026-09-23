@@ -12,6 +12,9 @@ import AIChatWidget from "@/components/AIChatWidget";
 
 import enDict from "@/content/dictionaries/en.json";
 import viDict from "@/content/dictionaries/vi.json";
+import siteSettings from "@/content/site_settings.json";
+
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "vi" }];
@@ -47,7 +50,7 @@ export default function HomePage({ params }: PageProps) {
         <section className="relative w-full min-h-[640px] lg:min-h-[720px] flex items-center overflow-hidden bg-primary">
           {/* Full-bleed background image */}
           <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC4zySIsBFsCxbPwZoDwuqZtLQWpoTxQeVfs9GkcCOv8krWekpp7w-Sr4GIn4XjONGNLOByEmndm0tLOLyjs8PwH7QRkKbuuMMi34H0gnPxaPMwqQFVlSToJiD5aGeB16_nvb2zbNYsBr_w-OG4ktIRiEp6kaeOBtvN58A62ECHeBxKOEYa4sU7H5HmQaAugC9OSRbuHdHIOXPkFDOyfyHz-acP9xjnkESnozm5pyPzrINXZNh1K03Cg"
+            src={siteSettings?.heroBackgroundImage || "https://lh3.googleusercontent.com/aida-public/AB6AXuAC4zySIsBFsCxbPwZoDwuqZtLQWpoTxQeVfs9GkcCOv8krWekpp7w-Sr4GIn4XjONGNLOByEmndm0tLOLyjs8PwH7QRkKbuuMMi34H0gnPxaPMwqQFVlSToJiD5aGeB16_nvb2zbNYsBr_w-OG4ktIRiEp6kaeOBtvN58A62ECHeBxKOEYa4sU7H5HmQaAugC9OSRbuHdHIOXPkFDOyfyHz-acP9xjnkESnozm5pyPzrINXZNh1K03Cg"}
             alt="NS Building - Architectural Renovation & Interior Craftsmanship"
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
@@ -265,36 +268,38 @@ export default function HomePage({ params }: PageProps) {
         <PortfolioSection portfolioDict={dict.portfolio} locale={locale as "en" | "vi"} />
 
         {/* 6. BEFORE & AFTER SHOWCASE (INTERACTIVE SPLIT) */}
-        <section className="w-full bg-surface-container-low py-20 lg:py-24" id="transformation-section">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <div className="inline-flex items-center justify-center gap-2 mb-2">
-                <span className="h-0.5 w-6 bg-secondary"></span>
-                <span className="text-xs uppercase tracking-widest text-secondary font-bold">
-                  {dict.before_after.badge}
-                </span>
-                <span className="h-0.5 w-6 bg-secondary"></span>
+        {siteSettings?.toggles?.showBeforeAfter !== false && (
+          <section className="w-full bg-surface-container-low py-20 lg:py-24" id="transformation-section">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+              <div className="text-center max-w-2xl mx-auto mb-12">
+                <div className="inline-flex items-center justify-center gap-2 mb-2">
+                  <span className="h-0.5 w-6 bg-secondary"></span>
+                  <span className="text-xs uppercase tracking-widest text-secondary font-bold">
+                    {dict.before_after.badge}
+                  </span>
+                  <span className="h-0.5 w-6 bg-secondary"></span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
+                  {dict.before_after.title}
+                </h2>
+                <p className="text-sm sm:text-base text-on-surface-variant mt-2">
+                  {dict.before_after.subtitle}
+                </p>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
-                {dict.before_after.title}
-              </h2>
-              <p className="text-sm sm:text-base text-on-surface-variant mt-2">
-                {dict.before_after.subtitle}
-              </p>
-            </div>
 
-            {/* Interactive Split Slider Component */}
-            <BeforeAfterSlider
-              beforeImage={dict.before_after.before_img}
-              afterImage={dict.before_after.after_img}
-              beforeLabel={dict.before_after.before_label}
-              afterLabel={dict.before_after.after_label}
-              projectName={dict.before_after.project_name}
-              duration={dict.before_after.duration}
-              dragHint={dict.before_after.drag_hint}
-            />
-          </div>
-        </section>
+              {/* Interactive Split Slider Component */}
+              <BeforeAfterSlider
+                beforeImage={dict.before_after.before_img}
+                afterImage={dict.before_after.after_img}
+                beforeLabel={dict.before_after.before_label}
+                afterLabel={dict.before_after.after_label}
+                projectName={dict.before_after.project_name}
+                duration={dict.before_after.duration}
+                dragHint={dict.before_after.drag_hint}
+              />
+            </div>
+          </section>
+        )}
 
         {/* 7. WHY NS BUILDING: TRUST & CREDIBILITY PILLARS */}
         <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 lg:py-24" id="about">
@@ -339,7 +344,7 @@ export default function HomePage({ params }: PageProps) {
         </section>
 
         {/* 8. CUSTOMER REVIEWS & SOCIAL PROOF */}
-        <GoogleReviews dict={dict} />
+        {siteSettings?.toggles?.showReviews !== false && <GoogleReviews dict={dict} />}
 
         {/* 9. SERVICE AREAS & LOCAL PRESENCE (WITH MAP) */}
         <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 lg:py-24" id="contact">
@@ -424,7 +429,7 @@ export default function HomePage({ params }: PageProps) {
         </section>
 
         {/* 10. REQUEST A QUOTE (HIGH-CONVERSION INQUIRY FORM) */}
-        <QuoteForm dict={dict} />
+        {siteSettings?.toggles?.showQuoteForm !== false && <QuoteForm dict={dict} />}
 
         {/* 11. QUICK CONTACT STRIP (DIRECT ACCESS) */}
         <section className="w-full bg-primary-container text-on-primary py-8">
@@ -466,7 +471,9 @@ export default function HomePage({ params }: PageProps) {
       <Footer locale={locale as "en" | "vi"} dict={dict} />
 
       {/* 13. 24/7 AI CHAT ASSISTANT WIDGET */}
-      <AIChatWidget locale={locale as "en" | "vi"} />
+      {siteSettings?.toggles?.showChatWidget !== false && (
+        <AIChatWidget locale={locale as "en" | "vi"} />
+      )}
     </div>
   );
 }
