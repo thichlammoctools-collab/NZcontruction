@@ -75,6 +75,14 @@ export default function AdminSidebar({
       badge: counts.posts.toString(),
       badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/30",
     },
+    {
+      id: "ai-chat" as AdminTab,
+      label: "Cấu Hình & Huấn Luyện AI",
+      sub: "Mô hình & Dữ liệu bot",
+      icon: Bot,
+      badge: "AI 24/7",
+      badgeColor: "bg-amber-400/20 text-amber-300 border-amber-400/30",
+    },
   ];
 
   return (
