@@ -6,10 +6,23 @@ export const dynamic = "force-dynamic";
 
 const postsFilePath = path.join(process.cwd(), "content", "posts.json");
 
-export async function GET() {
+function readPosts(): any[] {
   try {
     const data = fs.readFileSync(postsFilePath, "utf8");
-    return NextResponse.json(JSON.parse(data));
+    return JSON.parse(data);
+  } catch (error) {
+    return [];
+  }
+}
+
+function writePosts(posts: any[]) {
+  fs.writeFileSync(postsFilePath, JSON.stringify(posts, null, 2), "utf8");
+}
+
+export async function GET() {
+  try {
+    const posts = readPosts();
+    return NextResponse.json(posts);
   } catch (error) {
     return NextResponse.json({ error: "Failed to read posts" }, { status: 500 });
   }
@@ -18,21 +31,78 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const newPost = await req.json();
-    const data = fs.readFileSync(postsFilePath, "utf8");
-    const posts = JSON.parse(data);
+    const posts = readPosts();
 
     const postWithId = {
       ...newPost,
       id: newPost.id || `post-${Date.now()}`,
-      date: new Date().toISOString().split("T")[0],
+      date: newPost.date || new Date().toISOString().split("T")[0],
       author: newPost.author || "Nguyen Son",
     };
 
     posts.unshift(postWithId);
-    fs.writeFileSync(postsFilePath, JSON.stringify(posts, null, 2), "utf8");
+    writePosts(posts);
 
     return NextResponse.json({ success: true, post: postWithId });
   } catch (error) {
     return NextResponse.json({ error: "Failed to save post" }, { status: 500 });
+  }
+}
+
+export async function PUT(req: Request) {
+  try {
+    const updatedPost = await req.json();
+    if (!updatedPost.id) {
+      return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
+    }
+
+    const posts = readPosts();
+    const index = posts.findIndex((p) => p.id === updatedPost.id);
+
+    if (index === -1) {
+      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    posts[index] = {
+      ...posts[index],
+      ...updatedPost,
+    };
+
+    writePosts(posts);
+    return NextResponse.json({ success: true, post: posts[index] });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to update post" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    let id = searchParams.get("id");
+
+    if (!id) {
+      try {
+        const body = await req.json();
+        id = body.id;
+      } catch (e) {
+        // no body
+      }
+    }
+
+    if (!id) {
+      return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
+    }
+
+    const posts = readPosts();
+    const filtered = posts.filter((p) => p.id !== id);
+
+    if (filtered.length === posts.length) {
+      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    writePosts(filtered);
+    return NextResponse.json({ success: true, deletedId: id });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to delete post" }, { status: 500 });
   }
 }
