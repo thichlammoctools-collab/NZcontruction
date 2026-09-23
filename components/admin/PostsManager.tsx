@@ -71,6 +71,14 @@ export default function PostsManager({ posts, onRefresh }: PostsManagerProps) {
 
   const handleSavePost = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.image) {
+      setNotification({
+        type: "error",
+        text: "Vui lòng tải lên hoặc cung cấp ảnh đại diện cho bài viết.",
+      });
+      return;
+    }
+
     setSaving(true);
     setNotification(null);
 
@@ -326,31 +334,14 @@ export default function PostsManager({ posts, onRefresh }: PostsManagerProps) {
                 />
               </div>
 
-              <div>
-                <label className="block font-bold text-slate-300 mb-1">
-                  Link ảnh đại diện bài viết *
-                </label>
-                <input
-                  type="url"
-                  required
-                  placeholder="https://..."
-                  value={formData.image}
-                  onChange={(e) =>
-                    setFormData({ ...formData, image: e.target.value })
-                  }
-                  className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono"
-                />
-              </div>
-
-              {formData.image && (
-                <div className="relative aspect-[21/9] max-h-36 rounded-xl overflow-hidden border border-slate-700 bg-slate-950">
-                  <img
-                    src={formData.image}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
+              <ImageUpload
+                label="Ảnh đại diện bài viết"
+                required
+                value={formData.image}
+                onChange={(url) => setFormData({ ...formData, image: url })}
+                aspectRatio="wide"
+                helperText="Hình ảnh hiển thị đầu bài viết và trong danh sách tin tức"
+              />
 
               <div>
                 <label className="block font-bold text-slate-300 mb-1">

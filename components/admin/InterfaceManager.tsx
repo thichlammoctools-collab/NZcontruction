@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import BeforeAfterSlider from "../BeforeAfterSlider";
+import ImageUpload from "./ImageUpload";
 
 interface InterfaceManagerProps {
   initialData: {
@@ -228,19 +229,14 @@ export default function InterfaceManager({
                 Ảnh chất lượng cao hiển thị ở đầu trang chủ tạo ấn tượng thị giác đầu tiên cho khách hàng.
               </p>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
-                  Link ảnh nền (URL) *
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={heroBgImage}
-                  onChange={(e) => setHeroBgImage(e.target.value)}
-                  placeholder="https://..."
-                  className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white font-mono focus:border-amber-400 focus:outline-none"
-                />
-              </div>
+              <ImageUpload
+                label="Ảnh nền banner chính"
+                required
+                value={heroBgImage}
+                onChange={setHeroBgImage}
+                aspectRatio="wide"
+                helperText="Tải file ảnh độ phân giải cao từ máy tính (khuyên dùng 1920x1080 hoặc tỷ lệ 16:9, 21:9)"
+              />
 
               {heroBgImage && (
                 <div className="relative aspect-[21/9] max-h-56 rounded-xl overflow-hidden border border-slate-700 bg-slate-950">

@@ -18,6 +18,7 @@ import {
   Image as ImageIcon,
   AlertTriangle,
 } from "lucide-react";
+import ImageUpload from "./ImageUpload";
 
 interface ServicesManagerProps {
   services: any[];
@@ -121,6 +122,14 @@ export default function ServicesManager({
 
   const handleSaveService = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.hero_image) {
+      setNotification({
+        type: "error",
+        text: "Vui lòng tải lên hoặc cung cấp ảnh đại diện (Hero Image) cho dịch vụ.",
+      });
+      return;
+    }
+
     setSaving(true);
     setNotification(null);
 
@@ -432,54 +441,36 @@ export default function ServicesManager({
               {/* TAB 1: BASIC INFO */}
               {activeModalTab === "basic" && (
                 <div className="space-y-4 text-xs">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block font-bold text-slate-300 mb-1">
-                        Mã định danh (Slug ID) *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        disabled={modalMode === "edit"}
-                        placeholder="ví dụ: renovations, bathrooms, roofing"
-                        value={formData.id}
-                        onChange={(e) =>
-                          setFormData({ ...formData, id: e.target.value.toLowerCase().trim() })
-                        }
-                        className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono disabled:opacity-50"
-                      />
-                      <span className="text-[10px] text-slate-400 mt-1 block">
-                        Đường dẫn trang: /services/{formData.id || "slug"}
-                      </span>
-                    </div>
-
-                    <div>
-                      <label className="block font-bold text-slate-300 mb-1">
-                        Link ảnh đại diện dịch vụ (Hero Image URL) *
-                      </label>
-                      <input
-                        type="url"
-                        required
-                        placeholder="https://..."
-                        value={formData.hero_image}
-                        onChange={(e) =>
-                          setFormData({ ...formData, hero_image: e.target.value })
-                        }
-                        className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono"
-                      />
-                    </div>
+                  <div>
+                    <label className="block font-bold text-slate-300 mb-1">
+                      Mã định danh (Slug ID) *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      disabled={modalMode === "edit"}
+                      placeholder="ví dụ: renovations, bathrooms, roofing"
+                      value={formData.id}
+                      onChange={(e) =>
+                        setFormData({ ...formData, id: e.target.value.toLowerCase().trim() })
+                      }
+                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono disabled:opacity-50"
+                    />
+                    <span className="text-[10px] text-slate-400 mt-1 block">
+                      Đường dẫn trang: /services/{formData.id || "slug"}
+                    </span>
                   </div>
 
-                  {/* Image Preview */}
-                  {formData.hero_image && (
-                    <div className="relative aspect-[21/9] max-h-44 rounded-xl overflow-hidden border border-slate-700 bg-slate-950">
-                      <img
-                        src={formData.hero_image}
-                        alt="Hero preview"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
+                  <ImageUpload
+                    label="Ảnh đại diện dịch vụ (Hero Image)"
+                    required
+                    value={formData.hero_image}
+                    onChange={(url) =>
+                      setFormData({ ...formData, hero_image: url })
+                    }
+                    aspectRatio="wide"
+                    helperText="Ảnh lớn hiển thị trên banner đầu trang chi tiết dịch vụ"
+                  />
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
