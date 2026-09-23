@@ -1,0 +1,503 @@
+import subprocess
+import os
+
+html_content = """<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B&#7843;n &#272;&#7873; Xu&#7845;t &amp; Th&#7887;a Thu&#7853;n D&#7883;ch V&#7903; Ph&aacute;t Tri&#7875;n Website - NS Building</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 10mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1e2229;
+      background-color: #ffffff;
+      line-height: 1.5;
+      font-size: 12.5px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-container {
+      max-width: 820px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 16px 20px;
+    }
+    @media print {
+      body {
+        background: #ffffff;
+      }
+      .page-container {
+        padding: 0;
+        max-width: 100%;
+      }
+      .no-break {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #1e2229;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .header-brand h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #1e2229;
+      text-transform: uppercase;
+    }
+    .header-brand .subtitle {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #b6824a;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .proposal-tag {
+      text-align: right;
+    }
+    .badge {
+      display: inline-block;
+      background-color: #1e2229;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .doc-meta {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* TITLE BANNER */
+    .title-banner {
+      background: #1e2229;
+      color: #ffffff;
+      padding: 14px 18px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      border-left: 4px solid #b6824a;
+    }
+    .title-banner h2 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      color: #ffffff;
+    }
+    .title-banner p {
+      font-size: 11px;
+      color: #cbd5e1;
+    }
+
+    /* TWO COLUMNS PARTIES */
+    .parties-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .party-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+    .party-card.primary-party {
+      border-left: 3px solid #b6824a;
+    }
+    .party-card.secondary-party {
+      border-left: 3px solid #1e2229;
+    }
+    .party-role {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #b6824a;
+      margin-bottom: 3px;
+    }
+    .party-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 3px;
+    }
+    .party-detail {
+      font-size: 10.5px;
+      color: #475569;
+      line-height: 1.5;
+    }
+    .party-detail strong {
+      color: #1e2229;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin: 14px 0 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 13px;
+      background: #b6824a;
+      border-radius: 2px;
+    }
+
+    /* SCOPE BOXES */
+    .scope-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .scope-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 8px 10px;
+    }
+    .scope-item-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e2229;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 2px;
+    }
+    .scope-item-title .icon-check {
+      color: #b6824a;
+      font-weight: bold;
+    }
+    .scope-item-desc {
+      font-size: 10px;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    /* HIGHLIGHT TABLE */
+    table.custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+      font-size: 11px;
+    }
+    table.custom-table th {
+      background: #1e2229;
+      color: #ffffff;
+      font-weight: 600;
+      text-align: left;
+      padding: 6px 10px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    table.custom-table td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #334155;
+    }
+    table.custom-table tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+    table.custom-table tr:last-child td {
+      border-bottom: 2px solid #1e2229;
+    }
+    .highlight-price {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #b6824a;
+    }
+
+    /* CALLOUT BOX */
+    .callout-box {
+      background: #fdfbf7;
+      border: 1px solid #f2e3cc;
+      border-left: 3px solid #b6824a;
+      border-radius: 4px;
+      padding: 7px 10px;
+      margin-bottom: 12px;
+      font-size: 10.5px;
+      color: #78350f;
+      line-height: 1.45;
+    }
+
+    /* TIMELINE & TERMS LIST */
+    .terms-list {
+      padding-left: 16px;
+      margin-bottom: 12px;
+    }
+    .terms-list li {
+      margin-bottom: 4px;
+      color: #334155;
+      font-size: 10.5px;
+      line-height: 1.45;
+    }
+    .terms-list strong {
+      color: #0f172a;
+    }
+
+    /* SIGNATURE BLOCK */
+    .signature-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #cbd5e1;
+    }
+    .sign-box {
+      text-align: center;
+    }
+    .sign-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #475569;
+      margin-bottom: 2px;
+    }
+    .sign-name {
+      font-size: 12px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 40px;
+      padding-top: 4px;
+      border-top: 1px dashed #94a3b8;
+      display: inline-block;
+      min-width: 180px;
+    }
+    .sign-note {
+      font-size: 9px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    /* FOOTER */
+    .doc-footer {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 9px;
+      color: #94a3b8;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-brand">
+      <h1>NS BUILDING</h1>
+      <div class="subtitle">Residential Craftsmen &bull; New Zealand</div>
+    </div>
+    <div class="proposal-tag">
+      <div class="badge">&#272;&#7872; XU&#7844;T &amp; TH&#7886;A THU&#7852;N D&#7920; &Aacute;N</div>
+      <div class="doc-meta">M&atilde;: <strong>PRP-NSB-2026</strong> &bull; Ng&agrave;y: <strong>23/09/2026</strong></div>
+    </div>
+  </div>
+
+  <!-- TITLE BANNER -->
+  <div class="title-banner">
+    <h2>B&#7842;N &#272;&#7872; XU&#7844;T &amp; TH&#7886;A THU&#7852;N D&#7882;CH V&#7908; PH&Aacute;T TRI&#7874;N WEBSITE</h2>
+    <p>D&#7921; &aacute;n: X&acirc;y d&#7921;ng h&#7879; th&#7889;ng Website S&#7917;a ch&#7919;a Nh&agrave; c&#7917;a New Zealand (nsbuilding.co.nz) &bull; T&iacute;ch h&#7907;p Chatbot AI &bull; Qu&#7843;n tr&#7883; CMS</p>
+  </div>
+
+  <!-- PARTIES -->
+  <div class="parties-grid">
+    <div class="party-card primary-party">
+      <div class="party-role">B&Ecirc;N A (KH&Aacute;CH H&Agrave;NG / CH&#7910; D&#7920; &Aacute;N)</div>
+      <div class="party-name">&Ocirc;ng NGUY&#7876;N S&#416;N</div>
+      <div class="party-detail">
+        <strong>Th&#432;&#417;ng hi&#7879;u:</strong> NS Building (C&ocirc;ng ty TNHH TM DV N&#7897;i Th&#7845;t &#272;&#7865;p)<br>
+        <strong>T&ecirc;n mi&#7873;n:</strong> nsbuilding.co.nz<br>
+        <strong>Email:</strong> contact@nsbuilding.co.nz / nsbuildingcompany@gmail.com<br>
+        <strong>&#272;i&#7879;n tho&#7841;i:</strong> 027 666 6510 &bull; 021 153 1510 (NZ) / 0913 336 988 (VN)
+      </div>
+    </div>
+
+    <div class="party-card secondary-party">
+      <div class="party-role">B&Ecirc;N B (CHUY&Ecirc;N VI&Ecirc;N PH&Aacute;T TRI&#7874;N D&#7920; &Aacute;N)</div>
+      <div class="party-name">&Ocirc;ng NGUY&#7876;N PH&#431;&#7898;C VINH</div>
+      <div class="party-detail">
+        <strong>&#272;&#7841;i di&#7879;n:</strong> Chuy&ecirc;n gia Ph&aacute;t tri&#7875;n Web &amp; &#7912;ng d&#7909;ng AI<br>
+        <strong>Qu&#7889;c gia:</strong> Vi&#7879;t Nam<br>
+        <strong>Email:</strong> vinh@lammoc.vn<br>
+        <strong>Ph&#7841;m vi:</strong> Tr&#7921;c ti&#7871;p t&#432; v&#7845;n ki&#7871;n tr&uacute;c, thi&#7871;t k&#7871; UI/UX, l&#7853;p tr&igrave;nh &amp; b&agrave;n giao
+      </div>
+    </div>
+  </div>
+
+  <!-- M&#7908;C TI&Ecirc;U V&Agrave; PH&#7840;M VI -->
+  <div class="section-title">1. M&#7909;c Ti&ecirc;u D&#7921; &Aacute;n &amp; Ph&#7841;m Vi T&iacute;nh N&#259;ng K&#7929; Thu&#7853;t</div>
+  <div class="scope-list">
+    <div class="scope-item">
+      <div class="scope-item-title"><span class="icon-check">&#10003;</span> Giao Di&#7879;n Chu&#7849;n New Zealand &amp; Song Ng&#7919;</div>
+      <div class="scope-item-desc">Thi&#7871;t k&#7871; phong c&aacute;ch Architectural Craft hi&#7879;n &#273;&#7841;i, t&#7889;i &#432;u 100% tr&ecirc;n &#273;i&#7879;n tho&#7841;i (Mobile Responsive). M&#7863;c &#273;&#7883;nh ti&#7871;ng Anh chu&#7849;n Kiwi Tradies k&egrave;m n&uacute;t chuy&#7875;n ng&#7919; ti&#7871;ng Vi&#7879;t nhanh.</div>
+    </div>
+
+    <div class="scope-item">
+      <div class="scope-item-title"><span class="icon-check">&#10003;</span> C&#7845;u Tr&uacute;c 8 Th&#7867; D&#7883;ch V&#7908; &#272;&#7897;c L&#7853;p (Silos)</div>
+      <div class="scope-item-desc">Chuy&ecirc;n trang ri&ecirc;ng bi&#7879;t: Renovations, Bathrooms, Cabinets, Flooring, Doors, Painting, Equipment Hiring v&agrave; Maintenance gi&uacute;p tr&aacute;nh c&#7843;m gi&aacute;c &ocirc;m &#273;&#7891;m v&agrave; t&#7889;i &#432;u h&oacute;a SEO.</div>
+    </div>
+
+    <div class="scope-item">
+      <div class="scope-item-title"><span class="icon-check">&#10003;</span> Thanh Tr&#432;&#7907;t So S&aacute;nh Tr&#432;&#7899;c &amp; Sau (Before/After)</div>
+      <div class="scope-item-desc">Interactive Before &amp; After Slider tr&#7921;c quan, gi&uacute;p kh&aacute;ch h&agrave;ng th&#7845;y r&otilde; ch&#7845;t l&#432;&#7907;ng bi&#7871;n &#273;&#7893;i c&ocirc;ng tr&igrave;nh th&#7921;c t&#7871; (v&iacute; d&#7909;: d&#7921; &aacute;n Remuera, Auckland).</div>
+    </div>
+
+    <div class="scope-item">
+      <div class="scope-item-title"><span class="icon-check">&#10003;</span> Google Reviews &amp; Form B&aacute;o Gi&aacute; Nhanh</div>
+      <div class="scope-item-desc">Khu v&#7921;c &#273;&#7891;ng b&#7897; &#273;&aacute;nh gi&aacute; 5 sao Google Maps, huy hi&#7879;u b&#7843;o h&agrave;nh v&agrave; bi&#7875;u m&#7851;u g&#7917;i y&ecirc;u c&#7847;u b&aacute;o gi&aacute; t&#7921; &#273;&#7897;ng chuy&#7875;n th&ocirc;ng tin v&#7873; h&#7897;p th&#432; c&#7911;a B&ecirc;n A.</div>
+    </div>
+
+    <div class="scope-item">
+      <div class="scope-item-title"><span class="icon-check">&#10003;</span> T&iacute;ch H&#7907;p Chatbot AI Ti&#7871;p Kh&aacute;ch 24/7</div>
+      <div class="scope-item-desc">Tr&#7903; l&yacute; AI t&#7921; &#273;&#7897;ng ph&#7843;n h&#7891;i kh&aacute;ch h&agrave;ng khi B&ecirc;n A b&#7853;n &#7853; c&ocirc;ng tr&igrave;nh, thu th&#7853;p &#273;&#7847;y &#273;&#7911; nhu c&#7847;u (h&#7841;ng m&#7909;c, di&#7879;n t&iacute;ch, v&#7883; tr&iacute;, &#7843;nh hi&#7879;n tr&#7841;ng) v&agrave; g&#7917;i th&ocirc;ng tin lead v&#7873; email.</div>
+    </div>
+
+    <div class="scope-item">
+      <div class="scope-item-title"><span class="icon-check">&#10003;</span> H&#7879; Th&#7889;ng Qu&#7843;n Tr&#7883; N&#7897;i Dung CMS Tr&#7921;c Quan</div>
+      <div class="scope-item-desc">Trang qu&#7843;n tr&#7883; th&acirc;n thi&#7879;n tr&ecirc;n c&#7843; &#273;i&#7879;n tho&#7841;i: d&#7877; d&agrave;ng &#273;&#259;ng t&#7843;i d&#7921; &aacute;n m&#7899;i (Before/After), vi&#7871;t b&agrave;i chia s&#7867; kinh nghi&#7879;m v&agrave; ch&#7881;nh s&#7917;a n&#7897;i dung website kh&ocirc;ng c&#7847;n bi&#7871;t code.</div>
+    </div>
+  </div>
+
+  <!-- B&#7842;NG CHI PH&Iacute; &amp; TI&#7870;N &#272;&#7896; -->
+  <div class="section-title">2. Chi Ph&iacute; Th&#7921;c Hi&#7879;n &amp; Ph&#432;&#417;ng Th&#7913;c Thanh To&aacute;n</div>
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th style="width: 52%;">H&#7841;ng M&#7909;c Tri&#7875;n Khai</th>
+        <th style="width: 24%;">H&igrave;nh Th&#7913;c B&agrave;n Giao</th>
+        <th style="width: 24%; text-align: right;">Chi Ph&iacute; (VN&#272;)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <strong>Thi&#7871;t k&#7871; &amp; L&#7853;p tr&igrave;nh Tr&#7885;n g&oacute;i Website NS Building</strong><br>
+          <span style="font-size: 10px; color: #64748b;">(Giao di&#7879;n ho&agrave;n ch&#7881;nh, 8 Silo Landing Pages, Song ng&#7919; Anh/Vi&#7879;t, Before-After Slider, Form B&aacute;o Gi&aacute;, T&#7889;i &#432;u Mobile &amp; SEO)</span>
+        </td>
+        <td>B&agrave;n giao source code &amp; ch&#7841;y live</td>
+        <td style="text-align: right;">&#272;&atilde; bao g&#7891;m</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>T&iacute;ch h&#7907;p Tr&#7903; l&yacute; Tr&ograve; chuy&#7879;n Chatbot AI</strong><br>
+          <span style="font-size: 10px; color: #64748b;">(T&#7921; &#273;&#7897;ng ti&#7871;p kh&aacute;ch 24/7, l&#7885;c nhu c&#7847;u, g&#7917;i th&ocirc;ng tin kh&aacute;ch h&agrave;ng c&#7847;n b&aacute;o gi&aacute; v&#7873; email)</span>
+        </td>
+        <td>C&#7845;u h&igrave;nh k&#7883;ch b&#7843;n &amp; t&iacute;ch h&#7907;p</td>
+        <td style="text-align: right;">&#272;&atilde; bao g&#7891;m</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>H&#7879; th&#7889;ng Qu&#7843;n tr&#7883; CMS c&#7853;p nh&#7853;t b&agrave;i vi&#7871;t &amp; d&#7921; &aacute;n</strong><br>
+          <span style="font-size: 10px; color: #64748b;">(Giao di&#7879;n qu&#7843;n l&yacute; h&igrave;nh &#7843;nh, n&#7897;i dung, case study d&#7877; d&agrave;ng s&#7917; d&#7909;ng tr&ecirc;n &#273;i&#7879;n tho&#7841;i)</span>
+        </td>
+        <td>C&#7845;p t&agrave;i kho&#7843;n &amp; b&agrave;n giao</td>
+        <td style="text-align: right;">&#272;&atilde; bao g&#7891;m</td>
+      </tr>
+      <tr>
+        <td colspan="2" style="font-weight: 700; text-transform: uppercase;">T&#7894;NG CHI PH&Iacute; TR&#7884;N G&Oacute;I D&#7920; &Aacute;N</td>
+        <td style="text-align: right;"><span class="highlight-price">15.000.000 VN&#272;</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout-box">
+    <strong>&#272;i&#7873;u kho&#7843;n thanh to&aacute;n:</strong> B&ecirc;n A thanh to&aacute;n <strong>01 l&#7847;n duy nh&#7845;t (100% = 15.000.000 VN&#272;)</strong> cho B&ecirc;n B ngay khi k&yacute; k&#7871;t/x&aacute;c nh&#7853;n th&#7887;a thu&#7853;n &#273;&#7875; B&ecirc;n B ti&#7871;n h&agrave;nh tri&#7875;n khai c&ocirc;ng vi&#7879;c ngay l&#7853;p t&#7913;c.
+  </div>
+
+  <!-- TI&#7870;N &#272;&#7896; &amp; CAM K&#7870;T -->
+  <div class="section-title">3. Ti&#7871;n &#272;&#7897; Th&#7921;c Hi&#7879;n, Quy &#272;&#7883;nh Ch&#7881;nh S&#7917;a &amp; H&#7895; Tr&#7903; Sau B&agrave;n Giao</div>
+  <ul class="terms-list">
+    <li><strong>Th&#7895;i gian b&agrave;n giao:</strong> Ho&agrave;n thi&#7879;n to&agrave;n b&#7897; h&#7879; th&#7889;ng trong v&ograve;ng <strong>02 tu&#7847;n (14 ng&agrave;y l&agrave;m vi&#7879;c)</strong> k&#7875; t&#7913; ng&agrave;y x&aacute;c nh&#7853;n thanh to&aacute;n v&agrave; nh&#7853;n &#273;&#7847;y &#273;&#7911; t&#432; li&#7879;u ban &#273;&#7847;u t&#7913; B&ecirc;n A.</li>
+    <li><strong>Quy &#273;&#7883;nh ch&#7881;nh s&#7917;a (Feedback):</strong> B&ecirc;n B cam k&#7871;t th&#7921;c hi&#7879;n t&#7889;i &#273;a <strong>03 &#273;&#7907;t ph&#7843;n h&#7891;i &amp; ch&#7881;nh s&#7917;a mi&#7877;n ph&iacute;</strong> theo y&ecirc;u c&#7847;u c&#7911;a B&ecirc;n A &#273;&#7875; ho&agrave;n thi&#7879;n giao di&#7879;n v&agrave; t&iacute;nh n&#259;ng theo &#273;&uacute;ng m&#7909;c ti&ecirc;u &#273;&atilde; th&#7889;ng nh&#7845;t.</li>
+    <li><strong>H&#7895; tr&#7903; v&#7853;n h&agrave;nh mi&#7877;n ph&iacute; 01 th&aacute;ng:</strong> Sau khi b&agrave;n giao nghi&#7879;m thu ch&iacute;nh th&#7913;c tr&ecirc;n t&ecirc;n mi&#7873;n <code>nsbuilding.co.nz</code>, B&ecirc;n B <strong>h&#7895; tr&#7903; v&#7853;n h&agrave;nh, s&#7917;a l&#7895;i k&#7929; thu&#7853;t (bug fix) v&agrave; h&#432;&#7899;ng d&#7853;n B&ecirc;n A qu&#7843;n tr&#7883; website ho&agrave;n to&agrave;n mi&#7877;n ph&iacute; trong 01 th&aacute;ng &#273;&#7847;u ti&ecirc;n</strong>.</li>
+    <li><strong>B&#7843;o m&#7853;t &amp; Quy&#7873;n s&#7903; h&#7919;u:</strong> Sau khi ho&agrave;n t&#7845;t b&agrave;n giao, B&ecirc;n A c&oacute; to&agrave;n quy&#7873;n s&#7903; h&#7919;u &#273;&#7889;i v&#7899;i n&#7897;i dung, h&igrave;nh &#7843;nh v&agrave; h&#7879; th&#7889;ng qu&#7843;n tr&#7883; c&#7911;a website.</li>
+  </ul>
+
+  <!-- CH&#7918; K&Yacute; X&Aacute;C NH&#7852;N -->
+  <div class="signature-section no-break">
+    <div class="sign-box">
+      <div class="sign-title">&#272;&#7840;I DI&#7878;N B&Ecirc;N A (KH&Aacute;CH H&Agrave;NG)</div>
+      <div class="sign-note">X&aacute;c nh&#7853;n &#273;&#7891;ng &yacute; &#273;&#7873; xu&#7845;t &amp; ti&#7871;n &#273;&#7897;</div>
+      <div class="sign-name">NGUY&#7876;N S&#416;N</div>
+    </div>
+
+    <div class="sign-box">
+      <div class="sign-title">&#272;&#7840;I DI&#7878;N B&Ecirc;N B (CHUY&Ecirc;N VI&Ecirc;N PH&Aacute;T TRI&#7874;N)</div>
+      <div class="sign-note">Cam k&#7871;t ch&#7845;t l&#432;&#7907;ng &amp; th&#7897;i gian b&agrave;n giao</div>
+      <div class="sign-name">NGUY&#7876;N PH&#431;&#7898;C VINH</div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    B&#7843;n &#273;&#7873; xu&#7845;t &amp; th&#7887;a thu&#7853;n d&#7883;ch v&#7908; c&aacute; nh&acirc;n &bull; D&#7921; &aacute;n NS Building New Zealand &bull; Ng&agrave;y l&#7853;p: 23/09/2026
+  </div>
+</div>
+
+</body>
+</html>
+"""
+
+# HTML numeric entity encoding guarantees 100% font rendering safety without any codepage or charset ambiguity
+target_html = r"c:\Github\NZcontruction\Thoa_Thuan_Du_An_NS_Building_Proposal.html"
+target_pdf = r"c:\Github\NZcontruction\Thoa_Thuan_Du_An_NS_Building_Proposal.pdf"
+
+with open(target_html, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("Saved HTML successfully.")
+
+chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+if not os.path.exists(chrome_path):
+    chrome_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+
+cmd = [
+    chrome_path,
+    "--headless=new",
+    "--disable-gpu",
+    "--run-all-compositor-stages-before-draw",
+    f"--print-to-pdf={target_pdf}",
+    f"file:///{target_html.replace(os.sep, '/')}"
+]
+
+res = subprocess.run(cmd, capture_output=True, text=True)
+print("Return code:", res.returncode)
