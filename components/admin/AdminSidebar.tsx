@@ -13,9 +13,10 @@ import {
   ShieldCheck,
   ChevronRight,
   HardHat,
+  Bot,
 } from "lucide-react";
 
-export type AdminTab = "overview" | "interface" | "services" | "projects" | "posts";
+export type AdminTab = "overview" | "interface" | "services" | "projects" | "posts" | "ai-chat";
 
 interface AdminSidebarProps {
   activeTab: AdminTab;
