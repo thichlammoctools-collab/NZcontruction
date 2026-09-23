@@ -15,6 +15,7 @@ import {
   Mail,
   Sliders,
   ExternalLink,
+  Bot,
 } from "lucide-react";
 
 interface OverviewStatsProps {
@@ -69,6 +70,13 @@ export default function OverviewStats({
             >
               <Palette className="w-4 h-4 text-amber-400" />
               <span>Sửa Giao Diện</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("ai-chat")}
+              className="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs uppercase tracking-wider transition-all border border-amber-400/30 flex items-center gap-2"
+            >
+              <Bot className="w-4 h-4" />
+              <span>Huấn Luyện AI</span>
             </button>
           </div>
         </div>

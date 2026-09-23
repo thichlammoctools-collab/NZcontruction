@@ -42,6 +42,10 @@ const TAB_TITLES: Record<AdminTab, { title: string; subtitle: string }> = {
     title: "Bài Viết & Cẩm Nang Sửa Nhà",
     subtitle: "Đăng tải kiến thức kinh nghiệm và nâng cao thứ hạng SEO",
   },
+  "ai-chat": {
+    title: "Cấu Hình & Huấn Luyện AI Chat",
+    subtitle: "Tùy biến mô hình, huấn luyện tri thức LBP và quản lý khách hàng tiềm năng",
+  },
 };
 
 export default function AdminHeader({
