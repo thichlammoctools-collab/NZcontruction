@@ -17,6 +17,36 @@
       "Thay mới toàn bộ vách thạch cao & nâng cấp bông cách nhiệt",
       "Mở rộng không gian ra sân hiên gỗ ngoài trời"
     ],
+    "timeline_steps": [
+      {
+        "step": "01",
+        "title_en": "Architectural Design & Council Consent",
+        "title_vi": "Khảo Sát & Hỗ Trợ Xin Phép Council",
+        "desc_en": "Feasibility review, draft architectural drawings, and prepare Producer Statements (PS1/PS2) for Auckland Council.",
+        "desc_vi": "Đánh giá tính khả thi, hoàn thiện bản vẽ kiến trúc kết cấu và hỗ trợ chuẩn bị hồ sơ Producer Statement nộp Auckland Council."
+      },
+      {
+        "step": "02",
+        "title_en": "Propping & Structural Steel Installation",
+        "title_vi": "Chống Đỡ Trần & Gia Cố Dầm Thép Chịu Lực",
+        "desc_en": "Precision demolition of load-bearing walls and craning heavy RSJ steel beams to create expansive open-plan layouts.",
+        "desc_vi": "Chống đỡ tạm an toàn, tháo dỡ tường chịu lực và cẩu lắp dầm thép RSJ mở rộng không gian phòng khách & bếp."
+      },
+      {
+        "step": "03",
+        "title_en": "Services Rough-in & Insulation",
+        "title_vi": "Đi Điện Nước & Nâng Cấp Cách Nhiệt Toàn Diện",
+        "desc_en": "Certified plumbing, electrical rewiring, and R2.6+ acoustic wall insulation to NZS 4218 building standards.",
+        "desc_vi": "Thi công hệ thống ống nước, dây điện âm tường mới và chèn bông cách nhiệt tiêu chuẩn R2.6+ chống ồn và giữ nhiệt."
+      },
+      {
+        "step": "04",
+        "title_en": "Craftsmanship Fit-out & Handover",
+        "title_vi": "Hoàn Thiện Nội Thất & Ký Nghiệm Thu CCC",
+        "desc_en": "Custom joinery installation, Level 5 plastering, premium flooring, and final Council sign-off for Code Compliance Certificate.",
+        "desc_vi": "Lắp đặt tủ bếp, sàn gỗ, bả sơn bóng mịn và đồng hành cùng chuyên viên Council nghiệm thu cấp chứng chỉ CCC."
+      }
+    ],
     "pricing": [
       {
         "name_en": "Full Home Cosmetic Refresh (80 – 140 m²)",
@@ -77,6 +107,32 @@
       "Vách tắm kính cường lực không khung & thoát sàn rãnh dài",
       "Tủ lavabo gỗ tự nhiên treo tường & gương đèn LED âm",
       "Lắp đặt hệ thống sưởi sàn ấm & quạt thông gió siêu êm"
+    ],
+    "compliance_standards": [
+      {
+        "title_en": "AS/NZS 4858 & E3/AS1 Waterproofing",
+        "title_vi": "Chống Thấm Chuẩn AS/NZS 4858 & E3/AS1",
+        "desc_en": "Certified multi-layer tanking membrane with reinforced fiberglass tape at all internal corners, floor waste collars, and shower transitions.",
+        "desc_vi": "Quét màng chống thấm cao cấp đàn hồi đa lớp, dán lưới sợi thủy tinh gia cường mọi góc tường, cổ ống thoát sàn và ngưỡng cửa."
+      },
+      {
+        "title_en": "Council PS3 Producer Statement",
+        "title_vi": "Chứng Chỉ Nghiệm Thu Chống Thấm PS3",
+        "desc_en": "Official sign-off by our licensed waterproofing applicator, pre-inspected and guaranteed for Auckland Council code compliance.",
+        "desc_vi": "Cấp văn bản cam kết chất lượng PS3 có chữ ký thợ được cấp phép, vượt qua kỳ kiểm tra chống thấm của Council."
+      },
+      {
+        "title_en": "10mm Toughened Frameless Safety Glass",
+        "title_vi": "Kính Cường Lực An Toàn 10mm Liền Khối",
+        "desc_en": "Grade A NZ safety glass panels with polished bevelled edges, nano anti-limescale coating, and solid 304 stainless steel hardware.",
+        "desc_vi": "Kính an toàn chuẩn Grade A dày 10mm mài cạnh vi tính, phủ nano chống bám cặn canxi và phụ kiện kẹp inox 304 cao cấp."
+      },
+      {
+        "title_en": "Under-Tile Digital Heating (ETL)",
+        "title_vi": "Hệ Thống Sưởi Nền Kỹ Thuật Số",
+        "desc_en": "Even thermal radiation across porcelain floors with digital touch programmable thermostat and automatic frost-protection.",
+        "desc_vi": "Dây nhiệt tản đều dưới sàn gạch men, điều khiển cảm ứng hẹn giờ tiết kiệm điện và giữ ấm chân tuyệt đối vào mùa đông."
+      }
     ],
     "pricing": [
       {
@@ -139,6 +195,32 @@
       "Bản lề và ray trượt giảm chấn Blum êm ái",
       "Thùng tủ gỗ lõi xanh chống ẩm tiêu chuẩn cao"
     ],
+    "craft_highlights": [
+      {
+        "title_en": "Moisture-Resistant HMR Carcass",
+        "title_vi": "Thùng Gỗ HMR Lõi Xanh Chống Ẩm",
+        "desc_en": "High moisture resistance E0 boards engineered specifically for humid kitchen & bathroom conditions in New Zealand.",
+        "desc_vi": "Ván gỗ ép mật độ cao kháng ẩm lõi xanh chuẩn E0, chịu hơi nước nóng và dầu mỡ, không cong vênh theo thời gian."
+      },
+      {
+        "title_en": "Blum Soft-Close Hardware",
+        "title_vi": "Ray Trượt & Bản Lề Blum Đóng Êm",
+        "desc_en": "Austrian engineered hinges and tandembox drawer runners tested to 200,000 cycles with lifetime smooth damping.",
+        "desc_vi": "Phụ kiện nhập khẩu Áo đạt chuẩn 200.000 chu kỳ đóng mở, chuyển động mượt mà không gây tiếng ồn dù chứa đồ nặng."
+      },
+      {
+        "title_en": "Waterfall Quartz Benchtops",
+        "title_vi": "Mặt Đá Thạch Anh Thác Nước 40mm",
+        "desc_en": "Precision 45-degree mitred waterfall return edges, zero visible seam lines, and high scratch/heat resistance.",
+        "desc_vi": "Mặt đá nhân tạo cao cấp cắt ghép mòi 45 độ liền mạch chảy tràn 2 bên hông đảo bếp, bề mặt chống trầy xước và ố bẩn."
+      },
+      {
+        "title_en": "Integrated LED Ambiance",
+        "title_vi": "Đèn LED Rãnh Nhôm Cảm Ứng Âm Tủ",
+        "desc_en": "Concealed 3000K warm architectural strip lighting with infrared wave sensors for intuitive task and mood illumination.",
+        "desc_vi": "Rãnh nhôm tản nhiệt âm đáy tủ với ánh sáng ấm 3000K, bật tắt tự động bằng mắt cảm biến vẫy tay tiện lợi khi nấu nướng."
+      }
+    ],
     "pricing": [
       {
         "name_en": "Custom Kitchen Island & Waterfall Stone Benchtop",
@@ -199,6 +281,48 @@
       "Lát sàn gỗ sồi kỹ thuật châu Âu chuẩn chống cong vênh",
       "Thi công lát sàn xương cá Herringbone đẳng cấp",
       "Xử lý phẳng cốt nền và lót màng chống ẩm cách âm"
+    ],
+    "comparison_matrix": [
+      {
+        "type_en": "Heritage Solid Timber",
+        "type_vi": "Gỗ Tự Nhiên Nguyên Khối",
+        "durability": "★★★★★",
+        "water_resistance": "★★★☆☆",
+        "finish_feel_en": "Warm, authentic grain with timeless prestige",
+        "finish_feel_vi": "Mộc mạc, ấm áp, vân gỗ tự nhiên độc bản",
+        "maintenance_en": "Sand & reseal every 10–15 years",
+        "maintenance_vi": "Chà nhám & sơn bóng lại sau 10-15 năm"
+      },
+      {
+        "type_en": "Engineered European Oak",
+        "type_vi": "Sồi Kỹ Thuật Châu Âu",
+        "durability": "★★★★☆",
+        "water_resistance": "★★★★☆",
+        "finish_feel_en": "Wide planks, stable multi-layer core, matte UV oil",
+        "finish_feel_vi": "Bản rộng sang trọng, chống co ngót nứt nẻ",
+        "maintenance_en": "Minimal maintenance with gentle wood cleaner",
+        "maintenance_vi": "Lau chùi đơn giản bằng nước lau sàn chuyên dụng"
+      },
+      {
+        "type_en": "Architectural Herringbone",
+        "type_vi": "Sàn Xương Cá Nghệ Thuật",
+        "durability": "★★★★☆",
+        "water_resistance": "★★★★☆",
+        "finish_feel_en": "Sophisticated geometric visual depth",
+        "finish_feel_vi": "Tạo chiều sâu không gian đẳng cấp khách sạn 5 sao",
+        "maintenance_en": "Periodic nourishing buffing",
+        "maintenance_vi": "Bảo dưỡng định kỳ giữ màu gỗ sáng bóng"
+      },
+      {
+        "type_en": "100% Waterproof Hybrid Vinyl (LVP)",
+        "type_vi": "Sàn Nhựa Hèm Khóa SPC Cao Cấp",
+        "durability": "★★★★★",
+        "water_resistance": "★★★★★",
+        "finish_feel_en": "Scratch-proof, silent acoustic underlay, pet-friendly",
+        "finish_feel_vi": "Chống nước 100%, cách âm êm chân, chống trầy móng thú cưng",
+        "maintenance_en": "Virtually zero maintenance, mop freely",
+        "maintenance_vi": "Lau nước thoải mái, độ bền vượt trội"
+      }
     ],
     "pricing": [
       {
@@ -261,6 +385,32 @@
       "Cửa nhôm kính/gỗ kính xếp trượt kín nước chống gió",
       "Khuôn bao cửa, len chân tường và nẹp chỉ cửa gỗ sắc sảo"
     ],
+    "door_systems": [
+      {
+        "title_en": "Pocket Cavity Sliding Doors",
+        "title_vi": "Hệ Cửa Lùa Trượt Âm Tường (Cavity Slider)",
+        "desc_en": "Glide effortlessly inside the wall cavity, saving up to 1.5 m² of usable floor space in bedrooms, ensuites, and walk-in pantries.",
+        "desc_vi": "Cánh cửa trượt giấu gọn vào trong hốc tường, giải phóng đến 1.5 m² diện tích sàn hữu dụng cho phòng ngủ, phòng tắm và phòng giặt."
+      },
+      {
+        "title_en": "Acoustic Solid-Core Doors",
+        "title_vi": "Cửa Gỗ Đặc Lõi Giảm Âm Tiêu Chuẩn 35dB",
+        "desc_en": "High-density particle core with perimeter compression acoustic gaskets, reducing household noise transfer by up to 70%.",
+        "desc_vi": "Lõi đặc mật độ cao kèm gioăng cao su đàn hồi quanh khuôn, ngăn truyền âm thanh tới 70% mang lại sự yên tĩnh tối đa."
+      },
+      {
+        "title_en": "Exterior Thermally Broken Bifolds",
+        "title_vi": "Cửa Nhôm Kính Xếp Trượt Ngoại Thất Bifold",
+        "desc_en": "Continuous floor-to-ceiling glass panes with double glazing, heavy-duty stainless tracks, and multi-point deadbolt security.",
+        "desc_vi": "Mở rộng toàn bộ không gian kết nối phòng khách với sân vườn ngoài trời, kính hộp 2 lớp cách nhiệt và khóa đa điểm an toàn."
+      },
+      {
+        "title_en": "Bespoke Architraves & Skirtings",
+        "title_vi": "Phào Chỉ Cửa & Len Chân Tường Gỗ May Đo",
+        "desc_en": "Clean 45-degree mitre joins in classic colonial, bevelled, or minimalist shadowline profiles to frame every opening perfectly.",
+        "desc_vi": "Cắt góc mòi 45 độ chuẩn xác tuyệt đối, đa dạng phong cách từ cổ điển phào chỉ đến tối giản hiện đại cho viền cửa."
+      }
+    ],
     "pricing": [
       {
         "name_en": "Solid-Core Acoustic Interior Door Upgrade",
@@ -321,6 +471,36 @@
       "Trát tường hiệu ứng vi xi măng chống thấm nghệ thuật",
       "Sơn nội thất cao cấp an toàn cho sức khỏe gia đình",
       "Sơn ngoại thất chống thấm và quét dầu bảo dưỡng gỗ ngoài trời"
+    ],
+    "surface_finishes": [
+      {
+        "level": "Level 4",
+        "title_en": "Standard Paint Finish",
+        "title_vi": "Bả Bột Tiêu Chuẩn Phổ Thông",
+        "desc_en": "3-coat taping system, thoroughly sanded for standard diffuse lighting with flat or low-sheen interior paints.",
+        "desc_vi": "Quy trình xử lý mối nối 3 lớp tiêu chuẩn, xả phẳng cho khu vực ánh sáng tán xạ nhẹ nhàng với sơn mờ hoặc ít bóng."
+      },
+      {
+        "level": "Level 5",
+        "title_en": "Skim Coat Mirror Finish",
+        "title_vi": "Bả Phẳng Toàn Diện Level 5 Cao Cấp",
+        "desc_en": "Complete thin skim coating over the entire drywall surface, eliminating all texture variations under harsh raking light.",
+        "desc_vi": "Phủ lớp bả mỏng láng toàn bộ bề mặt tường thạch cao, loại bỏ hoàn toàn hiện tượng bóng mờ khi có ánh nắng rọi xiên."
+      },
+      {
+        "level": "Specialty",
+        "title_en": "Seamless Waterproof Microcement",
+        "title_vi": "Trát Vách Hiệu Ứng Vi Xi Măng Microcement",
+        "desc_en": "Hand-trowelled architectural microcement creating continuous organic stone textures without grout lines in wet areas and feature walls.",
+        "desc_vi": "Thi công bay thủ công tạo bề mặt vân mây xi măng nguyên khối không mối nối, kháng nước 100% cho vách tắm và phòng khách."
+      },
+      {
+        "level": "Exterior",
+        "title_en": "NZ Weather-Shield Exterior Coating",
+        "title_vi": "Sơn Ngoại Thất Kháng Tia Cực Tím & Muối Biển",
+        "desc_en": "Flexible elastomeric paint membranes formulated to bridge micro-cracks and resist intense Southern Hemisphere UV exposure.",
+        "desc_vi": "Màng sơn co giãn đàn hồi cao che lấp vi vết nứt, chống chọi bức xạ cực tím mạnh và hơi muối biển của khí hậu New Zealand."
+      }
     ],
     "pricing": [
       {
@@ -383,6 +563,48 @@
       "Máy cắt gạch men đá tảng lớn chính xác",
       "Máy hút ẩm và máy lọc không khí chuyên dụng sấy khô công trình"
     ],
+    "equipment_catalog": [
+      {
+        "name_en": "Mobile Aluminium Scaffolding Tower Kit (4.0m – 6.0m)",
+        "name_vi": "Bộ Giàn Giáo Nhôm Di Động Có Bánh Xe (4.0m – 6.0m)",
+        "specs_en": "Modular high-strength aluminium, trapdoor safety platform, 4 lockable swivel castors, stabilizing outriggers, 450kg load capacity.",
+        "specs_vi": "Hợp kim nhôm siêu nhẹ chịu lực, sàn thao tác có cửa lật an toàn, 4 bánh xe có phanh hãm, chân chống tăng cứng chống lật, tải trọng 450kg.",
+        "rate_day": "$45",
+        "rate_week": "$160",
+        "badge_en": "Site Essential",
+        "badge_vi": "Thiết Yếu Công Trình"
+      },
+      {
+        "name_en": "Heavy-Duty Dustless Floor Sander & Rotary Edger Combo",
+        "name_vi": "Combo Máy Chà Sàn Gỗ Hút Bụi & Máy Chà Góc Cạnh",
+        "specs_en": "200mm dynamic drum sander with continuous cyclonic dust containment bag + 180mm disc edger for corners and stairs.",
+        "specs_vi": "Máy chà tang trống 200mm công suất lớn kèm túi gom bụi ly tâm khép kín + máy chà đĩa 180mm vét sát chân tường và bậc cầu thang.",
+        "rate_day": "$180",
+        "rate_week": "$650",
+        "badge_en": "Zero Dust Mess",
+        "badge_vi": "Không Bụi Bẩn"
+      },
+      {
+        "name_en": "Sliding Rail Wet Porcelain & Stone Saw (1200mm)",
+        "name_vi": "Máy Cắt Gạch Đá Nước Bàn Trượt Ray Đôi (1200mm)",
+        "specs_en": "Heavy cast aluminium sliding bed, laser line guide, recirculating electric coolant pump, 45-degree mitre bevel tilt.",
+        "specs_vi": "Bàn trượt nhôm đúc ray kép, đèn laser dẫn hướng đường cắt, bơm tuần hoàn nước làm mát đĩa kim cương, nghiêng góc 45 độ mòi đá.",
+        "rate_day": "$95",
+        "rate_week": "$340",
+        "badge_en": "Millimeter Precision",
+        "badge_vi": "Cắt Khổ Lớn 1.2m"
+      },
+      {
+        "name_en": "Commercial Structural Dehumidifier (70L/Day)",
+        "name_vi": "Máy Hút Ẩm Công Nghiệp Sấy Khô Công Trình (70L/Ngày)",
+        "specs_en": "Commercial rotary compressor, hot-gas defrost, digital humidistat, high-volume air mover integration for rapid drying.",
+        "specs_vi": "Máy nén xoay công nghiệp hút 70 lít nước/ngày, xả tuyết gas nóng tự động, cài đặt độ ẩm kỹ thuật số, sấy khô nhanh sơn bả và nền gỗ.",
+        "rate_day": "$65",
+        "rate_week": "$195",
+        "badge_en": "Fast Site Drying",
+        "badge_vi": "Sấy Khô Cấp Tốc"
+      }
+    ],
     "pricing": [
       {
         "name_en": "Mobile Aluminium Scaffolding Tower Kit",
@@ -443,6 +665,32 @@
       "Thay tấm ốp tường ngoài weatherboard và bắn keo chống thấm",
       "Chỉnh sửa cánh cửa xệ kẹt và thay mới ổ khóa bản lề",
       "Gói tân trang sửa chữa làm mới nhà trước khi bán"
+    ],
+    "remediation_matrix": [
+      {
+        "issue_en": "Rotten Timber Studs & Joists",
+        "issue_vi": "Đà Gỗ & Khung Tường Mục Do Thấm Nước",
+        "solution_en": "Selective extraction of decaying timber, structural sistering using H3.2/H1.2 treated framing, and structural engineer verification.",
+        "solution_vi": "Cắt bỏ phần gỗ mục ải, ghép bổ sung thanh chống mới bằng gỗ xử lý hóa chất H3.2/H1.2 chống mối mọt và nghiệm thu kết cấu an toàn."
+      },
+      {
+        "issue_en": "Weatherboard Cracks & Leaky Windows",
+        "issue_vi": "Vách Gỗ Ngoài Nứt Hở & Thấm Mép Cửa Sổ",
+        "solution_en": "Careful replacement of split weatherboards, stainless steel nail pinning, back-flashing installation, and UV flex MS-polymer caulking.",
+        "solution_vi": "Thay thế các tấm ván bị cong nứt, đóng đinh inox chống rỉ, đặt máng tôn chắn nước mép cửa và bơm keo MS-Polymer co giãn chống tia cực tím."
+      },
+      {
+        "issue_en": "Sticking, Rubbing & Dropped Doors",
+        "issue_vi": "Cửa Bị Xệ, Kẹt Cọ Sàn & Khóa Khó Vặn",
+        "solution_en": "Laser hinge alignment, bottom edge micro-planing, latch strike plate repositioning, and acoustic rubber perimeter re-sealing.",
+        "solution_vi": "Cân chỉnh bản lề bằng tia laser, bào vi mô mép đáy cửa cọ sàn, chỉnh yếm khóa đóng êm và dán lại gioăng cách âm."
+      },
+      {
+        "issue_en": "Pre-Sale Complete Property Tidy-up",
+        "issue_vi": "Tân Trang Toàn Diện Trước Khi Bán / Cho Thuê",
+        "solution_en": "High-priority repairs checklist: plaster defect patching, door adjustments, high-pressure exterior washing, deck staining, and fixture renewal.",
+        "solution_vi": "Xử lý danh sách hư hỏng nhanh: dặm vá bột trét, căn chỉnh các cánh cửa, xịt rửa áp lực cao sân vườn, quét dầu gỗ hiên và thay tay nắm mới."
+      }
     ],
     "pricing": [
       {
