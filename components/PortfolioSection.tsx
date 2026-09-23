@@ -1,0 +1,128 @@
+"use client";
+
+import React, { useState } from "react";
+
+interface PortfolioItem {
+  id: string;
+  category: string;
+  category_label: string;
+  location: string;
+  year: string;
+  title: string;
+  desc: string;
+  image: string;
+}
+
+interface PortfolioSectionProps {
+  portfolioDict: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    filters: {
+      all: string;
+      renovations: string;
+      bathrooms: string;
+      flooring: string;
+      cabinets: string;
+    };
+    items: PortfolioItem[];
+  };
+}
+
+export default function PortfolioSection({ portfolioDict }: PortfolioSectionProps) {
+  const [activeFilter, setActiveFilter] = useState("all");
+
+  const filterKeys = [
+    { key: "all", label: portfolioDict.filters.all },
+    { key: "renovations", label: portfolioDict.filters.renovations },
+    { key: "bathrooms", label: portfolioDict.filters.bathrooms },
+    { key: "flooring", label: portfolioDict.filters.flooring },
+    { key: "cabinets", label: portfolioDict.filters.cabinets },
+  ];
+
+  const filteredItems = portfolioDict.items.filter((item) => {
+    if (activeFilter === "all") return true;
+    return item.category === activeFilter;
+  });
+
+  return (
+    <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 lg:py-24" id="work-section">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div>
+          <div className="inline-flex items-center gap-2 mb-2">
+            <span className="h-0.5 w-5 bg-secondary"></span>
+            <span className="text-xs uppercase tracking-widest text-secondary font-bold">
+              {portfolioDict.badge}
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
+            {portfolioDict.title}
+          </h2>
+          <p className="text-sm sm:text-base text-on-surface-variant mt-2 max-w-xl">
+            {portfolioDict.subtitle}
+          </p>
+        </div>
+
+        {/* Filter Controls */}
+        <div className="flex flex-wrap gap-2">
+          {filterKeys.map((f) => {
+            const isActive = activeFilter === f.key;
+            return (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => setActiveFilter(f.key)}
+                className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
+                  isActive
+                    ? "bg-primary text-on-primary shadow-sm"
+                    : "bg-surface-container-high text-on-surface hover:bg-surface-container-highest"
+                }`}
+              >
+                {f.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Gallery Bento Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredItems.map((item) => (
+          <div
+            key={item.id}
+            className="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-border-light flex flex-col justify-between"
+          >
+            <div className="aspect-[16/10] overflow-hidden relative bg-surface-dim">
+              <img
+                src={item.image}
+                alt={item.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+              <div className="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs text-primary font-bold shadow-xs">
+                {item.location}
+              </div>
+            </div>
+
+            <div className="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between text-on-surface-variant text-xs mb-2">
+                  <span className="text-secondary font-bold uppercase tracking-wider">
+                    {item.category_label}
+                  </span>
+                  <span className="text-slate-400 font-medium">{item.year}</span>
+                </div>
+                <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-bronze transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

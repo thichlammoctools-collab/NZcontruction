@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { Phone, Mail, MapPin, ShieldCheck, ArrowUpRight } from "lucide-react";
 
 interface FooterProps {
   locale: "en" | "vi";
@@ -9,154 +8,176 @@ interface FooterProps {
 
 export default function Footer({ locale, dict }: FooterProps) {
   return (
-    <footer className="bg-primary text-white pt-16 pb-12 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+    <footer className="w-full bg-surface-container-low border-t border-border-light">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* BRAND COLUMN */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-slate-800 text-bronze rounded-lg flex items-center justify-center font-black text-lg border border-slate-700">
-                NS
-              </div>
-              <div className="flex flex-col">
-                <span className="font-extrabold text-lg tracking-tight text-white leading-none">
-                  NS BUILDING
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-                  Residential Craftsmen NZ
-                </span>
-              </div>
+              <img
+                src="https://lh3.googleusercontent.com/aida/AEtjO1WV-uToml-V3DiWbTogPbJwT5vWlBCvxsKAoa_dKZELqw3WBBFFgOLflUG5o0pc72ci6JcEJRZWJlef0FVAivsvFWBhJ9M8pYcbNnusfAcEe_4idhC0YkjTKdT8atgDrk6IU9CMOHXgF0S94tk1AJeFihyfYncdOxBcHT8WjHnod4MzhTnd7QkHnPye4O-U8IuZSt78yKK3UD9-5Cg6zbHZUAVJqSutHZ8HAtlzUKMs"
+                alt="NS Building Logo"
+                className="h-8 w-auto object-contain"
+              />
+              <span className="font-extrabold text-xl tracking-tight text-primary leading-none">
+                NS BUILDING
+              </span>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
               {dict.footer.tagline}
             </p>
-            <div className="inline-flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded text-[11px] text-slate-300 border border-slate-700">
-              <ShieldCheck className="w-3.5 h-3.5 text-bronze" />
-              <span>{dict.footer.rights}</span>
+            <div className="pt-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container text-on-secondary-container rounded-lg text-xs font-semibold">
+                <span className="material-symbols-outlined text-[16px]">verified</span>
+                {dict.footer.rights}
+              </span>
             </div>
-          </div>
-
-          {/* TRADE SERVICES */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-bronze mb-4">
-              {dict.footer.services}
-            </h4>
-            <ul className="space-y-2.5 text-xs text-slate-300">
-              <li>
-                <Link href={`/${locale}/services/renovations`} className="hover:text-white transition-colors">
-                  {dict.services.items.renovations.title}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/bathrooms`} className="hover:text-white transition-colors">
-                  {dict.services.items.bathrooms.title}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/cabinets`} className="hover:text-white transition-colors">
-                  {dict.services.items.cabinets.title}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/flooring`} className="hover:text-white transition-colors">
-                  {dict.services.items.flooring.title}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/doors`} className="hover:text-white transition-colors">
-                  {dict.services.items.doors.title}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/painting`} className="hover:text-white transition-colors">
-                  {dict.services.items.painting.title}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/hiring`} className="hover:text-white transition-colors">
-                  {dict.services.items.hiring.title}
-                </Link>
-              </li>
-            </ul>
           </div>
 
           {/* QUICK LINKS */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-bronze mb-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-4">
               {dict.footer.quick_links}
-            </h4>
-            <ul className="space-y-2.5 text-xs text-slate-300">
+            </h3>
+            <ul className="space-y-2.5 text-xs sm:text-sm text-on-surface-variant">
               <li>
-                <Link href={`/${locale}`} className="hover:text-white transition-colors">
+                <Link href={`/${locale}`} className="hover:text-primary transition-colors">
                   {dict.nav.home}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/#services`} className="hover:text-white transition-colors">
+                <Link href={`/${locale}/#services`} className="hover:text-primary transition-colors">
                   {dict.nav.services}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/#our-work`} className="hover:text-white transition-colors">
+                <Link href={`/${locale}/#work-section`} className="hover:text-primary transition-colors">
                   {dict.nav.work}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/#reviews`} className="hover:text-white transition-colors">
+                <Link href={`/${locale}/#about`} className="hover:text-primary transition-colors">
+                  {dict.nav.about || "About"}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/#reviews`} className="hover:text-primary transition-colors">
                   {dict.nav.reviews}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/#quote`} className="hover:text-white transition-colors">
-                  {dict.nav.quote}
+                <Link href={`/${locale}/#contact`} className="hover:text-primary transition-colors">
+                  {dict.nav.contact}
                 </Link>
               </li>
               <li>
-                <Link href="/admin/login" className="text-slate-400 hover:text-bronze transition-colors flex items-center gap-1">
-                  <span>Admin Portal</span>
-                  <ArrowUpRight className="w-3 h-3" />
+                <Link href={`/${locale}/#quote-section`} className="hover:text-primary transition-colors">
+                  {dict.nav.quote}
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* CONTACT INFO */}
+          {/* TRADE SERVICES */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-bronze mb-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-4">
+              {dict.footer.services}
+            </h3>
+            <ul className="space-y-2.5 text-xs sm:text-sm text-on-surface-variant">
+              <li>
+                <Link href={`/${locale}/services/renovations`} className="hover:text-primary transition-colors">
+                  {dict.services.items.renovations.title}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/services/bathrooms`} className="hover:text-primary transition-colors">
+                  {dict.services.items.bathrooms.title}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/services/cabinets`} className="hover:text-primary transition-colors">
+                  {dict.services.items.cabinets.title}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/services/flooring`} className="hover:text-primary transition-colors">
+                  {dict.services.items.flooring.title}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/services/doors`} className="hover:text-primary transition-colors">
+                  {dict.services.items.doors.title}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/services/painting`} className="hover:text-primary transition-colors">
+                  {dict.services.items.painting.title}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/services/plastering`} className="hover:text-primary transition-colors">
+                  {dict.services.items.plastering.title}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/services/equipment`} className="hover:text-primary transition-colors">
+                  {dict.services.items.equipment.title}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* CONTACT & SERVICE HUB */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-4">
               {dict.footer.contact_us}
-            </h4>
-            <div className="space-y-3 text-xs text-slate-300">
-              <a href="tel:0276666510" className="flex items-center gap-2 hover:text-white transition-colors">
-                <Phone className="w-3.5 h-3.5 text-bronze shrink-0" />
-                <span>Hotline: <strong>027 666 6510</strong></span>
-              </a>
-              <a href="tel:0211531510" className="flex items-center gap-2 hover:text-white transition-colors">
-                <Phone className="w-3.5 h-3.5 text-bronze shrink-0" />
-                <span>Mr. Son: <strong>021 153 1510</strong></span>
-              </a>
-              <a href="mailto:contact@nsbuilding.co.nz" className="flex items-center gap-2 hover:text-white transition-colors">
-                <Mail className="w-3.5 h-3.5 text-bronze shrink-0" />
-                <span>contact@nsbuilding.co.nz</span>
-              </a>
-              <div className="flex items-center gap-2 text-slate-400">
-                <MapPin className="w-3.5 h-3.5 text-bronze shrink-0" />
-                <span>Auckland &amp; Greater New Zealand</span>
+            </h3>
+            <div className="space-y-3 text-xs sm:text-sm text-on-surface-variant">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-secondary text-[18px]">call</span>
+                <a href="tel:0276666510" className="hover:text-primary font-bold">
+                  027 666 6510
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-secondary text-[18px]">smartphone</span>
+                <a href="tel:0211531510" className="hover:text-primary font-bold">
+                  021 153 1510
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-secondary text-[18px]">mail</span>
+                <a href="mailto:contact@nsbuilding.co.nz" className="hover:text-primary truncate">
+                  contact@nsbuilding.co.nz
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-secondary text-[18px]">alternate_email</span>
+                <a href="mailto:nsbuildingcompany@gmail.com" className="hover:text-primary truncate">
+                  nsbuildingcompany@gmail.com
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-secondary text-[18px]">home_pin</span>
+                <span>Auckland & Greater NZ Region</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* BOTTOM COPYRIGHT */}
-        <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-slate-400">
-          <div>
-            &copy; {new Date().getFullYear()} NS Building Ltd. {dict.footer.copyright}
+        <div className="mt-16 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-on-surface-variant border-t border-slate-200">
+          <div className="flex items-center gap-3">
+            <span>
+              Language: <strong className="text-primary">{locale.toUpperCase()}</strong> |{" "}
+              <Link href={locale === "en" ? "/vi" : "/en"} className="hover:text-primary transition-colors">
+                {locale === "en" ? "VI" : "EN"}
+              </Link>
+            </span>
+            <span className="text-slate-300">•</span>
+            <span>Licensed Building Practitioner NZ</span>
           </div>
-          <div className="flex items-center space-x-6">
-            <span className="text-slate-500">Website: nsbuilding.co.nz</span>
-            <Link href="/admin/login" className="hover:text-slate-300 transition-colors">
-              CMS Login
-            </Link>
-          </div>
+          <div>{dict.footer.copyright}</div>
         </div>
       </div>
     </footer>

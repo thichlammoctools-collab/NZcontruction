@@ -3,7 +3,7 @@
     "home": "Home",
     "services": "Services",
     "work": "Our Work",
-    "about": "About Us",
+    "about": "About",
     "reviews": "Reviews",
     "contact": "Contact",
     "quote": "Request a Quote",
@@ -16,7 +16,7 @@
     "badge": "Trusted by homeowners across New Zealand",
     "title_line1": "Building",
     "title_line2": "Better Homes.",
-    "subtitle": "High-end renovation and residential building services crafted for lasting architectural beauty across New Zealand.",
+    "subtitle": "Renovation and building services for homes across New Zealand.",
     "cta_quote": "Request a Quote",
     "cta_work": "View Our Work",
     "stats_compliance": "100%",
@@ -35,104 +35,305 @@
       "renovations": {
         "title": "Full Home Renovations",
         "tag": "Comprehensive",
-        "desc": "Complete structural reconfigurations, extensions, and modern transformations designed for Kiwi lifestyle."
+        "desc": "Complete structural reconfigurations and interior transformations designed around modern family living.",
+        "icon": "home_repair_service"
       },
       "bathrooms": {
         "title": "Luxury Bathrooms",
         "tag": "Wet Areas",
-        "desc": "Practical, luxurious waterproof bathrooms crafted with precision tiling, custom vanities, and architectural fittings."
+        "desc": "Practical, luxurious, engineered waterproof bathrooms crafted with precision tiling and architectural fittings.",
+        "icon": "bathtub"
       },
       "cabinets": {
         "title": "Cabinets & Joinery",
         "tag": "Millwork",
-        "desc": "Bespoke kitchen cabinetry, walk-in robes, and architectural storage built to millimeter tolerances."
+        "desc": "Bespoke kitchen cabinetry, walk-in robes, and architectural storage built to millimeter tolerances.",
+        "icon": "countertops"
       },
       "flooring": {
         "title": "Flooring Solutions",
         "tag": "Surfaces",
-        "desc": "Native timber restorations, engineered oak herringbone, polished tiles, and acoustic luxury vinyl."
+        "desc": "Native timber restorations, engineered oak herringbone, stone tiling, and premium acoustic vinyl planking.",
+        "icon": "texture"
       },
       "doors": {
         "title": "Doors & Openings",
         "tag": "Carpentry",
-        "desc": "Interior cavity sliders, acoustic solid core doors, architectural bifolds, and high-performance exterior joinery."
+        "desc": "Interior cavity sliders, acoustic solid core doors, architectural bifolds, and high-performance joinery fittings.",
+        "icon": "door_front"
       },
       "painting": {
-        "title": "Painting & Plastering",
+        "title": "Interior & Exterior Painting",
         "tag": "Finishes",
-        "desc": "Level 5 plaster finishes, interior microcement, and durable exterior weather-tight coatings."
+        "desc": "Flawless surface preparation, high-durability weather-tight exterior coatings, and airless spray finishes.",
+        "icon": "format_paint"
       },
-      "hiring": {
-        "title": "Equipment & Tool Hire",
-        "tag": "Hiring",
-        "desc": "Specialist renovation machinery, access equipment, scaffolding, and precision tools for hire."
+      "plastering": {
+        "title": "Plastering & Gib Stopping",
+        "tag": "Lining",
+        "desc": "Level 5 skim coats, seamless plasterboard stopping, acoustic firewall installations, and surface leveling.",
+        "icon": "square_foot"
       },
-      "maintenance": {
-        "title": "Repairs & Maintenance",
-        "tag": "Care",
-        "desc": "Prompt structural repairs, moisture remediation, cladding checks, and routine property maintenance."
+      "equipment": {
+        "title": "Equipment & Trade Hire",
+        "tag": "Commercial",
+        "desc": "Specialist builders plant, scaffolding, concrete preparation tools, and certified carpenters on flexible terms.",
+        "icon": "construction"
       }
     }
   },
-  "before_after": {
-    "badge": "Proven Transformation",
-    "title": "Before & After Visuals",
-    "subtitle": "Drag the slider to reveal the difference precision planning and master craftsmanship bring to aging NZ properties.",
-    "drag_hint": "Drag slider left or right to compare",
-    "before_label": "BEFORE",
-    "after_label": "AFTER",
-    "project_name": "Remuera Architectural Modernisation",
-    "project_loc": "Auckland, New Zealand",
-    "project_scope": "Full Living & Kitchen Structural Renovation"
+  "featured_flagships": {
+    "feature_01": {
+      "tag": "Featured Capability 01",
+      "title": "Home Renovations — Transform your existing space into a home that works better for you.",
+      "desc": "Whether preserving the soul of a classic New Zealand villa or modernizing a multi-level suburban build, we orchestrate the entire renovation lifecycle with structural certitude.",
+      "bullets": [
+        "Full council consent handling, architectural liaison, and engineering sign-offs.",
+        "Load-bearing wall removals, steel beam installations, and indoor-outdoor transitions.",
+        "Dedicated site supervisor and weekly transparent milestone schedules."
+      ],
+      "cta": "Explore Renovations",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDTCyMytIhhX9XL-rkOEJqKWTLa0Y4ML9sLiVzeyGKvrTJcYwn5t1T2VW9gmzYFJB9EKe7acw8HJhWZEeIQ0byga_K_q-hdBYilVoqAEfQelgchrOZbowxTdU9MlNbtertYNbQgqCMhKcRE_RAuFxkWIEx_M0dlxKmd53qr5XSPHaikzaGn0wkm6rfD9XMPs1RDaHXkebQW0SmpvFTu2n5-qQOOu_wOVhdbKnMGtIas"
+    },
+    "feature_02": {
+      "tag": "Featured Capability 02",
+      "title": "Architectural Bathrooms & Kitchens — Engineered to withstand decades of daily use.",
+      "desc": "Bathrooms demand the highest engineering standards in any home. We enforce multi-layer waterproof membrane protocols, micro-calibrated floor falls, and flawless stone cuts.",
+      "bullets": [
+        "BRANZ-appraised waterproofing systems with certified independent inspection.",
+        "Underfloor heating integration, custom linear drains, and frameless safety glass.",
+        "Custom stone vanities fabricated and installed to exact spatial requirements."
+      ],
+      "cta": "Explore Bathrooms",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBatquu0UWBHhctSrxDkU6wMwfcTXRcRfbHknQfnql1jyntZr8LkSgx3vwEehC-1G41Cnr4D_hIy2MH_sWmsgE1pgKe-cF_LPkwn4TNQHWcU5078lQuMrHvfowNcnjHYAci7SO9yMIY9qo4qD9cqlEyucm1JrErXBkJ581bJw2ON6cPjFF-fXmTpcOKO15olOT69aIEa_0KErOy2USXOi0QkiEbfIePuLhvr60ktMsl"
+    }
   },
-  "reviews": {
-    "badge": "Client Feedback",
-    "title": "Verified Reviews & Reputation",
-    "subtitle": "See what NZ property owners and architects say about our quality, communication, and punctuality.",
-    "rating_score": "5.0",
-    "rating_text": "Average Customer Rating based on Google Reviews",
+  "portfolio": {
+    "badge": "Our Portfolio",
+    "title": "Our Work",
+    "subtitle": "A curated selection of recently completed projects across Auckland and greater New Zealand.",
+    "filters": {
+      "all": "All Projects",
+      "renovations": "Renovations",
+      "bathrooms": "Bathrooms",
+      "flooring": "Flooring",
+      "cabinets": "Cabinets"
+    },
     "items": [
       {
-        "name": "David & Sarah Mitchell",
-        "location": "Remuera, Auckland",
-        "review": "NS Building completely transformed our 1970s home. The attention to detail in the bathroom and custom joinery is second to none. Delivered on time and within budget.",
-        "project": "Full Home & Bathroom Renovation"
+        "id": "ponsonby-bathroom",
+        "category": "bathrooms",
+        "category_label": "Bathrooms",
+        "location": "Ponsonby · Auckland",
+        "year": "Completed 2024",
+        "title": "Modern Bathroom Renovation",
+        "desc": "Complete strip-out and structural realignment with custom wet-room waterproofing and micro-cement accents.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDeZ2YrJ6ZC201I36BykuT1VBfP2KSlejBVbpt___H9PqTbXs9SbyIrQ-1_IjIyRYrW0z42mfaRbl34X5vQl_v6277-eP2a3ciJPcda0wnBwThbxuSm0SOOY6y-DMroB3UOifWuppGn_W4qJlB3XYYUt_I20QD6EsHLrFn9Cd1g3NxcqaPbBYkoFbiwVVIYbRmWa4bxbn8xR3EXJxIEZ7piCJOusAYAMtOhrrGJjgOa"
       },
       {
-        "name": "Liam Henderson",
-        "location": "North Shore, Auckland",
-        "review": "Exceptional craftsmanship. Their team handled our oak flooring installation and plastering with extreme precision. Communication throughout the build was flawless.",
-        "project": "Hardwood Flooring & Painting"
+        "id": "takapuna-kitchen",
+        "category": "renovations",
+        "category_label": "Renovations",
+        "location": "Takapuna · North Shore",
+        "year": "Completed 2024",
+        "title": "Mid-Century Kitchen & Living Reconfiguration",
+        "desc": "Removal of two internal load-bearing partitions to introduce a sun-drenched architectural social hub.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCYRXMjRoZVOOO2XbNXwq-HyNA3x6SclH_Y9-LDc8aXydR6Gv7_bDsUcnTNUTZGecKzyNwKYpZwbeHDs024FyaWc3EWttyR1iZm9ryGGM8LrxvIbu2Tjs0BKgvrkJxfYcW7wV8UOPgNqZePWJJAzgltVw-ZqvZ39Q45OtcKCTFA3L-j0EiaXmz0yky6JNdUw4o3CCohjax66Cz6UtF0sZmhSMGu6xne0KafyDQKLxaD"
       },
       {
-        "name": "Christine Taylor",
-        "location": "Epsom, Auckland",
-        "review": "Very reliable tradies. Transparent quoting, tidy worksite every day, and highest standard of finish. Highly recommended to anyone looking for stress-free renovation.",
-        "project": "Kitchen Joinery & Interior Doors"
+        "id": "remuera-flooring",
+        "category": "flooring",
+        "category_label": "Flooring",
+        "location": "Remuera · Auckland",
+        "year": "Completed 2023",
+        "title": "Herringbone Engineered Oak Installation",
+        "desc": "Acoustic subfloor levelling followed by hand-aligned parquet geometry across 140 square meters.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDQXqecbGPgpS_ocH7dqd579QC2-4sOzNLn-4DhxwLvgs6csr9uY9OGAy9W8FZZxwembWU9yNoKi1nqHT4qAUs-Qh2jBQkGgGjzlkPa2AS5KZN9qpgqx9A3mm9xZOWK9Z3IdqLKTBN1x2Kt84lAgKf2h4b7XQzsHcTx_spK9a0A4vWWveizzwSYbuu9s7vREzf1kFyq7akycSZkqH6lMkMOhXmSgvcbv0jO-WLajGiB"
+      },
+      {
+        "id": "epsom-joinery",
+        "category": "cabinets",
+        "category_label": "Cabinets",
+        "location": "Epsom · Auckland",
+        "year": "Completed 2024",
+        "title": "Architectural Joinery & Storage Suites",
+        "desc": "Bespoke veneered oak wall systems with concealed magnetic touch-latches and acoustic fabric backing.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCoJSubAoamyiV8efxNcL3JGNMKQ7hyi6RluO12WBJZTYVYjURh19LrupT4G4ukj19DX-XyLwApkMu6c5_qtGkILvy-k0G51hl9Yew3nJ-NCbIjXozkHXCtGie_j6f8NtlRg5QkYEJ3yCjcDaYmHcsKNdrsV9yuW6ER28CBgzxyTyEGRJpobGBvRTmH0a3vMVq2rbCCbeSC-IWmSxDE8hgTDZeg0DWsJ99UffMCSvGj"
+      },
+      {
+        "id": "mt-eden-villa",
+        "category": "renovations",
+        "category_label": "Renovations & Painting",
+        "location": "Mount Eden · Auckland",
+        "year": "Completed 2023",
+        "title": "Heritage Villa Exterior Restoration",
+        "desc": "Complete weatherboard repair, lead abatement, heritage sill reproduction, and weather-tight elastomeric paint systems.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAECxsqGT5i0uO7ZGrsafhWBSQJdhoVxy5Pc2DNSCarhw7jy9q38HoYHqFTcKQvlNAXxNyXOahvvfS79CpcScipQkXUXigF4ZapX-0D3A4d0r2eIqA2cm44Pilg-1IADUzS2zSnfRLaxDxGcrL7f2cobKPhpqT2vuOdTOprivWzQZWDeZgupfoSnOU-6dZLxD0c4mo4HdCchw_hWerj0i07jETgOAgmKHFGMaudB_ed"
+      },
+      {
+        "id": "devonport-ensuite",
+        "category": "bathrooms",
+        "category_label": "Bathrooms",
+        "location": "Devonport · Auckland",
+        "year": "Completed 2024",
+        "title": "Coastal Skylit Ensuite Sanctuary",
+        "desc": "High-performance roof penetration for natural daylighting paired with acoustic insulation and moisture barrier systems.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDhWjNCMY3_verfg1R0syUlYXDad4HBgehuhtZ0SkE4zDrIwo9GyVdJ4sVcXQ9KIvkNQidAccOHApu77amkpIWV-zbtccsmm9GW-AzbZZy3n8zMHDl-QRQpFk_q_xk8zZwOXs8aeHGerWK6DZ4UivMi4zTwnFba4h6jLmfb16rMPdVV3KQpVAcpEKb2GnP1RaS3R_uNID51N10kpwPe3K5IOrr5of2VrLOBoHqheR27"
       }
     ]
   },
+  "before_after": {
+    "badge": "Real Transformations",
+    "title": "See the Difference",
+    "subtitle": "Witness the value, light, and architectural flow unlocked through deliberate structural craft in real New Zealand residences.",
+    "drag_hint": "Drag the handle to compare structural before & after",
+    "before_label": "BEFORE : 1980s Original Layout",
+    "after_label": "AFTER : NS Building Transformation",
+    "project_name": "Grey Lynn Bungalow",
+    "duration": "9 Weeks",
+    "before_img": "https://lh3.googleusercontent.com/aida-public/AB6AXuDXABoUjRVTOvCaWAGi2H-BcvFn-oX99AAXLbmUQBB9sE7hmOXpO79DDCNFIN9w8sPUwgG724xXDzHK_F-UfAagexlYAhsLExy4UfzeQeqANxleDFzSZtNvL2dyj9UxTnqyAlSkpSNVZ6mOKWxwXSUUKtKGY5SFJusUYIgyFNER7qY7XL_m1kfFPaI3oaSHKfxy9ZsEQ-Q8dPgCW3-N_wzKeu-LCNLBoaGwOAXGu4lJ",
+    "after_img": "https://lh3.googleusercontent.com/aida-public/AB6AXuAjzDaHaS2jbKklc2kERlQeGcZt0S643DcIPnvqjnZTr7An7oYBfl15hlloiziUsgvh5Wk1EmxcfJ4ZeqDSL19MHDVbdkmvJiKz3FLOLyKal3R_cgeHEuf1PORQASZ6OAmL7nonhNRXgqvKzTRrKj-9W0zECDwNJlbW5SGXE-am9m4CbCs9PVuXYYTgJ-N0dDSQh3z93CJ8SJ3ZnveKd9LQW58tezEDmwhcCIFWclkC"
+  },
+  "pillars": {
+    "badge": "Built On Integrity",
+    "title": "Why Homeowners Trust NS Building",
+    "subtitle": "We eliminate the stress, guesswork, and friction often associated with domestic renovations.",
+    "items": [
+      {
+        "icon": "domain",
+        "title": "Local NZ Experience",
+        "desc": "Deep technical fluency with the New Zealand Building Code (E2 weather-tightness, NZS 3604 timber framing), council compliance, and historic Kiwi architecture.",
+        "badge_icon": "verified",
+        "badge_text": "NZS 3604 Aligned"
+      },
+      {
+        "icon": "workspace_premium",
+        "title": "Quality Workmanship",
+        "desc": "Licensed Building Practitioners (LBP) obsessed with millimetric tolerances. We reject shortcuts and exclusively install proven, premium building materials.",
+        "badge_icon": "engineering",
+        "badge_text": "LBP Registered"
+      },
+      {
+        "icon": "chat_bubble_outline",
+        "title": "Clear Communication",
+        "desc": "Comprehensive itemized quote scopes, scheduled weekly site updates, and total transparency. No unexpected budget blowouts or hidden fees.",
+        "badge_icon": "schedule",
+        "badge_text": "Weekly Walkthroughs"
+      },
+      {
+        "icon": "clean_hands",
+        "title": "Reliable & Punctual",
+        "desc": "Clean, vacuumed job sites at the close of every day. Respectful, fully vetted Kiwi trade crews that honor scheduled milestone completion dates.",
+        "badge_icon": "military_tech",
+        "badge_text": "Clean Site Promise"
+      }
+    ]
+  },
+  "reviews": {
+    "badge": "Client Testimonials",
+    "title": "What Our Customers Say",
+    "rating_score": "4.9 on Google Reviews",
+    "rating_sub": "Top-Rated Builder Across Auckland",
+    "items": [
+      {
+        "name": "Mark & Sarah T.",
+        "location": "Full Home Renovation · Grey Lynn",
+        "project": "Grey Lynn Villa",
+        "review": "NS Building transformed our dated 1970s bungalow in Grey Lynn into an architectural dream. Communication was flawless throughout, and their attention to joinery alignment was second to none."
+      },
+      {
+        "name": "David L.",
+        "location": "Master Ensuite · Ponsonby",
+        "project": "Ponsonby Ensuite",
+        "review": "The bathroom renovation was completed on schedule with exceptional attention to waterproof details and stone tile cuts. The crew was polite, tidy, and genuinely respectful of our family home."
+      },
+      {
+        "name": "Ngaire W.",
+        "location": "Kitchen & Flooring · Remuera",
+        "project": "Remuera Modernisation",
+        "review": "Professional, honest, and meticulous. When unforeseen foundation leveling issues popped up, they had engineered solutions ready within the morning. Couldn't recommend them higher."
+      }
+    ]
+  },
+  "service_areas": {
+    "badge": "Local Operations",
+    "title": "Serving Homeowners Across New Zealand",
+    "subtitle": "Headquartered in Auckland with active project sites spanning Central Auckland, North Shore, West Auckland, Eastern Bays, and custom regional builds across the North Island.",
+    "regions": [
+      "Auckland Central",
+      "North Shore & Coast",
+      "Eastern Suburbs",
+      "West Auckland",
+      "South Auckland",
+      "Greater NZ Regions"
+    ],
+    "rapid_title": "Rapid Site Visits & Feasibility Scoping",
+    "rapid_desc": "We schedule initial on-site consultations within 48 hours for immediate evaluation.",
+    "hub_title": "NS Building Operations Hub",
+    "hub_sub": "Auckland & Greater NZ Coverage",
+    "map_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCaFJLd6Hel6V7-mbhjmy78oHDDXwKaPVSKXap7q44gtY6uq6pHCSAUWWLY8t8mmq8QnDbW2LVkEbIYNv5lBe1J-hRQEULwIN0PCvdO0-RL_9FtN9Mp6MpDsGUeAr5M8r-VBxrdjVcHrIAVkZyFfeCvXD4DjX4tVvoW-D81Ql0eqYF4D0hZAxWa7XZpQDevhTXlfedtIi98FmMlcnXxJ5vryhNRdpAfUKxuJ2SFrclj"
+  },
   "quote": {
-    "badge": "Direct Consultation",
-    "title": "Ready to Transform Your Home?",
-    "subtitle": "Get a free, transparent, and detailed estimate for your upcoming project.",
+    "badge": "Start Your Project",
+    "title": "Tell Us About Your Project",
+    "subtitle": "Send us a few details and our master build team will follow up within 24 hours with a preliminary discussion and site consultation.",
     "name": "Full Name",
     "phone": "Phone Number",
     "email": "Email Address",
+    "address": "Project Address / Suburb",
     "service": "Service Required",
-    "location": "Suburb / Location (NZ)",
-    "details": "Project Scope & Description",
-    "submit": "Send Quote Request",
-    "submitting": "Sending...",
-    "success_title": "Quote Request Received!",
-    "success_msg": "Thank you! Nguyen Son and our team will review your project details and contact you within 24 hours."
+    "service_placeholder": "Select primary trade...",
+    "timeframe": "Anticipated Start Date",
+    "timeframe_options": {
+      "immediate": "Immediately (Next 2-4 Weeks)",
+      "quarter": "1 to 3 Months",
+      "planning": "Planning Stage / 3-6 Months",
+      "future": "Next Year / Feasibility Study"
+    },
+    "details": "Project Scope & Requirements",
+    "details_placeholder": "Briefly describe what you're looking to achieve (e.g. removing a wall between kitchen and living, installing full bathroom, consent status, architect plans ready)...",
+    "upload_title": "Have plans or photos ready? (Optional)",
+    "upload_desc": "Drop architectural PDFs or photos here, or click to browse",
+    "submit": "Request a Free Quote & Consultation",
+    "submitting": "Submitting...",
+    "confidential": "100% Confidential • Zero Obligation",
+    "success_title": "Inquiry Received Successfully!",
+    "success_msg": "Thank you! Your inquiry has been received. An NS Building project manager will contact you within 24 hours."
+  },
+  "quick_contact": {
+    "phone": "027 666 6510",
+    "mobile": "021 153 1510",
+    "email": "contact@nsbuilding.co.nz",
+    "bilingual_support": "Hỗ trợ tiếng Việt và tiếng Anh sẵn sàng (English & Vietnamese support available)"
+  },
+  "pricing_section": {
+    "badge": "Transparent Pricing",
+    "title_prefix": "Reference Price Guide:",
+    "subtitle": "Indicative pricing benchmarks based on typical Auckland & New Zealand projects to help you budget with confidence.",
+    "col_item": "Scope / Package",
+    "col_desc": "Specifications & Quality Standard",
+    "col_price": "Estimated Range (NZD)",
+    "col_unit": "Unit / Scope",
+    "popular": "Popular choice",
+    "disclaimer_title": "Important Pricing Clarifications:",
+    "disclaimer_text": "Prices shown are realistic estimates for Auckland residential conditions (excl. GST). Exact costs depend on site access, existing structural conditions, selected finish materials, and council consent requirements (if applicable). NS Building provides a free on-site survey and a transparent fixed-price contract prior to starting any project.",
+    "cta_badge": "Free On-Site Consultation",
+    "cta_title": "Need an Accurate Fixed-Price Quote for Your Project?",
+    "cta_desc": "Every home has unique structural characteristics. Contact Nguyen Son directly for a complimentary on-site inspection across Auckland, tailored recommendations, and an itemized fixed-price proposal.",
+    "cta_call": "Call Direct: 027 666 6510",
+    "cta_request": "Book a Free Site Inspection",
+    "cta_mobile": "Hotline / Mobile: 021 153 1510",
+    "cta_email": "contact@nsbuilding.co.nz",
+    "trust_free": "100% Free on-site survey across Auckland",
+    "trust_fixed": "Transparent itemized contract - No hidden surprises",
+    "trust_guarantee": "Licensed Building Practitioners & 10-year warranty"
   },
   "footer": {
-    "tagline": "Specialist residential renovation and property maintenance craftsmen dedicated to timeless quality across New Zealand.",
+    "tagline": "Renovation & Building Services in New Zealand. Registered Licenced Building Practitioners committed to enduring craft, transparency, and architectural precision.",
     "quick_links": "Quick Links",
-    "services": "Trade Services",
-    "contact_us": "Contact NS Building",
-    "copyright": "All rights reserved. NS Building NZ.",
-    "rights": "Licensed & Insured Residential Building Practitioners"
+    "services": "Services",
+    "contact_us": "Contact & Service Hub",
+    "copyright": "© 2025 NS Building Ltd. All rights reserved. Built with structural integrity.",
+    "rights": "NZ LBP Licensed Builders"
   }
 }

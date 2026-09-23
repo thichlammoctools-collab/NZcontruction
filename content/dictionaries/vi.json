@@ -13,10 +13,10 @@
     "location": "Auckland & Toàn New Zealand"
   },
   "hero": {
-    "badge": "Được các chủ nhà tin tưởng trên khắp New Zealand",
+    "badge": "Được các gia chủ trên khắp New Zealand tin tưởng",
     "title_line1": "Kiến Tạo",
     "title_line2": "Tổ Ấm Hoàn Mỹ.",
-    "subtitle": "Dịch vụ cải tạo, sửa chữa và hoàn thiện nhà ở chất lượng cao, bền vững và thẩm mỹ chuẩn kiến trúc New Zealand.",
+    "subtitle": "Dịch vụ cải tạo, hoàn thiện và xây dựng chất lượng cao cho các ngôi nhà trên khắp New Zealand.",
     "cta_quote": "Yêu Cầu Báo Giá",
     "cta_work": "Xem Dự Án Đã Làm",
     "stats_compliance": "100%",
@@ -24,115 +24,316 @@
     "stats_guarantee": "10 Năm",
     "stats_guarantee_label": "Bảo Hành Kết Cấu",
     "stats_area": "Auckland",
-    "stats_area_label": "& Khu Vực Lân Cận"
+    "stats_area_label": "& Toàn New Zealand"
   },
   "services": {
     "badge": "Năng Lực & Tay Nghề",
     "title": "Dịch Vụ Của Chúng Tôi",
-    "subtitle": "Từ các hạng mục cải tạo kết cấu lớn đến từng chi tiết hoàn thiện nội thất tinh tế, chúng tôi nâng tầm không gian sống của bạn.",
+    "subtitle": "Từ các hạng mục cải tạo kết cấu lớn đến từng chi tiết hoàn thiện nội thất tinh tế, chúng tôi giúp nâng tầm không gian sống của bạn.",
     "view_service": "Chi Tiết Dịch Vụ",
     "items": {
       "renovations": {
-        "title": "Cải Tạo Nhà Trọn Gói",
+        "title": "Cải Tạo Toàn Bộ Ngôi Nhà",
         "tag": "Tổng Thể",
-        "desc": "Tái cấu trúc không gian, cơi nới mở rộng và hiện đại hóa toàn diện ngôi nhà theo phong cách sống Kiwi."
+        "desc": "Tái cấu trúc không gian sống và cải tạo nội thất toàn diện, thiết kế tối ưu cho cuộc sống hiện đại của gia đình.",
+        "icon": "home_repair_service"
       },
       "bathrooms": {
-        "title": "Phòng Tắm Cao Cấp",
+        "title": "Phòng Tắm Sang Trọng",
         "tag": "Khu Vực Ướt",
-        "desc": "Thi công chống thấm chuẩn Council, ốp lát đá chuẩn xác, lắp đặt bồn tắm và thiết bị vệ sinh sang trọng."
+        "desc": "Phòng tắm chống thấm chuẩn kỹ thuật, lát đá tinh xảo và lắp đặt phụ kiện thiết bị vệ sinh kiến trúc cao cấp.",
+        "icon": "bathtub"
       },
       "cabinets": {
         "title": "Tủ Bếp & Đồ Gỗ Nội Thất",
         "tag": "Nội Thất May Đo",
-        "desc": "Thiết kế đóng tủ bếp hiện đại, tủ âm tường và hệ kệ lưu trữ chuẩn xác đến từng milimét."
+        "desc": "Đóng tủ bếp theo yêu cầu, tủ quần áo walk-in và hệ kệ lưu trữ kiến trúc chính xác đến từng milimét.",
+        "icon": "countertops"
       },
       "flooring": {
         "title": "Giải Pháp Sàn Nhà",
         "tag": "Bề Mặt Sàn",
-        "desc": "Phục hồi sàn gỗ tự nhiên, lát sàn gỗ sồi xương cá, gạch men cao cấp và sàn vinyl cách âm chất lượng cao."
+        "desc": "Phục hồi sàn gỗ tự nhiên, thi công sàn gỗ sồi xương cá, gạch đá cao cấp và sàn vinyl cách âm chất lượng cao.",
+        "icon": "texture"
       },
       "doors": {
-        "title": "Hệ Thống Cửa & Mộc Hoàn Thiện",
+        "title": "Hệ Cửa & Ô Mở Kiến Trúc",
         "tag": "Mộc Xây Dựng",
-        "desc": "Cửa lùa âm tường, cửa chống ồn đặc lõi, cửa xếp trượt bifold và phụ kiện mộc chất lượng cao."
+        "desc": "Cửa lùa âm tường, cửa chống ồn đặc lõi, cửa mở xếp trượt bifold và phụ kiện mộc ngoại thất cách âm cách nhiệt.",
+        "icon": "door_front"
       },
       "painting": {
-        "title": "Sơn Bả & Trát Hoàn Thiện",
+        "title": "Sơn Nội Thất & Ngoại Thất",
         "tag": "Hoàn Thiện",
-        "desc": "Bả matit Level 5 phẳng mịn, trát tường vi xi măng (microcement) và sơn ngoại thất chống thấm thời tiết."
+        "desc": "Xử lý bề mặt phẳng mịn không tì vết, phủ sơn ngoại thất chịu thời tiết siêu bền và kỹ thuật sơn phun không bọt khí.",
+        "icon": "format_paint"
       },
-      "hiring": {
-        "title": "Cho Thuê Máy Móc & Thiết Bị",
-        "tag": "Cho Thuê",
-        "desc": "Cung cấp máy móc chuyên dụng, giàn giáo, thiết bị nâng hạ và đồ nghề thi công xây dựng cho thuê."
+      "plastering": {
+        "title": "Trát Bả & Gib Stopping",
+        "tag": "Tường & Trần",
+        "desc": "Bả skim coat chuẩn Level 5 phẳng mịn, trát xử lý mối nối thạch cao, vách ngăn chống cháy cách âm và cân bằng mặt sàn.",
+        "icon": "square_foot"
       },
-      "maintenance": {
-        "title": "Bảo Trì & Sửa Chữa Nhanh",
-        "tag": "Bảo Dưỡng",
-        "desc": "Xử lý ẩm mốc rò rỉ, sửa chữa kết cấu hư hỏng, kiểm tra lớp vỏ ốp tường và bảo dưỡng định kỳ."
+      "equipment": {
+        "title": "Cho Thuê Thiết Bị & Đội Thợ",
+        "tag": "Thương Mại",
+        "desc": "Cho thuê máy móc xây dựng chuyên dụng, giàn giáo, máy mài bê tông và thợ mộc có chứng chỉ với điều khoản linh hoạt.",
+        "icon": "construction"
       }
     }
   },
-  "before_after": {
-    "badge": "Minh Chứng Năng Lực",
-    "title": "Hình Ảnh Trước & Sau Khi Cải Tạo",
-    "subtitle": "Kéo thanh trượt để thấy rõ sự khác biệt ngoạn mục mà bàn tay người thợ lành nghề mang lại cho ngôi nhà cũ.",
-    "drag_hint": "Kéo thanh trượt sang trái hoặc phải để so sánh",
-    "before_label": "TRƯỚC KHI LÀM",
-    "after_label": "SAU KHI HOÀN THIỆN",
-    "project_name": "Cải Tạo Biệt Thự Cổ Tại Remuera",
-    "project_loc": "Auckland, New Zealand",
-    "project_scope": "Cải tạo toàn bộ phòng khách mở & khu bếp liên thông"
+  "featured_flagships": {
+    "feature_01": {
+      "tag": "Hạng Mục Tiêu Biểu 01",
+      "title": "Cải Tạo Nhà Ở — Biến đổi không gian hiện tại thành tổ ấm tiện nghi và hoàn hảo hơn.",
+      "desc": "Dù là bảo tồn nét đẹp mộc mạc của biệt thự cổ villa New Zealand hay hiện đại hóa ngôi nhà phố nhiều tầng, chúng tôi quản lý toàn bộ quy trình cải tạo với sự vững chắc về kết cấu.",
+      "bullets": [
+        "Xử lý trọn gói hồ sơ xin phép Council, làm việc với kiến trúc sư và kỹ sư kết cấu phê duyệt.",
+        "Đập dỡ tường chịu lực an toàn, gia cố dầm thép chữ I và mở rộng liên thông không gian trong - ngoài trời.",
+        "Giám sát trưởng công trình chuyên trách và cập nhật tiến độ công khai hàng tuần."
+      ],
+      "cta": "Khám Phá Dịch Vụ Cải Tạo",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDTCyMytIhhX9XL-rkOEJqKWTLa0Y4ML9sLiVzeyGKvrTJcYwn5t1T2VW9gmzYFJB9EKe7acw8HJhWZEeIQ0byga_K_q-hdBYilVoqAEfQelgchrOZbowxTdU9MlNbtertYNbQgqCMhKcRE_RAuFxkWIEx_M0dlxKmd53qr5XSPHaikzaGn0wkm6rfD9XMPs1RDaHXkebQW0SmpvFTu2n5-qQOOu_wOVhdbKnMGtIas"
+    },
+    "feature_02": {
+      "tag": "Hạng Mục Tiêu Biểu 02",
+      "title": "Phòng Tắm & Nhà Bếp Kiến Trúc — Bền bỉ suốt hàng thập kỷ sử dụng mỗi ngày.",
+      "desc": "Phòng tắm đòi hỏi tiêu chuẩn kỹ thuật khắt khe nhất trong bất kỳ ngôi nhà nào. Chúng tôi áp dụng quy chuẩn chống thấm nhiều lớp, tạo độ dốc sàn vi chuẩn xác và cắt ghép đá không tì vết.",
+      "bullets": [
+        "Hệ thống chống thấm đạt chuẩn thẩm định BRANZ với chứng nhận kiểm định độc lập.",
+        "Tích hợp sưởi sàn âm, thoát sàn rãnh dài hiện đại và vách kính cường lực không viền.",
+        "Hệ tủ lavabo mặt đá đặt may đo riêng theo đúng kích thước thực tế của từng không gian."
+      ],
+      "cta": "Khám Phá Phòng Tắm",
+      "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBatquu0UWBHhctSrxDkU6wMwfcTXRcRfbHknQfnql1jyntZr8LkSgx3vwEehC-1G41Cnr4D_hIy2MH_sWmsgE1pgKe-cF_LPkwn4TNQHWcU5078lQuMrHvfowNcnjHYAci7SO9yMIY9qo4qD9cqlEyucm1JrErXBkJ581bJw2ON6cPjFF-fXmTpcOKO15olOT69aIEa_0KErOy2USXOi0QkiEbfIePuLhvr60ktMsl"
+    }
   },
-  "reviews": {
-    "badge": "Khách Hàng Nói Về Chúng Tôi",
-    "title": "Đánh Giá Thực Tế Từ Khách Hàng",
-    "subtitle": "Xem đánh giá của các chủ nhà và kiến trúc sư tại New Zealand về chất lượng thi công, tiến độ và sự uy tín của NS Building.",
-    "rating_score": "5.0",
-    "rating_text": "Điểm Đánh Giá Trung Bình Trên Google Reviews",
+  "portfolio": {
+    "badge": "Dự Án Tiêu Biểu",
+    "title": "Dự Án Đã Làm",
+    "subtitle": "Tuyển chọn các công trình vừa hoàn thiện gần đây của chúng tôi tại Auckland và các vùng lân cận New Zealand.",
+    "filters": {
+      "all": "Tất Cả Dự Án",
+      "renovations": "Cải Tạo Nhà",
+      "bathrooms": "Phòng Tắm",
+      "flooring": "Sàn Nhà",
+      "cabinets": "Tủ & Đồ Gỗ"
+    },
     "items": [
       {
-        "name": "David & Sarah Mitchell",
-        "location": "Remuera, Auckland",
-        "review": "NS Building đã thay đổi hoàn toàn ngôi nhà xây từ thập niên 70 của chúng tôi. Từng chi tiết trong phòng tắm và tủ bếp đều vô cùng tỉ mỉ. Bàn giao đúng hẹn và chuẩn ngân sách.",
-        "project": "Cải Tạo Toàn Bộ Nhà & Phòng Tắm"
+        "id": "ponsonby-bathroom",
+        "category": "bathrooms",
+        "category_label": "Phòng Tắm",
+        "location": "Ponsonby · Auckland",
+        "year": "Hoàn thành 2024",
+        "title": "Cải Tạo Phòng Tắm Hiện Đại Ponsonby",
+        "desc": "Bóc tách cải tạo toàn bộ, căn chỉnh kết cấu, màng chống thấm ướt cao cấp và điểm nhấn bề mặt xi măng vi hạt.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDeZ2YrJ6ZC201I36BykuT1VBfP2KSlejBVbpt___H9PqTbXs9SbyIrQ-1_IjIyRYrW0z42mfaRbl34X5vQl_v6277-eP2a3ciJPcda0wnBwThbxuSm0SOOY6y-DMroB3UOifWuppGn_W4qJlB3XYYUt_I20QD6EsHLrFn9Cd1g3NxcqaPbBYkoFbiwVVIYbRmWa4bxbn8xR3EXJxIEZ7piCJOusAYAMtOhrrGJjgOa"
       },
       {
-        "name": "Liam Henderson",
-        "location": "North Shore, Auckland",
-        "review": "Tay nghề người thợ quá xuất sắc. Đội ngũ xử lý sàn gỗ sồi và sơn bả tường cực kỳ phẳng đẹp. Giao tiếp trong suốt quá trình xây dựng rất rõ ràng và dễ chịu.",
-        "project": "Làm Mới Sàn Gỗ & Sơn Hoàn Thiện"
+        "id": "takapuna-kitchen",
+        "category": "renovations",
+        "category_label": "Cải Tạo Nhà",
+        "location": "Takapuna · North Shore",
+        "year": "Hoàn thành 2024",
+        "title": "Tái Cấu Trúc Bếp & Phòng Khách Mở Takapuna",
+        "desc": "Dỡ bỏ 2 bức tường ngăn chịu lực cũ, mở ra không gian phòng khách sinh hoạt chung ngập tràn ánh nắng.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCYRXMjRoZVOOO2XbNXwq-HyNA3x6SclH_Y9-LDc8aXydR6Gv7_bDsUcnTNUTZGecKzyNwKYpZwbeHDs024FyaWc3EWttyR1iZm9ryGGM8LrxvIbu2Tjs0BKgvrkJxfYcW7wV8UOPgNqZePWJJAzgltVw-ZqvZ39Q45OtcKCTFA3L-j0EiaXmz0yky6JNdUw4o3CCohjax66Cz6UtF0sZmhSMGu6xne0KafyDQKLxaD"
       },
       {
-        "name": "Christine Taylor",
-        "location": "Epsom, Auckland",
-        "review": "Đội thợ rất đáng tin cậy. Báo giá minh bạch rõ ràng, mỗi ngày làm xong đều dọn dẹp công trường sạch sẽ. Rất khuyên dùng cho ai đang muốn sửa nhà không lo âu.",
-        "project": "Đóng Tủ Bếp & Thay Hệ Thống Cửa"
+        "id": "remuera-flooring",
+        "category": "flooring",
+        "category_label": "Sàn Nhà",
+        "location": "Remuera · Auckland",
+        "year": "Hoàn thành 2023",
+        "title": "Lát Sàn Gỗ Sồi Châu Âu Xương Cá Remuera",
+        "desc": "Cân bằng tiêu âm cốt sàn trước khi ghép nối hình học xương cá thủ công tinh tế trên diện tích 140 mét vuông.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDQXqecbGPgpS_ocH7dqd579QC2-4sOzNLn-4DhxwLvgs6csr9uY9OGAy9W8FZZxwembWU9yNoKi1nqHT4qAUs-Qh2jBQkGgGjzlkPa2AS5KZN9qpgqx9A3mm9xZOWK9Z3IdqLKTBN1x2Kt84lAgKf2h4b7XQzsHcTx_spK9a0A4vWWveizzwSYbuu9s7vREzf1kFyq7akycSZkqH6lMkMOhXmSgvcbv0jO-WLajGiB"
+      },
+      {
+        "id": "epsom-joinery",
+        "category": "cabinets",
+        "category_label": "Tủ & Đồ Gỗ",
+        "location": "Epsom · Auckland",
+        "year": "Hoàn thành 2024",
+        "title": "Hệ Tủ Kệ May Đo Kiến Trúc Cao Cấp Epsom",
+        "desc": "Hệ vách tủ gỗ sồi tự nhiên phủ veneer với khóa nhấn nam châm ẩn và lớp vải lót tiêu âm phía sau.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCoJSubAoamyiV8efxNcL3JGNMKQ7hyi6RluO12WBJZTYVYjURh19LrupT4G4ukj19DX-XyLwApkMu6c5_qtGkILvy-k0G51hl9Yew3nJ-NCbIjXozkHXCtGie_j6f8NtlRg5QkYEJ3yCjcDaYmHcsKNdrsV9yuW6ER28CBgzxyTyEGRJpobGBvRTmH0a3vMVq2rbCCbeSC-IWmSxDE8hgTDZeg0DWsJ99UffMCSvGj"
+      },
+      {
+        "id": "mt-eden-villa",
+        "category": "renovations",
+        "category_label": "Cải Tạo & Sơn Bả",
+        "location": "Mount Eden · Auckland",
+        "year": "Hoàn thành 2023",
+        "title": "Phục Hồi Mặt Tiền Biệt Thự Cổ Villa Mount Eden",
+        "desc": "Sửa chữa ốp gỗ weatherboard, loại bỏ sơn cũ, phục chế phào chỉ hoa văn cổ và sơn phủ chống thấm thời tiết.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAECxsqGT5i0uO7ZGrsafhWBSQJdhoVxy5Pc2DNSCarhw7jy9q38HoYHqFTcKQvlNAXxNyXOahvvfS79CpcScipQkXUXigF4ZapX-0D3A4d0r2eIqA2cm44Pilg-1IADUzS2zSnfRLaxDxGcrL7f2cobKPhpqT2vuOdTOprivWzQZWDeZgupfoSnOU-6dZLxD0c4mo4HdCchw_hWerj0i07jETgOAgmKHFGMaudB_ed"
+      },
+      {
+        "id": "devonport-ensuite",
+        "category": "bathrooms",
+        "category_label": "Phòng Tắm",
+        "location": "Devonport · Auckland",
+        "year": "Hoàn thành 2024",
+        "title": "Phòng Tắm Master Có Giếng Trời Devonport",
+        "desc": "Mở giếng trời đón ánh sáng tự nhiên từ mái nhà kết hợp vật liệu cách âm và lớp chống thấm ẩm bảo vệ tuyệt đối.",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDhWjNCMY3_verfg1R0syUlYXDad4HBgehuhtZ0SkE4zDrIwo9GyVdJ4sVcXQ9KIvkNQidAccOHApu77amkpIWV-zbtccsmm9GW-AzbZZy3n8zMHDl-QRQpFk_q_xk8zZwOXs8aeHGerWK6DZ4UivMi4zTwnFba4h6jLmfb16rMPdVV3KQpVAcpEKb2GnP1RaS3R_uNID51N10kpwPe3K5IOrr5of2VrLOBoHqheR27"
       }
     ]
   },
+  "before_after": {
+    "badge": "Minh Chứng Chuyển Đổi Thực Tế",
+    "title": "Thấy Rõ Sự Khác Biệt",
+    "subtitle": "Cảm nhận giá trị, ánh sáng và luồng sinh khí mới được khai phóng qua tay nghề thợ xây dựng có tâm và có tầm.",
+    "drag_hint": "Kéo thanh trượt để so sánh kết cấu trước & sau khi làm",
+    "before_label": "TRƯỚC : Hiện Trạng Cũ Thập Niên 1980",
+    "after_label": "SAU : Không Gian NS Building Hoàn Thiện",
+    "project_name": "Nhà Bungalow Grey Lynn",
+    "duration": "Thời gian: 9 Tuần",
+    "before_img": "https://lh3.googleusercontent.com/aida-public/AB6AXuDXABoUjRVTOvCaWAGi2H-BcvFn-oX99AAXLbmUQBB9sE7hmOXpO79DDCNFIN9w8sPUwgG724xXDzHK_F-UfAagexlYAhsLExy4UfzeQeqANxleDFzSZtNvL2dyj9UxTnqyAlSkpSNVZ6mOKWxwXSUUKtKGY5SFJusUYIgyFNER7qY7XL_m1kfFPaI3oaSHKfxy9ZsEQ-Q8dPgCW3-N_wzKeu-LCNLBoaGwOAXGu4lJ",
+    "after_img": "https://lh3.googleusercontent.com/aida-public/AB6AXuAjzDaHaS2jbKklc2kERlQeGcZt0S643DcIPnvqjnZTr7An7oYBfl15hlloiziUsgvh5Wk1EmxcfJ4ZeqDSL19MHDVbdkmvJiKz3FLOLyKal3R_cgeHEuf1PORQASZ6OAmL7nonhNRXgqvKzTRrKj-9W0zECDwNJlbW5SGXE-am9m4CbCs9PVuXYYTgJ-N0dDSQh3z93CJ8SJ3ZnveKd9LQW58tezEDmwhcCIFWclkC"
+  },
+  "pillars": {
+    "badge": "Vững Vàng Uy Tín",
+    "title": "Vì Sao Khách Hàng Tin Tưởng NS Building",
+    "subtitle": "Chúng tôi xóa bỏ mọi nỗi lo lắng, sự mập mờ và phiền toái thường gặp khi sửa chữa nhà ở.",
+    "items": [
+      {
+        "icon": "domain",
+        "title": "Kinh Nghiệm Thực Tế Tại NZ",
+        "desc": "Hiểu sâu quy chuẩn xây dựng New Zealand Building Code (chống thấm E2, khung gỗ NZS 3604), thủ tục Council và kiến trúc nhà Kiwi.",
+        "badge_icon": "verified",
+        "badge_text": "Chuẩn NZS 3604"
+      },
+      {
+        "icon": "workspace_premium",
+        "title": "Tay Nghề Thợ LBP Đẳng Cấp",
+        "desc": "Thợ có chứng chỉ Licensed Building Practitioners (LBP) tỉ mỉ đến từng milimét. Không bao giờ làm ẩu và luôn dùng vật tư chính hãng.",
+        "badge_icon": "engineering",
+        "badge_text": "Thợ LBP Đăng Ký"
+      },
+      {
+        "icon": "chat_bubble_outline",
+        "title": "Giao Tiếp Minh Bạch",
+        "desc": "Bảng dự toán chi tiết từng hạng mục, lịch báo cáo tiến độ tuần rõ ràng. Cam kết không phát sinh chi phí ẩn hay đội ngân sách.",
+        "badge_icon": "schedule",
+        "badge_text": "Khảo Sát Hàng Tuần"
+      },
+      {
+        "icon": "clean_hands",
+        "title": "Đúng Hẹn & Giữ Vệ Sinh",
+        "desc": "Dọn dẹp hút bụi sạch sẽ công trường cuối mỗi ngày làm việc. Đội thợ lịch sự, tôn trọng không gian sống của gia đình bạn.",
+        "badge_icon": "military_tech",
+        "badge_text": "Cam Kết Công Trường Sạch"
+      }
+    ]
+  },
+  "reviews": {
+    "badge": "Khách Hàng Nói Về Chúng Tôi",
+    "title": "Đánh Giá Của Khách Hàng",
+    "rating_score": "4.9 trên Google Reviews",
+    "rating_sub": "Đội Thợ Uy Tín Hàng Đầu Tại Auckland",
+    "items": [
+      {
+        "name": "Mark & Sarah T.",
+        "location": "Cải Tạo Toàn Bộ Nhà · Grey Lynn",
+        "project": "Grey Lynn Villa",
+        "review": "NS Building đã thay đổi hoàn toàn ngôi nhà bungalow thập niên 70 của chúng tôi tại Grey Lynn thành một tuyệt tác kiến trúc. Giao tiếp rất rõ ràng trong suốt dự án và tay nghề đóng đồ gỗ cực kỳ chuẩn xác."
+      },
+      {
+        "name": "David L.",
+        "location": "Phòng Tắm Master · Ponsonby",
+        "project": "Ponsonby Ensuite",
+        "review": "Dự án phòng tắm hoàn thành đúng hẹn với tiêu chuẩn chống thấm và đường cắt đá cẩm thạch tuyệt đẹp. Đội ngũ rất lịch sự, giữ gìn vệ sinh và tôn trọng sinh hoạt của gia đình."
+      },
+      {
+        "name": "Ngaire W.",
+        "location": "Bếp & Sàn Gỗ · Remuera",
+        "project": "Remuera Modernisation",
+        "review": "Rất chuyên nghiệp, trung thực và tỉ mỉ. Khi gặp sự cố nền móng cũ không bằng phẳng, họ đã đưa ra phương án kỹ thuật xử lý ngay trong buổi sáng. Rất khuyên dùng cho mọi gia chủ."
+      }
+    ]
+  },
+  "service_areas": {
+    "badge": "Vùng Hoạt Động",
+    "title": "Phục Vụ Các Gia Chủ Trên Khắp New Zealand",
+    "subtitle": "Trụ sở chính tại Auckland với các công trình thi công tích cực tại Auckland Central, North Shore, Tây Auckland, Eastern Bays và các dự án vùng lân cận Đảo Bắc.",
+    "regions": [
+      "Auckland Central",
+      "North Shore & Coast",
+      "Eastern Suburbs",
+      "West Auckland",
+      "South Auckland",
+      "Khu Vực Lân Cận NZ"
+    ],
+    "rapid_title": "Khảo Sát Hiện Trạng & Đánh Giá Nhanh",
+    "rapid_desc": "Chúng tôi sắp xếp lịch khảo sát tận nơi trong vòng 48 giờ để đánh giá tính khả thi ngay lập tức.",
+    "hub_title": "Trung Tâm Điều Hành NS Building",
+    "hub_sub": "Bao Phủ Auckland & Toàn Khu Vực NZ",
+    "map_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCaFJLd6Hel6V7-mbhjmy78oHDDXwKaPVSKXap7q44gtY6uq6pHCSAUWWLY8t8mmq8QnDbW2LVkEbIYNv5lBe1J-hRQEULwIN0PCvdO0-RL_9FtN9Mp6MpDsGUeAr5M8r-VBxrdjVcHrIAVkZyFfeCvXD4DjX4tVvoW-D81Ql0eqYF4D0hZAxWa7XZpQDevhTXlfedtIi98FmMlcnXxJ5vryhNRdpAfUKxuJ2SFrclj"
+  },
   "quote": {
-    "badge": "Tư Vấn Trực Tiếp",
-    "title": "Bạn Đang Muốn Cải Tạo Ngôi Nhà?",
-    "subtitle": "Nhận ngay bảng dự toán chi tiết, minh bạch và hoàn toàn miễn phí từ NS Building.",
+    "badge": "Khởi Động Dự Án",
+    "title": "Chia Sẻ Ý Tưởng Của Bạn Cho Ngôi Nhà",
+    "subtitle": "Gửi cho chúng tôi vài thông tin cơ bản, đội ngũ thợ trưởng lành nghề sẽ liên hệ trong 24 giờ để trao đổi giải pháp và đặt lịch khảo sát tận nơi.",
     "name": "Họ và Tên",
     "phone": "Số Điện Thoại",
     "email": "Địa Chỉ Email",
+    "address": "Địa Chỉ Công Trình / Khu Vực (Suburb)",
     "service": "Hạng Mục Cần Làm",
-    "location": "Khu Vực / Suburb (New Zealand)",
-    "details": "Mô Tả Nhu Cầu & Hiện Trạng",
-    "submit": "Gửi Yêu Cầu Báo Giá",
-    "submitting": "Đang gửi...",
+    "service_placeholder": "Chọn hạng mục chính...",
+    "timeframe": "Thời Gian Dự Kiến Bắt Đầu",
+    "timeframe_options": {
+      "immediate": "Ngay Lập Tức (2-4 Tuần Tới)",
+      "quarter": "Trong Vòng 1 Đến 3 Tháng",
+      "planning": "Giai Đoạn Lập Kế Hoạch / 3-6 Tháng",
+      "future": "Năm Sau / Khảo Sát Tính Khả Thi"
+    },
+    "details": "Quy Mô & Yêu Cầu Dự Án",
+    "details_placeholder": "Mô tả ngắn gọn mong muốn của bạn (ví dụ: đập thông tường phòng khách & bếp, làm mới phòng tắm, tình trạng giấy phép council, đã có bản vẽ kiến trúc chưa)...",
+    "upload_title": "Bạn đã có bản vẽ hoặc ảnh hiện trạng? (Không bắt buộc)",
+    "upload_desc": "Kéo thả file PDF kiến trúc hoặc ảnh chụp vào đây, hoặc click để chọn file",
+    "submit": "Yêu Cầu Báo Giá & Khảo Sát Miễn Phí",
+    "submitting": "Đang gửi thông tin...",
+    "confidential": "Bảo Mật 100% • Không Ràng Buộc Chi Phí",
     "success_title": "Đã Nhận Yêu Cầu Thành Công!",
-    "success_msg": "Cảm ơn bạn! Anh Nguyễn Sơn và đội ngũ NS Building sẽ xem xét chi tiết và liên hệ lại với bạn trong vòng 24 giờ."
+    "success_msg": "Cảm ơn bạn! Yêu cầu của bạn đã được ghi nhận. Đội ngũ quản lý công trình NS Building sẽ liên hệ lại trong vòng 24 giờ."
+  },
+  "quick_contact": {
+    "phone": "027 666 6510",
+    "mobile": "021 153 1510",
+    "email": "contact@nsbuilding.co.nz",
+    "bilingual_support": "Hỗ trợ tiếng Việt và tiếng Anh sẵn sàng (English & Vietnamese support available)"
+  },
+  "pricing_section": {
+    "badge": "Minh Bạch Chi Phí",
+    "title_prefix": "Bảng Giá Tham Khảo:",
+    "subtitle": "Khung giá tham khảo dựa trên các công trình thực tế tại Auckland & New Zealand để quý khách dễ dàng dự trù ngân sách.",
+    "col_item": "Hạng Mục / Quy Mô",
+    "col_desc": "Mô Tả Tiêu Chuẩn Thực Hiện",
+    "col_price": "Mức Giá Tham Khảo (NZD)",
+    "col_unit": "Đơn Vị Tính",
+    "popular": "Hạng mục phổ biến",
+    "disclaimer_title": "Lưu Ý Quan Trọng Về Báo Giá Tham Khảo:",
+    "disclaimer_text": "Mức giá trên là ước tính tham khảo cho điều kiện thi công tại Auckland, New Zealand (chưa bao gồm GST). Chi phí thực tế sẽ phụ thuộc vào quy mô, hiện trạng cấu trúc, chủng loại vật liệu hoàn thiện và yêu cầu cấp phép Council (nếu có). NS Building cam kết khảo sát tận nơi miễn phí và ký kết hợp đồng cố định giá (Fixed Price) trước khi bắt đầu.",
+    "cta_badge": "Khảo Sát Tận Nơi Miễn Phí",
+    "cta_title": "Cần Báo Giá Chính Xác & Cố Định Cho Nhà Bạn?",
+    "cta_desc": "Mỗi ngôi nhà có đặc thù kết cấu và hiện trạng riêng. Hãy liên hệ trực tiếp với anh Nguyễn Sơn để được khảo sát thực tế tận nơi tại Auckland, tư vấn giải pháp tối ưu và nhận báo giá chi tiết hoàn toàn miễn phí.",
+    "cta_call": "Gọi Trực Tiếp: 027 666 6510",
+    "cta_request": "Đặt Lịch Khảo Sát Miễn Phí",
+    "cta_mobile": "Hotline / Zalo: 021 153 1510",
+    "cta_email": "contact@nsbuilding.co.nz",
+    "trust_free": "100% Khảo sát hiện trạng miễn phí tại Auckland",
+    "trust_fixed": "Báo giá trọn gói minh bạch, cam kết không phát sinh",
+    "trust_guarantee": "Thợ LBP lành nghề & bảo hành kết cấu 10 năm"
   },
   "footer": {
-    "tagline": "Chuyên gia cải tạo nhà và bảo trì bất động sản tận tâm, kiến tạo giá trị bền vững cho các ngôi nhà tại New Zealand.",
+    "tagline": "Dịch vụ cải tạo & xây dựng nhà ở tại New Zealand. Nhà thầu thợ lành nghề LBP cam kết độ bền vững kết cấu, tính minh bạch và độ chuẩn xác kiến trúc cao.",
     "quick_links": "Liên Kết Nhanh",
-    "services": "Hạng Mục Thi Công",
-    "contact_us": "Liên Hệ NS Building",
-    "copyright": "Bảo lưu mọi quyền. NS Building NZ.",
-    "rights": "Nhà thầu xây dựng có giấy phép & bảo hiểm trách nhiệm dân sự tại New Zealand"
+    "services": "Dịch Vụ",
+    "contact_us": "Trung Tâm Dịch Vụ & Liên Hệ",
+    "copyright": "© 2025 NS Building Ltd. Bảo lưu mọi quyền. Kiến tạo với sự vững chãi.",
+    "rights": "Nhà Thầu Được Cấp Phép LBP NZ"
   }
 }

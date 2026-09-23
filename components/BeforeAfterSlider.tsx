@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
-import Image from "next/image";
-import { SlidersHorizontal, MapPin } from "lucide-react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 
 interface BeforeAfterSliderProps {
   beforeImage: string;
@@ -11,6 +9,7 @@ interface BeforeAfterSliderProps {
   afterLabel?: string;
   projectName?: string;
   location?: string;
+  duration?: string;
   scope?: string;
   dragHint?: string;
 }
@@ -18,16 +17,29 @@ interface BeforeAfterSliderProps {
 export default function BeforeAfterSlider({
   beforeImage,
   afterImage,
-  beforeLabel = "BEFORE",
-  afterLabel = "AFTER",
-  projectName,
+  beforeLabel = "BEFORE : 1980s Original Layout",
+  afterLabel = "AFTER : NS Building Transformation",
+  projectName = "Grey Lynn Bungalow",
   location,
+  duration = "9 Weeks",
   scope,
-  dragHint = "Drag slider left or right to compare",
+  dragHint = "Drag the handle to compare structural before & after",
 }: BeforeAfterSliderProps) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(896);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
 
   const handleMove = useCallback((clientX: number) => {
     if (!containerRef.current) return;
@@ -37,83 +49,121 @@ export default function BeforeAfterSlider({
     setSliderPosition(percentage);
   }, []);
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    handleMove(e.touches[0].clientX);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
     handleMove(e.clientX);
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    if (e.touches.length > 0) {
+      handleMove(e.touches[0].clientX);
+    }
+  };
+
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+      handleMove(e.clientX);
+    };
+
+    const handleGlobalTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      if (e.touches.length > 0) {
+        handleMove(e.touches[0].clientX);
+      }
+    };
+
+    const handleGlobalMouseUp = () => {
+      if (isDragging) setIsDragging(false);
+    };
+
+    window.addEventListener("mousemove", handleGlobalMouseMove);
+    window.addEventListener("touchmove", handleGlobalTouchMove);
+    window.addEventListener("mouseup", handleGlobalMouseUp);
+    window.addEventListener("touchend", handleGlobalMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleGlobalMouseMove);
+      window.removeEventListener("touchmove", handleGlobalTouchMove);
+      window.removeEventListener("mouseup", handleGlobalMouseUp);
+      window.removeEventListener("touchend", handleGlobalMouseUp);
+    };
+  }, [isDragging, handleMove]);
+
   return (
-    <div className="w-full flex flex-col space-y-3">
+    <div className="max-w-4xl mx-auto w-full">
       {/* SLIDER CONTAINER */}
       <div
         ref={containerRef}
-        className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden shadow-xl border border-border-light select-none cursor-ew-resize"
-        onMouseDown={() => setIsDragging(true)}
-        onMouseUp={() => setIsDragging(false)}
-        onMouseLeave={() => setIsDragging(false)}
-        onMouseMove={handleMouseMove}
-        onTouchMove={handleTouchMove}
+        className="relative w-full aspect-[16/10] rounded-xl overflow-hidden shadow-2xl select-none touch-none bg-surface-dim cursor-ew-resize border border-border-light"
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
       >
-        {/* AFTER IMAGE (Background / Full) */}
-        <div className="absolute inset-0 w-full h-full">
-          <img
-            src={afterImage}
-            alt="After Renovation"
-            className="w-full h-full object-cover object-center pointer-events-none"
-          />
-          {/* AFTER BADGE */}
-          <div className="absolute top-4 right-4 z-10 bg-primary/80 backdrop-blur-md text-white font-bold text-xs uppercase px-3 py-1.5 rounded-md border border-white/20 shadow-sm">
-            {afterLabel}
-          </div>
+        {/* "AFTER" BASE IMAGE */}
+        <img
+          src={afterImage}
+          alt="After NS Building transformation"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+        />
+        <div className="absolute top-4 right-4 bg-primary text-on-primary px-3 py-1.5 rounded-lg text-xs font-bold z-10 shadow-md">
+          {afterLabel}
         </div>
 
-        {/* BEFORE IMAGE (Clipped / Foreground) */}
+        {/* "BEFORE" CLIPPED LAYER */}
         <div
-          className="absolute inset-0 w-full h-full overflow-hidden"
+          className="absolute inset-y-0 left-0 overflow-hidden z-10"
           style={{ width: `${sliderPosition}%` }}
         >
           <img
             src={beforeImage}
-            alt="Before Renovation"
-            className="absolute top-0 left-0 h-full max-w-none object-cover object-center pointer-events-none"
-            style={{
-              width: containerRef.current ? `${containerRef.current.offsetWidth}px` : "100%",
-            }}
+            alt="Before renovation"
+            className="absolute top-0 left-0 h-full max-w-none object-cover pointer-events-none"
+            style={{ width: `${containerWidth}px` }}
           />
-          {/* BEFORE BADGE */}
-          <div className="absolute top-4 left-4 z-10 bg-black/75 backdrop-blur-md text-white font-bold text-xs uppercase px-3 py-1.5 rounded-md border border-white/20 shadow-sm">
+          <div className="absolute top-4 left-4 bg-inverse-surface/90 text-inverse-on-surface px-3 py-1.5 rounded-lg text-xs font-bold shadow-md">
             {beforeLabel}
           </div>
         </div>
 
-        {/* SLIDER DIVIDER LINE */}
+        {/* DRAGGER BAR */}
         <div
-          className="absolute top-0 bottom-0 z-20 w-0.5 bg-white shadow-[0_0_12px_rgba(0,0,0,0.5)] cursor-ew-resize"
-          style={{ left: `${sliderPosition}%` }}
+          className="absolute inset-y-0 w-1 bg-white z-20 shadow-[0_0_12px_rgba(0,0,0,0.6)] flex items-center justify-center pointer-events-none"
+          style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}
         >
-          {/* DRAG HANDLE BUTTON */}
-          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white text-primary shadow-2xl flex items-center justify-center border-2 border-primary hover:scale-105 transition-transform">
-            <SlidersHorizontal className="w-4 h-4 text-primary" />
+          <div className="w-9 h-9 rounded-full bg-primary text-on-primary shadow-xl flex items-center justify-center border-2 border-white">
+            <span className="material-symbols-outlined text-[18px]">code</span>
           </div>
         </div>
       </div>
 
-      {/* FOOTER META DETAILS */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1 text-xs text-slate-500">
-        <div className="flex items-center gap-2">
-          {projectName && <strong className="text-slate-800 text-sm">{projectName}</strong>}
+      {/* SLIDER HINT & META */}
+      <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-border-light">
+        <div className="flex items-center gap-2.5">
+          <span className="material-symbols-outlined text-secondary text-[22px]">swap_horiz</span>
+          <span className="text-xs sm:text-sm text-on-surface-variant font-medium">
+            {dragHint}
+          </span>
+        </div>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-on-surface">
+          <span>
+            Project: <strong className="text-primary">{projectName}</strong>
+          </span>
           {location && (
-            <span className="flex items-center gap-1 text-slate-600">
-              <MapPin className="w-3.5 h-3.5 text-bronze" />
-              {location}
-            </span>
+            <>
+              <span className="text-outline-variant">•</span>
+              <span className="text-on-surface-variant font-medium">{location}</span>
+            </>
+          )}
+          {duration && (
+            <>
+              <span className="text-outline-variant">•</span>
+              <span>
+                Duration: <strong className="text-primary">{duration}</strong>
+              </span>
+            </>
           )}
         </div>
-        <span className="italic text-slate-400">{dragHint}</span>
       </div>
     </div>
   );
