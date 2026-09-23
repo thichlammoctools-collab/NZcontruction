@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { MessageSquare, X, Send, Bot, User, Phone, CheckCircle2 } from "lucide-react";
+import aiConfig from "@/content/ai_config.json";
 
 interface AIChatWidgetProps {
   locale: "en" | "vi";
@@ -27,8 +28,8 @@ export default function AIChatWidget({ locale }: AIChatWidgetProps) {
     if (messages.length === 0) {
       const welcomeText =
         locale === "vi"
-          ? "Xin chào! Em là Trợ lý AI của NS Building. Anh/Chị đang cần cải tạo hay sửa chữa hạng mục nào tại New Zealand (Phòng tắm, Sàn gỗ, Tủ bếp, Sơn bả hay Cải tạo trọn gói) ạ?"
-          : "Kia Ora! I'm the NS Building AI Assistant. Are you planning a home renovation, bathroom remodel, new flooring, or carpentry work in New Zealand? How can I help you today?";
+          ? (aiConfig?.leadCapture?.welcome_vi || "Xin chào! Em là Trợ lý AI của NS Building. Anh/Chị đang cần cải tạo hay sửa chữa hạng mục nào tại New Zealand ạ?")
+          : (aiConfig?.leadCapture?.welcome_en || "Kia Ora! I'm the NS Building AI Assistant. How can I help you with your renovation project in New Zealand today?");
 
       setMessages([
         {
