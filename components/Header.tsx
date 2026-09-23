@@ -103,24 +103,13 @@ export default function Header({ locale, dict, onToggleLocale }: HeaderProps) {
       {/* MAIN NAVIGATION BAR (STITCH STYLE) */}
       <div className="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
         {/* LOGO */}
-        <Link href={`/${locale}`} className="flex items-center gap-3 group">
+        <Link href={`/${locale}`} className="flex items-center group">
           <img
             src="https://lh3.googleusercontent.com/aida/AEtjO1WV-uToml-V3DiWbTogPbJwT5vWlBCvxsKAoa_dKZELqw3WBBFFgOLflUG5o0pc72ci6JcEJRZWJlef0FVAivsvFWBhJ9M8pYcbNnusfAcEe_4idhC0YkjTKdT8atgDrk6IU9CMOHXgF0S94tk1AJeFihyfYncdOxBcHT8WjHnod4MzhTnd7QkHnPye4O-U8IuZSt78yKK3UD9-5Cg6zbHZUAVJqSutHZ8HAtlzUKMs"
-            alt="NS Building Logo"
-            className="h-9 w-auto object-contain"
-            onError={(e) => {
-              // Hide image if blocked and keep fallback typography
-              (e.target as HTMLElement).style.display = "none";
-            }}
+            alt="NS Building - Residential Craftsmen NZ"
+            className="h-10 sm:h-11 w-auto object-contain transition-transform group-hover:scale-[1.02]"
           />
-          <div className="flex flex-col">
-            <span className="font-bold text-xl tracking-tight text-primary leading-none">
-              NS BUILDING
-            </span>
-            <span className="text-[10px] font-semibold text-secondary tracking-widest uppercase mt-0.5">
-              Residential Craftsmen NZ
-            </span>
-          </div>
+          <span className="sr-only">NS Building - Residential Craftsmen NZ</span>
         </Link>
 
         {/* DESKTOP NAV LINKS */}

@@ -57,21 +57,22 @@ export default function ProjectDetailView({ project, locale, dict }: ProjectDeta
         {/* PROJECT HEADER SECTION */}
         <section className="w-full pt-10 pb-8 bg-surface">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-10">
-              <div className="max-w-3xl">
+            <div className="flex flex-col gap-5 mb-10">
+              <div>
                 <div className="flex items-center gap-2 text-secondary text-xs uppercase tracking-widest font-bold mb-3">
                   <span className="material-symbols-outlined text-[18px]">location_on</span>
                   <span>{project.header.location}</span>
                 </div>
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-on-surface tracking-tight leading-[1.08] mb-4">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-on-surface tracking-tight leading-[1.08] max-w-4xl">
                   {isVi ? project.header.title.vi : project.header.title.en}
                 </h1>
-                <p className="text-base sm:text-lg text-on-surface-variant max-w-2xl leading-relaxed">
-                  {isVi ? project.header.subtitle.vi : project.header.subtitle.en}
-                </p>
               </div>
 
-              <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0">
+              <p className="text-base sm:text-lg text-on-surface-variant max-w-3xl leading-relaxed">
+                {isVi ? project.header.subtitle.vi : project.header.subtitle.en}
+              </p>
+
+              <div className="flex flex-wrap items-center gap-3 pt-1">
                 <button
                   type="button"
                   onClick={() => setModalOpen(true)}

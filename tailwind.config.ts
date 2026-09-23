@@ -29,6 +29,7 @@ const config: Config = {
         },
         "secondary-container": "#d3e4d5",
         "secondary-fixed": "#d6e7d8",
+        "on-secondary": "#ffffff",
         "on-secondary-container": "#57665a",
         "on-secondary-fixed": "#101f15",
         bronze: {

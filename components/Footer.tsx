@@ -13,15 +13,13 @@ export default function Footer({ locale, dict }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* BRAND COLUMN */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center">
               <img
                 src="https://lh3.googleusercontent.com/aida/AEtjO1WV-uToml-V3DiWbTogPbJwT5vWlBCvxsKAoa_dKZELqw3WBBFFgOLflUG5o0pc72ci6JcEJRZWJlef0FVAivsvFWBhJ9M8pYcbNnusfAcEe_4idhC0YkjTKdT8atgDrk6IU9CMOHXgF0S94tk1AJeFihyfYncdOxBcHT8WjHnod4MzhTnd7QkHnPye4O-U8IuZSt78yKK3UD9-5Cg6zbHZUAVJqSutHZ8HAtlzUKMs"
-                alt="NS Building Logo"
-                className="h-8 w-auto object-contain"
+                alt="NS Building - New Zealand"
+                className="h-10 w-auto object-contain"
               />
-              <span className="font-extrabold text-xl tracking-tight text-primary leading-none">
-                NS BUILDING
-              </span>
+              <span className="sr-only">NS BUILDING</span>
             </div>
             <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
               {dict.footer.tagline}

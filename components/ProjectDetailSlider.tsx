@@ -88,8 +88,8 @@ export default function ProjectDetailSlider({
         </div>
 
         <div className="absolute top-5 right-5 pointer-events-none z-10">
-          <span className="px-3.5 py-1.5 bg-secondary/95 backdrop-blur-md text-on-secondary text-xs rounded uppercase tracking-wider font-semibold shadow-md flex items-center gap-1.5 border border-secondary-fixed">
-            <span className="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+          <span className="px-3.5 py-1.5 bg-secondary/95 backdrop-blur-md text-white text-xs rounded uppercase tracking-wider font-bold shadow-md flex items-center gap-2 border border-secondary-fixed/50">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             {afterLabel}
           </span>
         </div>
