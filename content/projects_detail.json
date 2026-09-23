@@ -216,6 +216,22 @@
           },
           "image": "https://lh3.googleusercontent.com/aida/AEtjO1WZ0nvnLaUf8FedLD97OrgxGj8dPwujD7T8ano_aypatBbMChDI0BcPV6FPYuB23K9ibIAMoBWW5i0-XDN0T6lMuJcuGCG2dc0Tpwv3XBw9MJ4WZ36oJl0hgrcDzvIKpEghEj0NumbseYzOGWFyUeK8q3UTCMC947Ef085fQ5c0uUJ2LTt3aOia13FunbyMLlUrq-IyJeO_V1-pg-TsXsAL8Yq-xhY6_ooaPGnVhR83EQ",
           "span": "lg:col-span-5"
+        },
+        {
+          "title": { "en": "Outdoor Cedar Deck & Landscape Pavilion", "vi": "Sàn Hiên Gỗ Cedar & Cảnh Quan Sân Vườn" },
+          "desc": {
+            "en": "Architectural hardwood decking integrating seamless outdoor living and native bush backdrop.",
+            "vi": "Sàn gỗ tự nhiên ngoài trời kết nối liền mạch không gian sinh hoạt với cảnh quan sân vườn."
+          },
+          "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAQUuroLzgK_yviOCp5vOGXAxj9_CdvhwcrdP1Nn5V0KGfX658drHFJ07bBmanKr8D81SrNblX6UbX0Uxxd_QsCfKRX7CRoIhfAVS6MEn0SwdsDVz8ObM5WCloe50lUebg0ozuyl9dNV_bJeCUers0f7hVvIShfBBuTGW_AbTV_46j16LXGK5dNKYN8ffHob24s68hzYxEykk5jJaPE0voeMrLnjMcZQRk0nVCOYAtuLvZQGv41_AS4Tg"
+        },
+        {
+          "title": { "en": "Architectural Dining & Fluted Detailing", "vi": "Không Gian Phòng Ăn & Chi Tiết Sọc Lam" },
+          "desc": {
+            "en": "Integrated cabinetry, acoustic ceiling slats, and warm recessed ambient lighting.",
+            "vi": "Hệ tủ kệ đồng bộ, lam gỗ tiêu âm ốp trần và ánh sáng gián tiếp ấm áp."
+          },
+          "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBzyNDzVJ6d_xeReH37DZtVmV2UghWo0X0RPbVZKMwScXF2XAcymy7zfzY9fbRSl2LfY7quNMsPn6kjMqUx6tU7FDLXfEv1hDyYk_ef7KwiQYLlTAEdOfcM17063pl4saNsMTBk-XuXp-Qr0qYf1bNyDILwsVkRXb8KODGgVIY4OM0beHO1XTRVaQF7uFJFNrOiFnsg1xngEs_1Yt-KUVnaJzzFs9AmwcFCMAqMSa-y5MiEkDMvYktObQ"
         }
       ],
       "material_metrics": [

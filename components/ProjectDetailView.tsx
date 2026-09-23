@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import AIChatWidget from "@/components/AIChatWidget";
 import ProjectDetailSlider from "@/components/ProjectDetailSlider";
 import ConsultationModal from "@/components/ConsultationModal";
+import ImageLightbox from "@/components/ImageLightbox";
 
 interface ProjectDetailViewProps {
   project: any;
@@ -16,7 +17,15 @@ interface ProjectDetailViewProps {
 
 export default function ProjectDetailView({ project, locale, dict }: ProjectDetailViewProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [showAllGallery, setShowAllGallery] = useState(false);
   const isVi = locale === "vi";
+
+  const galleryItems = project.gallery?.items || [];
+  const primaryItems = galleryItems.slice(0, 3);
+  const extraItems = galleryItems.slice(3);
+  const hasExtra = extraItems.length > 0;
 
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface antialiased">
@@ -290,37 +299,80 @@ export default function ProjectDetailView({ project, locale, dict }: ProjectDeta
 
             {/* Architectural Bento Gallery */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {project.gallery.items.map((item: any, i: number) => (
-                <div
-                  key={i}
-                  className={`${item.span} rounded-2xl overflow-hidden bg-surface-container shadow-md group relative flex flex-col justify-between border border-border-light`}
-                >
-                  <div className="aspect-[16/10] w-full overflow-hidden">
-                    <img
-                      alt={isVi ? item.title.vi : item.title.en}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      src={item.image}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-5 bg-surface-container-lowest flex items-center justify-between">
-                    <div>
-                      <span className="text-base font-bold text-on-surface block">
-                        {isVi ? item.title.vi : item.title.en}
-                      </span>
-                      <p className="text-xs text-on-surface-variant mt-0.5">
-                        {isVi ? item.desc.vi : item.desc.en}
-                      </p>
+              {primaryItems.map((item: any, i: number) => {
+                const span = item.span || (i === 0 ? "lg:col-span-7" : "lg:col-span-5");
+                const isThirdItem = i === 2;
+                return (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      setLightboxIndex(i);
+                      setLightboxOpen(true);
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setLightboxIndex(i);
+                        setLightboxOpen(true);
+                      }
+                    }}
+                    className={`${span} rounded-2xl overflow-hidden bg-surface-container shadow-md group relative flex flex-col justify-between border border-border-light cursor-pointer hover:shadow-xl hover:border-secondary/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary`}
+                  >
+                    <div className="aspect-[16/10] w-full overflow-hidden relative">
+                      <img
+                        alt={isVi ? item.title.vi : item.title.en}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                        src={item.image}
+                        loading="lazy"
+                      />
+
+                      {/* Hover Overlay Hint */}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                        <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/60 backdrop-blur-md text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 border border-white/20 shadow-lg">
+                          <span className="material-symbols-outlined text-[16px] text-secondary-fixed">
+                            zoom_in
+                          </span>
+                          <span>{isVi ? "Click để phóng to" : "Click to enlarge"}</span>
+                        </span>
+                      </div>
+
+                      {/* Badge if > 3 images on the 3rd card when collapsed */}
+                      {isThirdItem && hasExtra && !showAllGallery && (
+                        <div className="absolute top-4 right-4 z-10">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-white text-xs font-bold border border-white/25 shadow-lg animate-pulse">
+                            <span className="material-symbols-outlined text-[15px] text-secondary-fixed">
+                              photo_library
+                            </span>
+                            <span>+{extraItems.length} {isVi ? "ảnh khác" : "more photos"}</span>
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    <span className="material-symbols-outlined text-secondary text-[24px]">
-                      fullscreen
-                    </span>
+
+                    <div className="p-5 bg-surface-container-lowest flex items-center justify-between">
+                      <div>
+                        <span className="text-base font-bold text-on-surface block group-hover:text-secondary transition-colors">
+                          {isVi ? item.title.vi : item.title.en}
+                        </span>
+                        <p className="text-xs text-on-surface-variant mt-0.5">
+                          {isVi ? item.desc.vi : item.desc.en}
+                        </p>
+                      </div>
+                      <span
+                        className="material-symbols-outlined text-secondary text-[24px] group-hover:scale-110 transition-transform p-1.5 rounded-full group-hover:bg-secondary/10"
+                        title={isVi ? "Phóng to xem ảnh" : "Enlarge photo"}
+                      >
+                        fullscreen
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
               {/* Material Metrics 4th Bento Box */}
-              <div className="lg:col-span-7 p-6 lg:p-8 bg-surface-container-low rounded-2xl flex flex-col justify-center border border-border-light">
+              <div className="lg:col-span-7 p-6 lg:p-8 bg-surface-container-low rounded-2xl flex flex-col justify-center border border-border-light shadow-xs">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {project.gallery.material_metrics.map((mm: any, i: number) => (
                     <div key={i} className="space-y-1">
@@ -338,6 +390,102 @@ export default function ProjectDetailView({ project, locale, dict }: ProjectDeta
                 </div>
               </div>
             </div>
+
+            {/* Extended Gallery Grid for items beyond the 3rd image */}
+            {hasExtra && showAllGallery && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 transition-all duration-500 ease-out">
+                {extraItems.map((item: any, idx: number) => {
+                  const originalIndex = idx + 3;
+                  return (
+                    <div
+                      key={originalIndex}
+                      onClick={() => {
+                        setLightboxIndex(originalIndex);
+                        setLightboxOpen(true);
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setLightboxIndex(originalIndex);
+                          setLightboxOpen(true);
+                        }
+                      }}
+                      className="cursor-pointer rounded-2xl overflow-hidden bg-surface-container shadow-md group relative flex flex-col justify-between border border-border-light hover:shadow-xl hover:border-secondary/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary"
+                    >
+                      <div className="aspect-[16/10] w-full overflow-hidden relative">
+                        <img
+                          alt={isVi ? item.title.vi : item.title.en}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                          src={item.image}
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center">
+                          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/60 backdrop-blur-md text-white px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 border border-white/20 shadow-lg">
+                            <span className="material-symbols-outlined text-[16px] text-secondary-fixed">
+                              zoom_in
+                            </span>
+                            <span>{isVi ? "Click để phóng to" : "Click to enlarge"}</span>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-5 bg-surface-container-lowest flex items-center justify-between">
+                        <div>
+                          <span className="text-base font-bold text-on-surface block group-hover:text-secondary transition-colors">
+                            {isVi ? item.title.vi : item.title.en}
+                          </span>
+                          <p className="text-xs text-on-surface-variant mt-0.5">
+                            {isVi ? item.desc.vi : item.desc.en}
+                          </p>
+                        </div>
+                        <span
+                          className="material-symbols-outlined text-secondary text-[24px] group-hover:scale-110 transition-transform p-1.5 rounded-full group-hover:bg-secondary/10"
+                          title={isVi ? "Phóng to xem ảnh" : "Enlarge photo"}
+                        >
+                          fullscreen
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Gallery Control Bar if there are more than 3 images */}
+            {hasExtra && (
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowAllGallery((prev) => !prev)}
+                  className="h-11 px-6 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-bold text-xs sm:text-sm rounded-xl inline-flex items-center gap-2 border border-border-light transition-all shadow-xs active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-[20px] text-secondary">
+                    {showAllGallery ? "expand_less" : "photo_library"}
+                  </span>
+                  <span>
+                    {showAllGallery
+                      ? (isVi ? "Thu gọn bớt hình ảnh" : "Show fewer photos")
+                      : (isVi
+                          ? `Xem toàn bộ ${galleryItems.length} hình ảnh dự án (+${extraItems.length})`
+                          : `View all ${galleryItems.length} project photos (+${extraItems.length})`)}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLightboxIndex(0);
+                    setLightboxOpen(true);
+                  }}
+                  className="h-11 px-5 bg-surface-container-lowest hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-semibold text-xs sm:text-sm rounded-xl inline-flex items-center gap-2 border border-border-light transition-all shadow-xs active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-[18px] text-secondary">
+                    slideshow
+                  </span>
+                  <span>{isVi ? "Phóng to trình chiếu tất cả" : "Browse Fullscreen"}</span>
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -469,6 +617,15 @@ export default function ProjectDetailView({ project, locale, dict }: ProjectDeta
         onClose={() => setModalOpen(false)}
         locale={locale}
         projectTitle={isVi ? project.header.title.vi : project.header.title.en}
+      />
+
+      {/* FULLSCREEN IMAGE LIGHTBOX */}
+      <ImageLightbox
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        images={galleryItems}
+        initialIndex={lightboxIndex}
+        locale={locale}
       />
 
       {/* 24/7 AI CHAT WIDGET */}
