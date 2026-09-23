@@ -1,0 +1,154 @@
+{
+  "renovations": {
+    "title_en": "Full Home Renovations",
+    "title_vi": "Cải Tạo Nhà Trọn Gói",
+    "hero_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAC4zySIsBFsCxbPwZoDwuqZtLQWpoTxQeVfs9GkcCOv8krWekpp7w-Sr4GIn4XjONGNLOByEmndm0tLOLyjs8PwH7QRkKbuuMMi34H0gnPxaPMwqQFVlSToJiD5aGeB16_nvb2zbNYsBr_w-OG4ktIRiEp6kaeOBtvN58A62ECHeBxKOEYa4sU7H5HmQaAugC9OSRbuHdHIOXPkFDOyfyHz-acP9xjnkESnozm5pyPzrINXZNh1K03Cg",
+    "intro_en": "End-to-end residential renovation management from initial architectural planning through council consent support, demolition, structural steel framing, to premium interior handover across Auckland & New Zealand.",
+    "intro_vi": "Quản lý cải tạo nhà ở toàn diện từ thiết kế ý tưởng, hỗ trợ xin phép Council, tháo dỡ, gia cố dầm thép chịu lực cho đến hoàn thiện nội thất bàn giao chìa khóa trao tay tại Auckland và New Zealand.",
+    "features_en": [
+      "Open-plan living & kitchen knock-throughs",
+      "Structural wall removal & RSJ steel beam installation",
+      "Full interior relining and insulation upgrades",
+      "Seamless indoor-outdoor timber deck extensions"
+    ],
+    "features_vi": [
+      "Đập thông tường tạo không gian phòng khách & bếp mở",
+      "Tháo dỡ tường chịu lực & lắp dầm thép RSJ chuẩn kỹ thuật",
+      "Thay mới toàn bộ vách thạch cao & nâng cấp bông cách nhiệt",
+      "Mở rộng không gian ra sân hiên gỗ ngoài trời"
+    ]
+  },
+  "bathrooms": {
+    "title_en": "Luxury Bathroom Renovations",
+    "title_vi": "Phòng Tắm Cao Cấp",
+    "hero_image": "https://lh3.googleusercontent.com/aida/AEtjO1XSuSr6cmDXZuKxglbOfbb5uB1o87dL_LOk5uj-DhuKFDdPGO-EL-FvW3yJYxTngXPBUO--rjxoUaabyTmFPxf9jUxXau9yGlP53aQ1Lb6SQOWVJ1CvmJzTrt9QT0FVtUeZtV2aoJ0ENmA2kI_Jim31snDr9Ct17MXSIr3xOFcBQoWcraAHhYKrwcZS_7hIPewjK-e0vwvds_eOHbtetjyzEdd2uTb3EvhQveRd3KYi2WJGo_vOGPfvbXQ3",
+    "intro_en": "Transform outdated bathrooms into serene, architecturally refined sanctuaries. Specializing in council-compliant certified waterproofing membranes, floor-to-ceiling tiling, and custom joinery.",
+    "intro_vi": "Biến đổi phòng tắm cũ kỹ thành không gian thư giãn đẳng cấp mang đậm phong cách kiến trúc hiện đại. Chuyên sâu màng chống thấm đạt chứng nhận Council NZ, ốp lát gạch đá kịch trần và lavabo may đo.",
+    "features_en": [
+      "NZ Code-compliant tanking & waterproofing membranes",
+      "Frameless glass walk-in showers & linear strip drains",
+      "Custom floating timber vanities & recessed LED mirrors",
+      "Under-tile heating installation & acoustic quiet ventilation"
+    ],
+    "features_vi": [
+      "Màng chống thấm cao cấp có chứng nhận nghiệm thu Council",
+      "Vách tắm kính cường lực không khung & thoát sàn rãnh dài",
+      "Tủ lavabo gỗ tự nhiên treo tường & gương đèn LED âm",
+      "Lắp đặt hệ thống sưởi sàn ấm & quạt thông gió siêu êm"
+    ]
+  },
+  "cabinets": {
+    "title_en": "Custom Cabinets & Joinery",
+    "title_vi": "Tủ Bếp & Đồ Gỗ Nội Thất",
+    "hero_image": "https://lh3.googleusercontent.com/aida/AEtjO1WzTv0aIj0PUez1CLWC5UbCo5ZYnINlfSTyPtTlIyLHMSOmuygqix1aSpxvebmS6VQ-fVXs40xnejlvu6aAn7EHlvrJTwxOp108aeyiyD1fFwcm4xWJTUfrFBj1JjMgvyYRuLGtF2Rkcpn-qXn3FX3HhFkZ-RbsccrX5-APpGX-hDqEiV_UA29oKUL4aUT0U-2gx0dBltJPkm2wJo46NX6ats20ZQ0TjV5FTEepYA8utqTFA3V-kOt_9MV9",
+    "intro_en": "Precision-crafted bespoke cabinetry, engineered kitchen islands, pantry storage, and architectural millwork built to millimeter tolerances with premium European hardware.",
+    "intro_vi": "Đóng tủ bếp theo kích thước thực tế chuẩn xác từng milimét, bàn đảo bếp mặt đá sang trọng, kho thực phẩm pantry và phụ kiện ray trượt giảm chấn cao cấp nhập khẩu châu Âu.",
+    "features_en": [
+      "Custom kitchen islands with waterfall stone benchtops",
+      "Walk-in wardrobe storage solutions with integrated lighting",
+      "Premium soft-close hinges and Blum drawer runners",
+      "Moisture-resistant moisture-sealed carcass materials"
+    ],
+    "features_vi": [
+      "Bàn đảo bếp mặt đá thác nước chống trầy xước",
+      "Hệ tủ quần áo walk-in closet sang trọng có đèn LED cảm ứng",
+      "Bản lề và ray trượt giảm chấn Blum êm ái",
+      "Thùng tủ gỗ lõi xanh chống ẩm tiêu chuẩn cao"
+    ]
+  },
+  "flooring": {
+    "title_en": "Flooring Solutions",
+    "title_vi": "Giải Pháp Sàn Nhà",
+    "hero_image": "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1200&q=80",
+    "intro_en": "Comprehensive residential flooring supply and installation. From restoring heritage native NZ timber floors (Kauri, Rimu, Matai) to precision engineered oak herringbone and acoustic vinyl planking.",
+    "intro_vi": "Cung cấp và thi công trọn gói các loại sàn nhà ở. Từ phục hồi chà nhám sàn gỗ tự nhiên truyền thống New Zealand đến lát sàn gỗ sồi xương cá hiện đại và sàn vinyl chống nước cách âm.",
+    "features_en": [
+      "Heritage timber floor sanding, repairs, and polyurethane sealing",
+      "Engineered European oak floating and glued installations",
+      "Herringbone and chevron architectural parquet laying",
+      "Subfloor self-levelling and acoustic moisture barrier prep"
+    ],
+    "features_vi": [
+      "Chà nhám, xử lý khe nứt và phủ bóng bảo vệ sàn gỗ cũ",
+      "Lát sàn gỗ sồi kỹ thuật châu Âu chuẩn chống cong vênh",
+      "Thi công lát sàn xương cá Herringbone đẳng cấp",
+      "Xử lý phẳng cốt nền và lót màng chống ẩm cách âm"
+    ]
+  },
+  "doors": {
+    "title_en": "Doors & Architectural Joinery",
+    "title_vi": "Hệ Thống Cửa & Mộc Hoàn Thiện",
+    "hero_image": "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=1200&q=80",
+    "intro_en": "High-performance interior and exterior doors. We install cavity sliders, acoustic solid-core doors, bifold patio doors, and architectural timber architraves.",
+    "intro_vi": "Thi công lắp đặt hệ thống cửa nội ngoại thất cao cấp. Cửa lùa âm tường tiết kiệm diện tích, cửa đặc lõi cách âm, cửa xếp trượt bifold và phào nẹp gỗ chỉn chu.",
+    "features_en": [
+      "Smooth cavity sliding door pocket installations",
+      "Acoustic heavy solid-core doors with architectural handles",
+      "Weather-sealed exterior french and bifold glass doors",
+      "Custom jambs, timber skirtings, and window architraves"
+    ],
+    "features_vi": [
+      "Lắp đặt ray cửa lùa âm tường trơn tru êm ái",
+      "Cửa gỗ đặc lõi chống ồn kèm khóa tay nắm cao cấp",
+      "Cửa nhôm kính/gỗ kính xếp trượt kín nước chống gió",
+      "Khuôn bao cửa, len chân tường và nẹp chỉ cửa gỗ sắc sảo"
+    ]
+  },
+  "painting": {
+    "title_en": "Painting & Plastering",
+    "title_vi": "Sơn Bả & Trát Hoàn Thiện",
+    "hero_image": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80",
+    "intro_en": "Flawless surface preparation and finishing. Level 5 GIB stopping, microcement textured walls, and weather-resistant exterior painting built to withstand New Zealand conditions.",
+    "intro_vi": "Chuẩn bị bề mặt và hoàn thiện sơn bả tuyệt đối phẳng mịn. Trét bả Level 5 GIB stopping, trát vách tường bê tông vi mỏng microcement và sơn phủ ngoại thất chống chọi tia UV thời tiết New Zealand.",
+    "features_en": [
+      "Level 4 & Level 5 GIB board stopping and skim coating",
+      "Textured microcement plaster finishes for wet areas",
+      "Low-VOC interior designer paint application",
+      "Comprehensive exterior weather-proofing and timber staining"
+    ],
+    "features_vi": [
+      "Bả bột xử lý mối nối thạch cao GIB đạt chuẩn Level 4 & 5",
+      "Trát tường hiệu ứng vi xi măng chống thấm nghệ thuật",
+      "Sơn nội thất cao cấp an toàn cho sức khỏe gia đình",
+      "Sơn ngoại thất chống thấm và quét dầu bảo dưỡng gỗ ngoài trời"
+    ]
+  },
+  "hiring": {
+    "title_en": "Equipment & Tool Hire",
+    "title_vi": "Cho Thuê Máy Móc & Thiết Bị",
+    "hero_image": "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80",
+    "intro_en": "Professional-grade building machinery, scaffolding, mobile access towers, and specialist renovation tools available for short-term and long-term contractor hire.",
+    "intro_vi": "Cung cấp máy móc xây dựng chuyên nghiệp, giàn giáo nhôm di động, máy chà nhám, máy cắt gạch và trang thiết bị thi công hiện đại cho thuê ngắn hạn và dài hạn.",
+    "features_en": [
+      "Mobile aluminium scaffolding towers and work platforms",
+      "Dust-free heavy duty timber floor sanders & edgers",
+      "Wet stone and porcelain tile cutting machinery",
+      "Commercial dehumidifiers and air scrubbers for drying"
+    ],
+    "features_vi": [
+      "Giàn giáo nhôm di động an toàn và sàn công tác",
+      "Máy chà sàn gỗ hút bụi công nghiệp không bụi bẩn",
+      "Máy cắt gạch men đá tảng lớn chính xác",
+      "Máy hút ẩm và máy lọc không khí chuyên dụng sấy khô công trình"
+    ]
+  },
+  "maintenance": {
+    "title_en": "Property Repairs & Maintenance",
+    "title_vi": "Bảo Trì & Sửa Chữa Nhanh",
+    "hero_image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80",
+    "intro_en": "Responsive property repairs for homeowners, property managers, and landlords. From fixing leaky claddings to repairing rotten structural timbers and door realignments.",
+    "intro_vi": "Dịch vụ sửa chữa và bảo dưỡng nhà cửa kịp thời cho chủ nhà và các đơn vị quản lý bất động sản. Xử lý thấm dột, thay thế đà gỗ mục, chỉnh cửa kẹt và bảo trì tổng thể.",
+    "features_en": [
+      "Rotten framing timber remediation & structural repairs",
+      "Weatherboard and soffit replacements & sealant checks",
+      "Interior door realignments and hardware renewals",
+      "Pre-sale property refresh and tidy-up packages"
+    ],
+    "features_vi": [
+      "Xử lý và thay thế khung gỗ mục ẩm do ngấm nước",
+      "Thay tấm ốp tường ngoài weatherboard và bắn keo chống thấm",
+      "Chỉnh sửa cánh cửa xệ kẹt và thay mới ổ khóa bản lề",
+      "Gói tân trang sửa chữa làm mới nhà trước khi bán"
+    ]
+  }
+}

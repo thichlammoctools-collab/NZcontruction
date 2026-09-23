@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "work": "Our Work",
+    "about": "About Us",
+    "reviews": "Reviews",
+    "contact": "Contact",
+    "quote": "Request a Quote",
+    "phone": "027 666 6510",
+    "mobile": "021 153 1510",
+    "email": "contact@nsbuilding.co.nz",
+    "location": "Auckland & Greater NZ"
+  },
+  "hero": {
+    "badge": "Trusted by homeowners across New Zealand",
+    "title_line1": "Building",
+    "title_line2": "Better Homes.",
+    "subtitle": "High-end renovation and residential building services crafted for lasting architectural beauty across New Zealand.",
+    "cta_quote": "Request a Quote",
+    "cta_work": "View Our Work",
+    "stats_compliance": "100%",
+    "stats_compliance_label": "Code Compliant",
+    "stats_guarantee": "10 Yr",
+    "stats_guarantee_label": "Built Integrity",
+    "stats_area": "Auckland",
+    "stats_area_label": "& Greater NZ"
+  },
+  "services": {
+    "badge": "Capabilities & Trades",
+    "title": "What We Do",
+    "subtitle": "From substantial architectural alterations to fine interior finishing details, we help homeowners improve, repair, and comprehensively transform their spaces.",
+    "view_service": "View Service",
+    "items": {
+      "renovations": {
+        "title": "Full Home Renovations",
+        "tag": "Comprehensive",
+        "desc": "Complete structural reconfigurations, extensions, and modern transformations designed for Kiwi lifestyle."
+      },
+      "bathrooms": {
+        "title": "Luxury Bathrooms",
+        "tag": "Wet Areas",
+        "desc": "Practical, luxurious waterproof bathrooms crafted with precision tiling, custom vanities, and architectural fittings."
+      },
+      "cabinets": {
+        "title": "Cabinets & Joinery",
+        "tag": "Millwork",
+        "desc": "Bespoke kitchen cabinetry, walk-in robes, and architectural storage built to millimeter tolerances."
+      },
+      "flooring": {
+        "title": "Flooring Solutions",
+        "tag": "Surfaces",
+        "desc": "Native timber restorations, engineered oak herringbone, polished tiles, and acoustic luxury vinyl."
+      },
+      "doors": {
+        "title": "Doors & Openings",
+        "tag": "Carpentry",
+        "desc": "Interior cavity sliders, acoustic solid core doors, architectural bifolds, and high-performance exterior joinery."
+      },
+      "painting": {
+        "title": "Painting & Plastering",
+        "tag": "Finishes",
+        "desc": "Level 5 plaster finishes, interior microcement, and durable exterior weather-tight coatings."
+      },
+      "hiring": {
+        "title": "Equipment & Tool Hire",
+        "tag": "Hiring",
+        "desc": "Specialist renovation machinery, access equipment, scaffolding, and precision tools for hire."
+      },
+      "maintenance": {
+        "title": "Repairs & Maintenance",
+        "tag": "Care",
+        "desc": "Prompt structural repairs, moisture remediation, cladding checks, and routine property maintenance."
+      }
+    }
+  },
+  "before_after": {
+    "badge": "Proven Transformation",
+    "title": "Before & After Visuals",
+    "subtitle": "Drag the slider to reveal the difference precision planning and master craftsmanship bring to aging NZ properties.",
+    "drag_hint": "Drag slider left or right to compare",
+    "before_label": "BEFORE",
+    "after_label": "AFTER",
+    "project_name": "Remuera Architectural Modernisation",
+    "project_loc": "Auckland, New Zealand",
+    "project_scope": "Full Living & Kitchen Structural Renovation"
+  },
+  "reviews": {
+    "badge": "Client Feedback",
+    "title": "Verified Reviews & Reputation",
+    "subtitle": "See what NZ property owners and architects say about our quality, communication, and punctuality.",
+    "rating_score": "5.0",
+    "rating_text": "Average Customer Rating based on Google Reviews",
+    "items": [
+      {
+        "name": "David & Sarah Mitchell",
+        "location": "Remuera, Auckland",
+        "review": "NS Building completely transformed our 1970s home. The attention to detail in the bathroom and custom joinery is second to none. Delivered on time and within budget.",
+        "project": "Full Home & Bathroom Renovation"
+      },
+      {
+        "name": "Liam Henderson",
+        "location": "North Shore, Auckland",
+        "review": "Exceptional craftsmanship. Their team handled our oak flooring installation and plastering with extreme precision. Communication throughout the build was flawless.",
+        "project": "Hardwood Flooring & Painting"
+      },
+      {
+        "name": "Christine Taylor",
+        "location": "Epsom, Auckland",
+        "review": "Very reliable tradies. Transparent quoting, tidy worksite every day, and highest standard of finish. Highly recommended to anyone looking for stress-free renovation.",
+        "project": "Kitchen Joinery & Interior Doors"
+      }
+    ]
+  },
+  "quote": {
+    "badge": "Direct Consultation",
+    "title": "Ready to Transform Your Home?",
+    "subtitle": "Get a free, transparent, and detailed estimate for your upcoming project.",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "email": "Email Address",
+    "service": "Service Required",
+    "location": "Suburb / Location (NZ)",
+    "details": "Project Scope & Description",
+    "submit": "Send Quote Request",
+    "submitting": "Sending...",
+    "success_title": "Quote Request Received!",
+    "success_msg": "Thank you! Nguyen Son and our team will review your project details and contact you within 24 hours."
+  },
+  "footer": {
+    "tagline": "Specialist residential renovation and property maintenance craftsmen dedicated to timeless quality across New Zealand.",
+    "quick_links": "Quick Links",
+    "services": "Trade Services",
+    "contact_us": "Contact NS Building",
+    "copyright": "All rights reserved. NS Building NZ.",
+    "rights": "Licensed & Insured Residential Building Practitioners"
+  }
+}

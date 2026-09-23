@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "home": "Trang Chủ",
+    "services": "Dịch Vụ",
+    "work": "Dự Án Đã Làm",
+    "about": "Về Chúng Tôi",
+    "reviews": "Đánh Giá",
+    "contact": "Liên Hệ",
+    "quote": "Yêu Cầu Báo Giá",
+    "phone": "027 666 6510",
+    "mobile": "021 153 1510",
+    "email": "contact@nsbuilding.co.nz",
+    "location": "Auckland & Toàn New Zealand"
+  },
+  "hero": {
+    "badge": "Được các chủ nhà tin tưởng trên khắp New Zealand",
+    "title_line1": "Kiến Tạo",
+    "title_line2": "Tổ Ấm Hoàn Mỹ.",
+    "subtitle": "Dịch vụ cải tạo, sửa chữa và hoàn thiện nhà ở chất lượng cao, bền vững và thẩm mỹ chuẩn kiến trúc New Zealand.",
+    "cta_quote": "Yêu Cầu Báo Giá",
+    "cta_work": "Xem Dự Án Đã Làm",
+    "stats_compliance": "100%",
+    "stats_compliance_label": "Chuẩn Quy Chuẩn NZ",
+    "stats_guarantee": "10 Năm",
+    "stats_guarantee_label": "Bảo Hành Kết Cấu",
+    "stats_area": "Auckland",
+    "stats_area_label": "& Khu Vực Lân Cận"
+  },
+  "services": {
+    "badge": "Năng Lực & Tay Nghề",
+    "title": "Dịch Vụ Của Chúng Tôi",
+    "subtitle": "Từ các hạng mục cải tạo kết cấu lớn đến từng chi tiết hoàn thiện nội thất tinh tế, chúng tôi nâng tầm không gian sống của bạn.",
+    "view_service": "Chi Tiết Dịch Vụ",
+    "items": {
+      "renovations": {
+        "title": "Cải Tạo Nhà Trọn Gói",
+        "tag": "Tổng Thể",
+        "desc": "Tái cấu trúc không gian, cơi nới mở rộng và hiện đại hóa toàn diện ngôi nhà theo phong cách sống Kiwi."
+      },
+      "bathrooms": {
+        "title": "Phòng Tắm Cao Cấp",
+        "tag": "Khu Vực Ướt",
+        "desc": "Thi công chống thấm chuẩn Council, ốp lát đá chuẩn xác, lắp đặt bồn tắm và thiết bị vệ sinh sang trọng."
+      },
+      "cabinets": {
+        "title": "Tủ Bếp & Đồ Gỗ Nội Thất",
+        "tag": "Nội Thất May Đo",
+        "desc": "Thiết kế đóng tủ bếp hiện đại, tủ âm tường và hệ kệ lưu trữ chuẩn xác đến từng milimét."
+      },
+      "flooring": {
+        "title": "Giải Pháp Sàn Nhà",
+        "tag": "Bề Mặt Sàn",
+        "desc": "Phục hồi sàn gỗ tự nhiên, lát sàn gỗ sồi xương cá, gạch men cao cấp và sàn vinyl cách âm chất lượng cao."
+      },
+      "doors": {
+        "title": "Hệ Thống Cửa & Mộc Hoàn Thiện",
+        "tag": "Mộc Xây Dựng",
+        "desc": "Cửa lùa âm tường, cửa chống ồn đặc lõi, cửa xếp trượt bifold và phụ kiện mộc chất lượng cao."
+      },
+      "painting": {
+        "title": "Sơn Bả & Trát Hoàn Thiện",
+        "tag": "Hoàn Thiện",
+        "desc": "Bả matit Level 5 phẳng mịn, trát tường vi xi măng (microcement) và sơn ngoại thất chống thấm thời tiết."
+      },
+      "hiring": {
+        "title": "Cho Thuê Máy Móc & Thiết Bị",
+        "tag": "Cho Thuê",
+        "desc": "Cung cấp máy móc chuyên dụng, giàn giáo, thiết bị nâng hạ và đồ nghề thi công xây dựng cho thuê."
+      },
+      "maintenance": {
+        "title": "Bảo Trì & Sửa Chữa Nhanh",
+        "tag": "Bảo Dưỡng",
+        "desc": "Xử lý ẩm mốc rò rỉ, sửa chữa kết cấu hư hỏng, kiểm tra lớp vỏ ốp tường và bảo dưỡng định kỳ."
+      }
+    }
+  },
+  "before_after": {
+    "badge": "Minh Chứng Năng Lực",
+    "title": "Hình Ảnh Trước & Sau Khi Cải Tạo",
+    "subtitle": "Kéo thanh trượt để thấy rõ sự khác biệt ngoạn mục mà bàn tay người thợ lành nghề mang lại cho ngôi nhà cũ.",
+    "drag_hint": "Kéo thanh trượt sang trái hoặc phải để so sánh",
+    "before_label": "TRƯỚC KHI LÀM",
+    "after_label": "SAU KHI HOÀN THIỆN",
+    "project_name": "Cải Tạo Biệt Thự Cổ Tại Remuera",
+    "project_loc": "Auckland, New Zealand",
+    "project_scope": "Cải tạo toàn bộ phòng khách mở & khu bếp liên thông"
+  },
+  "reviews": {
+    "badge": "Khách Hàng Nói Về Chúng Tôi",
+    "title": "Đánh Giá Thực Tế Từ Khách Hàng",
+    "subtitle": "Xem đánh giá của các chủ nhà và kiến trúc sư tại New Zealand về chất lượng thi công, tiến độ và sự uy tín của NS Building.",
+    "rating_score": "5.0",
+    "rating_text": "Điểm Đánh Giá Trung Bình Trên Google Reviews",
+    "items": [
+      {
+        "name": "David & Sarah Mitchell",
+        "location": "Remuera, Auckland",
+        "review": "NS Building đã thay đổi hoàn toàn ngôi nhà xây từ thập niên 70 của chúng tôi. Từng chi tiết trong phòng tắm và tủ bếp đều vô cùng tỉ mỉ. Bàn giao đúng hẹn và chuẩn ngân sách.",
+        "project": "Cải Tạo Toàn Bộ Nhà & Phòng Tắm"
+      },
+      {
+        "name": "Liam Henderson",
+        "location": "North Shore, Auckland",
+        "review": "Tay nghề người thợ quá xuất sắc. Đội ngũ xử lý sàn gỗ sồi và sơn bả tường cực kỳ phẳng đẹp. Giao tiếp trong suốt quá trình xây dựng rất rõ ràng và dễ chịu.",
+        "project": "Làm Mới Sàn Gỗ & Sơn Hoàn Thiện"
+      },
+      {
+        "name": "Christine Taylor",
+        "location": "Epsom, Auckland",
+        "review": "Đội thợ rất đáng tin cậy. Báo giá minh bạch rõ ràng, mỗi ngày làm xong đều dọn dẹp công trường sạch sẽ. Rất khuyên dùng cho ai đang muốn sửa nhà không lo âu.",
+        "project": "Đóng Tủ Bếp & Thay Hệ Thống Cửa"
+      }
+    ]
+  },
+  "quote": {
+    "badge": "Tư Vấn Trực Tiếp",
+    "title": "Bạn Đang Muốn Cải Tạo Ngôi Nhà?",
+    "subtitle": "Nhận ngay bảng dự toán chi tiết, minh bạch và hoàn toàn miễn phí từ NS Building.",
+    "name": "Họ và Tên",
+    "phone": "Số Điện Thoại",
+    "email": "Địa Chỉ Email",
+    "service": "Hạng Mục Cần Làm",
+    "location": "Khu Vực / Suburb (New Zealand)",
+    "details": "Mô Tả Nhu Cầu & Hiện Trạng",
+    "submit": "Gửi Yêu Cầu Báo Giá",
+    "submitting": "Đang gửi...",
+    "success_title": "Đã Nhận Yêu Cầu Thành Công!",
+    "success_msg": "Cảm ơn bạn! Anh Nguyễn Sơn và đội ngũ NS Building sẽ xem xét chi tiết và liên hệ lại với bạn trong vòng 24 giờ."
+  },
+  "footer": {
+    "tagline": "Chuyên gia cải tạo nhà và bảo trì bất động sản tận tâm, kiến tạo giá trị bền vững cho các ngôi nhà tại New Zealand.",
+    "quick_links": "Liên Kết Nhanh",
+    "services": "Hạng Mục Thi Công",
+    "contact_us": "Liên Hệ NS Building",
+    "copyright": "Bảo lưu mọi quyền. NS Building NZ.",
+    "rights": "Nhà thầu xây dựng có giấy phép & bảo hiểm trách nhiệm dân sự tại New Zealand"
+  }
+}
