@@ -182,23 +182,11 @@ export default function Header({ locale, dict, onToggleLocale }: HeaderProps) {
           </div>
 
           <a
-            href="tel:0276666510"
-            className="hidden xl:flex items-center gap-1.5 text-sm font-bold text-on-surface hover:text-primary transition-colors"
-          >
-            <span className="material-symbols-outlined text-secondary text-[18px]">call</span>
-            <span>027 666 6510</span>
-          </a>
-
-          <a
             href={`/${locale}/#quote-section`}
             className="bg-primary text-on-primary font-bold text-xs uppercase sm:text-sm tracking-wide px-5 py-2.5 rounded-lg hover:bg-slate-800 transition-all duration-200 shadow-sm"
           >
             {dict.nav.quote}
           </a>
-
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary">
-            <span className="material-symbols-outlined text-[18px]">person</span>
-          </div>
 
           {/* MOBILE MENU TOGGLE */}
           <button
