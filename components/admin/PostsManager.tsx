@@ -14,6 +14,7 @@ import {
   AlertTriangle,
   Image as ImageIcon,
 } from "lucide-react";
+import ImageUpload from "./ImageUpload";
 
 interface PostsManagerProps {
   posts: any[];

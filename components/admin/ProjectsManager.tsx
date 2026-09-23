@@ -20,6 +20,7 @@ import {
   Eye,
 } from "lucide-react";
 import BeforeAfterSlider from "../BeforeAfterSlider";
+import ImageUpload from "./ImageUpload";
 
 interface ProjectsManagerProps {
   projects: any[];
@@ -96,6 +97,14 @@ export default function ProjectsManager({
 
   const handleSaveProject = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.before_image || !formData.after_image) {
+      setNotification({
+        type: "error",
+        text: "Vui lòng tải lên hoặc cung cấp đầy đủ cả ảnh Trước và ảnh Sau cho dự án.",
+      });
+      return;
+    }
+
     setSaving(true);
     setNotification(null);
 
@@ -520,38 +529,28 @@ export default function ProjectsManager({
                   Hình Ảnh So Sánh Before &amp; After (Hai Hình Ảnh)
                 </span>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block font-bold text-slate-300 mb-1">
-                      Link ảnh Trước Khi Sửa (Before Image URL) *
-                    </label>
-                    <input
-                      type="url"
-                      required
-                      placeholder="https://..."
-                      value={formData.before_image}
-                      onChange={(e) =>
-                        setFormData({ ...formData, before_image: e.target.value })
-                      }
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono"
-                    />
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ImageUpload
+                    label="Ảnh Trước Khi Sửa (Before Image)"
+                    required
+                    value={formData.before_image}
+                    onChange={(url) =>
+                      setFormData({ ...formData, before_image: url })
+                    }
+                    aspectRatio="video"
+                    helperText="Tải ảnh hiện trạng công trình trước khi thi công"
+                  />
 
-                  <div>
-                    <label className="block font-bold text-slate-300 mb-1">
-                      Link ảnh Sau Khi Hoàn Thiện (After Image URL) *
-                    </label>
-                    <input
-                      type="url"
-                      required
-                      placeholder="https://..."
-                      value={formData.after_image}
-                      onChange={(e) =>
-                        setFormData({ ...formData, after_image: e.target.value })
-                      }
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono"
-                    />
-                  </div>
+                  <ImageUpload
+                    label="Ảnh Sau Khi Hoàn Thiện (After Image)"
+                    required
+                    value={formData.after_image}
+                    onChange={(url) =>
+                      setFormData({ ...formData, after_image: url })
+                    }
+                    aspectRatio="video"
+                    helperText="Tải ảnh công trình sau khi hoàn thiện"
+                  />
                 </div>
 
                 {/* Instant Dual Preview */}
