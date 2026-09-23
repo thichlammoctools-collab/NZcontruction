@@ -9,6 +9,7 @@ import InterfaceManager from "@/components/admin/InterfaceManager";
 import ServicesManager from "@/components/admin/ServicesManager";
 import ProjectsManager from "@/components/admin/ProjectsManager";
 import PostsManager from "@/components/admin/PostsManager";
+import AIChatManager from "@/components/admin/AIChatManager";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -184,6 +185,12 @@ export default function AdminDashboardPage() {
           {activeTab === "posts" && (
             <PostsManager
               posts={posts}
+              onRefresh={() => loadData(true)}
+            />
+          )}
+
+          {activeTab === "ai-chat" && (
+            <AIChatManager
               onRefresh={() => loadData(true)}
             />
           )}
