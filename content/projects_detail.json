@@ -1,0 +1,321 @@
+{
+  "remuera-architectural-renovation": {
+    "id": "remuera-architectural-renovation",
+    "meta": {
+      "completed": {
+        "en": "Completed Late 2024",
+        "vi": "Hoàn thành Cuối năm 2024"
+      },
+      "lbp": "LBP Licensed #BP128842",
+      "award": {
+        "en": "NZ Architectural Photography Award Entry",
+        "vi": "Đề Cử Giải Thưởng Nhiếp Ảnh Kiến Trúc NZ"
+      }
+    },
+    "header": {
+      "location": "Remuera, Auckland, New Zealand",
+      "title": {
+        "en": "Remuera Architectural Transformation",
+        "vi": "Tuyệt Tác Cải Tạo Kiến Trúc Biệt Thự Remuera"
+      },
+      "subtitle": {
+        "en": "A bespoke full-home reconfiguration embracing warm European oak, bushland indoor-outdoor connectivity, and rigorous structural steel engineering.",
+        "vi": "Tái cấu trúc toàn diện ngôi nhà với sàn gỗ sồi châu Âu ấm áp, không gian mở hòa quyện thiên nhiên và hệ dầm thép chịu lực kỹ thuật cao."
+      },
+      "cta_discuss": {
+        "en": "Discuss a Similar Project",
+        "vi": "Tư Vấn Dự Án Tương Tự"
+      },
+      "cta_lookbook": {
+        "en": "Project Lookbook",
+        "vi": "Tải Hồ Sơ Công Trình"
+      }
+    },
+    "specs": [
+      {
+        "label": { "en": "Location", "vi": "Địa Điểm" },
+        "val": "Remuera",
+        "sub": { "en": "Central Auckland", "vi": "Trung tâm Auckland" }
+      },
+      {
+        "label": { "en": "Scope", "vi": "Hạng Mục" },
+        "val": { "en": "Full Living", "vi": "Phòng Khách Mở" },
+        "sub": { "en": "& Architectural Kitchen", "vi": "& Bếp Kiến Trúc" }
+      },
+      {
+        "label": { "en": "Build Duration", "vi": "Thời Gian Thi Công" },
+        "val": "14 Weeks",
+        "sub": { "en": "On-Schedule Delivery", "vi": "Bàn Giao Đúng Hạn" }
+      },
+      {
+        "label": { "en": "Consents", "vi": "Giấy Phép Council" },
+        "val": "CCC Issued",
+        "sub": { "en": "Auckland Council Code", "vi": "Đạt Chuẩn Auckland Council" }
+      },
+      {
+        "label": { "en": "Guarantee", "vi": "Bảo Hành" },
+        "val": { "en": "10-Year Master", "vi": "10 Năm Kết Cấu" },
+        "sub": { "en": "Full Structural Cover", "vi": "Bảo Hiểm Toàn Diện" }
+      }
+    ],
+    "hero_showcase": {
+      "image": "https://lh3.googleusercontent.com/aida/AEtjO1UBgXXUXg-Gdw0RjcThvBI6583mz_13JnukSbI0l-Q9V1rm59oIy_hq6xBXH08mGaS8bh3dB7doRlDpuiohmYiKtbpu2vYWB3EuXBp-GHGBBTbEcMQ2ygxkLJ__B4hrmB6MiWGg2pfVSRMlcnvGWUfAOlNUsyXlmXJ2lOwtvQ56_YJYOuGF-G9Vs409fYimAv1ke12TXYRqvE6x4QYUsXH_7dDDgI2dUtJvZYOJjmuDyPLq_8qkd7IlLD7W",
+      "tag": {
+        "en": "Architectural Living Pavilion",
+        "vi": "Không Gian Sinh Hoạt Kiến Trúc Mở"
+      },
+      "caption": {
+        "en": "Open-plan kitchen and living pavilion flowing out onto native cedar deck.",
+        "vi": "Khu bếp và phòng khách mở kết nối liền mạch với sàn hiên gỗ cedar hướng ra vườn cây tự nhiên."
+      }
+    },
+    "comparison": {
+      "badge": {
+        "en": "Transformation Record",
+        "vi": "Hồ Sơ Chuyển Đổi Thực Tế"
+      },
+      "title": {
+        "en": "Before & After Comparison",
+        "vi": "So Sánh Trước & Sau Khi Cải Tạo"
+      },
+      "hint": {
+        "en": "Drag slider to compare / Kéo thanh trượt để so sánh",
+        "vi": "Kéo thanh trượt để so sánh hiện trạng và sau khi hoàn thiện"
+      },
+      "before_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAdQdqRW4OVOEzixpLbLUz1zx5JkFb59SHaKOQGUQebuvav1nQK0vsz6eNq7RPwiIkcFWusjjO9WKxy3vSqE6TXVYEl1GQXgCirLpuvHKFUODNOdu_FCiNfURDXu6rHsKC5raofLdUKklxU6D3QgEKQYd88USPCLRfmoRUhM4kzElWSQ-oxxbYSf_V-i_Svrse_bUHip6xv8DtEU08Tis2FWScqw7RTOKCyF5Fl612BGogaOCdk6RRjQg",
+      "after_image": "https://lh3.googleusercontent.com/aida/AEtjO1UBgXXUXg-Gdw0RjcThvBI6583mz_13JnukSbI0l-Q9V1rm59oIy_hq6xBXH08mGaS8bh3dB7doRlDpuiohmYiKtbpu2vYWB3EuXBp-GHGBBTbEcMQ2ygxkLJ__B4hrmB6MiWGg2pfVSRMlcnvGWUfAOlNUsyXlmXJ2lOwtvQ56_YJYOuGF-G9Vs409fYimAv1ke12TXYRqvE6x4QYUsXH_7dDDgI2dUtJvZYOJjmuDyPLq_8qkd7IlLD7W",
+      "before_label": {
+        "en": "BEFORE: 1970s ORIGINAL",
+        "vi": "TRƯỚC: HIỆN TRẠNG 1970s"
+      },
+      "after_label": {
+        "en": "AFTER: COMPLETED TRANSFORMATION",
+        "vi": "SAU: TUYỆT TÁC HOÀN THIỆN"
+      },
+      "metrics": [
+        {
+          "icon": "swap_horiz",
+          "label": { "en": "Spatial Span", "vi": "Khoảng Thông Thủy" },
+          "val": { "en": "Partitioned → 14m Open Vista", "vi": "Ngăn vách cũ → Không gian mở 14m" }
+        },
+        {
+          "icon": "wb_sunny",
+          "label": { "en": "Daylighting & Flow", "vi": "Ánh Sáng & Lưu Thông Khí" },
+          "val": { "en": "Dark & Low → Full-Height Low-E", "vi": "Tối & Trần thấp → Kính Low-E kịch trần" }
+        },
+        {
+          "icon": "verified",
+          "label": { "en": "Structural Guarantee", "vi": "Nghiệm Thu Kết Cấu" },
+          "val": { "en": "Auckland Council CCC Signed", "vi": "Đã cấp chứng nhận CCC Auckland Council" }
+        }
+      ]
+    },
+    "scope_summary": {
+      "tag": { "en": "01 / Scope Summary", "vi": "01 / Tóm Tắt Quy Mô" },
+      "title": {
+        "en": "Structural Engineering & Architectural Refinement",
+        "vi": "Kỹ Thuật Kết Cấu Thép & Hoàn Thiện Kiến Trúc Tinh Xảo"
+      },
+      "desc": {
+        "en": "Reconfiguring 1970s compartmentalized timber framing into a modern pavilion with seamless indoor-outdoor connection.",
+        "vi": "Tái thiết lập hệ khung gỗ ngăn chia phòng kiểu cũ thập niên 1970 thành không gian kiến trúc mở hiện đại, kết nối liền mạch cảnh quan thiên nhiên."
+      },
+      "highlights": [
+        {
+          "title": {
+            "en": "Demolition of 3 Load-Bearing Partitions",
+            "vi": "Dỡ bỏ an toàn 3 bức tường ngăn chịu lực"
+          },
+          "desc": {
+            "en": "Replaced with concealed 3-point structural steel portal frame in roof cavity.",
+            "vi": "Thay thế bằng hệ dầm thép chữ I 3 điểm chịu lực âm trong khoang mái."
+          }
+        },
+        {
+          "title": {
+            "en": "Energy Standard NZBC H1 Compliance",
+            "vi": "Tuân thủ tiêu chuẩn tiết kiệm năng lượng NZBC H1"
+          },
+          "desc": {
+            "en": "Argon-filled thermally broken joinery and upgraded acoustic ceiling membranes.",
+            "vi": "Hệ cửa nhôm cầu cách nhiệt bơm khí Argon và màng trần tiêu âm nâng cấp."
+          }
+        },
+        {
+          "title": {
+            "en": "Full Auckland Council Consent",
+            "vi": "Cấp phép trọn gói Auckland Council"
+          },
+          "desc": {
+            "en": "Zero defect notices; Code Compliance Certificate (CCC) issued on schedule.",
+            "vi": "Không có bất kỳ lỗi vi phạm nào; chứng chỉ hoàn công CCC bàn giao đúng hạn."
+          }
+        }
+      ],
+      "key_specs": [
+        {
+          "icon": "view_column",
+          "cat": { "en": "Steel Frame", "vi": "Khung Thép" },
+          "title": { "en": "14m Open Span", "vi": "Nhịp Mở 14m" },
+          "sub": { "en": "Concealed roof portal", "vi": "Dầm thép âm trần" }
+        },
+        {
+          "icon": "carpenter",
+          "cat": { "en": "Flooring", "vi": "Sàn Nhà" },
+          "title": { "en": "American White Oak", "vi": "Gỗ Sồi Trắng Mỹ" },
+          "sub": { "en": "220mm wide boards glued", "vi": "Bản rộng 220mm ép nhiệt" }
+        },
+        {
+          "icon": "countertops",
+          "cat": { "en": "Surfaces", "vi": "Mặt Bàn Đá" },
+          "title": { "en": "Calacatta Marble", "vi": "Đá Calacatta Marble" },
+          "sub": { "en": "30mm mitered waterfall", "vi": "Gia công vát cạnh 30mm" }
+        },
+        {
+          "icon": "window",
+          "cat": { "en": "Glazing", "vi": "Kính Cách Nhiệt" },
+          "title": { "en": "Thermally Broken Low-E", "vi": "Kính Cầu Cách Nhiệt Low-E" },
+          "sub": { "en": "NZBC H1 standard", "vi": "Đạt chuẩn NZBC H1" }
+        }
+      ]
+    },
+    "gallery": {
+      "tag": { "en": "02 / Photographic Record", "vi": "02 / Nhật Ký Hình Ảnh" },
+      "title": {
+        "en": "Detail & Spatial Alignment",
+        "vi": "Độ Chuẩn Xác Từng Chi Tiết & Tỷ Lệ Không Gian"
+      },
+      "desc": {
+        "en": "Every transition, shadow line, and material junction was crafted and verified on site to millimeter tolerances.",
+        "vi": "Từng đường ron âm, đường viền bóng đổ và mối nối vật liệu đều được thi công căn chỉnh chuẩn xác đến từng milimét tại công trường."
+      },
+      "items": [
+        {
+          "title": { "en": "Living & Culinary Pavilion", "vi": "Phòng Khách & Bếp Kiến Trúc" },
+          "desc": {
+            "en": "Seamless transition to cedar deck through floor-to-ceiling glass sliders.",
+            "vi": "Kết nối sàn hiên gỗ cedar qua hệ cửa lùa kính kịch trần."
+          },
+          "image": "https://lh3.googleusercontent.com/aida/AEtjO1UBgXXUXg-Gdw0RjcThvBI6583mz_13JnukSbI0l-Q9V1rm59oIy_hq6xBXH08mGaS8bh3dB7doRlDpuiohmYiKtbpu2vYWB3EuXBp-GHGBBTbEcMQ2ygxkLJ__B4hrmB6MiWGg2pfVSRMlcnvGWUfAOlNUsyXlmXJ2lOwtvQ56_YJYOuGF-G9Vs409fYimAv1ke12TXYRqvE6x4QYUsXH_7dDDgI2dUtJvZYOJjmuDyPLq_8qkd7IlLD7W",
+          "span": "lg:col-span-7"
+        },
+        {
+          "title": { "en": "Bespoke Timber Joinery & Marble", "vi": "Tủ Kệ Gỗ Sồi & Mặt Đá Honed" },
+          "desc": {
+            "en": "Custom American oak cabinetry with integrated LED lighting.",
+            "vi": "Hệ tủ bếp gỗ sồi Mỹ may đo riêng với dải đèn LED hắt sáng tinh tế."
+          },
+          "image": "https://lh3.googleusercontent.com/aida/AEtjO1Uf9EZ6MRpJweVd3MS_qgAp3FsqMvX42enVl1yUz-d8FAbf8fF1klElKipiVbcz7F9ouoR2z2iz0Lm1m6-I6rbdIFk5h0cInd8H1TkXKXNgI8MXzj_LJHPd-R7h4_dTXoDho_PfElzw55L9xMLQ22-GwMwLd_CHX43swuyj8Kmp6hTQTdwZ8ajf9OBFB1GbwBWBBb2PaGH9ZUMatjpI6w62Tq84m3t2TbrXYK8q4MAePp4TIJ9ZJzrF-xda",
+          "span": "lg:col-span-5"
+        },
+        {
+          "title": { "en": "Master Ensuite Wet Room", "vi": "Phòng Tắm Master Wet Room" },
+          "desc": {
+            "en": "Textured microcement walls with fluted rain shower partition.",
+            "vi": "Tường vi xi măng chống thấm và vách kính sọc gợn sóng sang trọng."
+          },
+          "image": "https://lh3.googleusercontent.com/aida/AEtjO1WZ0nvnLaUf8FedLD97OrgxGj8dPwujD7T8ano_aypatBbMChDI0BcPV6FPYuB23K9ibIAMoBWW5i0-XDN0T6lMuJcuGCG2dc0Tpwv3XBw9MJ4WZ36oJl0hgrcDzvIKpEghEj0NumbseYzOGWFyUeK8q3UTCMC947Ef085fQ5c0uUJ2LTt3aOia13FunbyMLlUrq-IyJeO_V1-pg-TsXsAL8Yq-xhY6_ooaPGnVhR83EQ",
+          "span": "lg:col-span-5"
+        }
+      ],
+      "material_metrics": [
+        {
+          "label": { "en": "Joinery Timber", "vi": "Gỗ Mộc Nội Thất" },
+          "val": { "en": "American Oak", "vi": "Gỗ Sồi Mỹ" },
+          "sub": { "en": "Polyurethane seal", "vi": "Phủ bóng mờ bảo vệ" }
+        },
+        {
+          "label": { "en": "Countertop", "vi": "Mặt Đá Bếp" },
+          "val": { "en": "Calacatta Cremo", "vi": "Calacatta Cremo" },
+          "sub": { "en": "30mm honed slab", "vi": "Đá dày 30mm mài honed" }
+        },
+        {
+          "label": { "en": "Acoustic", "vi": "Tiêu Chuẩn Tiêu Âm" },
+          "val": { "en": "STC 58 Rated", "vi": "Đạt Chuẩn STC 58" },
+          "sub": { "en": "Channel dampening", "vi": "Hệ giảm chấn chống rung" }
+        },
+        {
+          "label": { "en": "Glazing", "vi": "Hệ Kính" },
+          "val": { "en": "H1 Low-E", "vi": "Low-E Tiêu Chuẩn H1" },
+          "sub": { "en": "Argon thermal break", "vi": "Khí trơ Argon cách nhiệt" }
+        }
+      ]
+    },
+    "related_projects": {
+      "tag": { "en": "03 / Proven Portfolio", "vi": "03 / Dự Án Tiêu Biểu Khác" },
+      "title": {
+        "en": "Explore Similar Architectural Projects",
+        "vi": "Khám Phá Các Dự Án Kiến Trúc Tương Tự"
+      },
+      "cta_all": {
+        "en": "View All Architectural Case Studies",
+        "vi": "Xem Tất Cả Các Công Trình Đã Thi Công"
+      },
+      "items": [
+        {
+          "location": "Ponsonby, Auckland",
+          "year": "Completed 2024",
+          "title": {
+            "en": "Ponsonby Heritage Villa Overhaul",
+            "vi": "Cải Tạo Biệt Thự Cổ Ponsonby"
+          },
+          "desc": {
+            "en": "Complete heritage restoration paired with a double-height architectural glass and timber rear pavilion.",
+            "vi": "Phục chế di sản kiến trúc kết hợp gian nhà kính và khung gỗ vượt nhịp ấn tượng phía sau."
+          },
+          "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAQUuroLzgK_yviOCp5vOGXAxj9_CdvhwcrdP1Nn5V0KGfX658drHFJ07bBmanKr8D81SrNblX6UbX0Uxxd_QsCfKRX7CRoIhfAVS6MEn0SwdsDVz8ObM5WCloe50lUebg0ozuyl9dNV_bJeCUers0f7hVvIShfBBuTGW_AbTV_46j16LXGK5dNKYN8ffHob24s68hzYxEykk5jJaPE0voeMrLnjMcZQRk0nVCOYAtuLvZQGv41_AS4Tg"
+        },
+        {
+          "location": "Takapuna, North Shore",
+          "year": "Completed 2024",
+          "title": {
+            "en": "Takapuna Coastal Ensuite Sanctuary",
+            "vi": "Phòng Tắm Ven Biển Master Takapuna"
+          },
+          "desc": {
+            "en": "Minimalist master bathroom renovation with microcement plaster, custom timber cabinetry, and brass fixtures.",
+            "vi": "Cải tạo phòng tắm master tối giản với tường vi xi măng, hệ tủ gỗ may đo và phụ kiện sen đồng cao cấp."
+          },
+          "image": "https://lh3.googleusercontent.com/aida/AEtjO1WZ0nvnLaUf8FedLD97OrgxGj8dPwujD7T8ano_aypatBbMChDI0BcPV6FPYuB23K9ibIAMoBWW5i0-XDN0T6lMuJcuGCG2dc0Tpwv3XBw9MJ4WZ36oJl0hgrcDzvIKpEghEj0NumbseYzOGWFyUeK8q3UTCMC947Ef085fQ5c0uUJ2LTt3aOia13FunbyMLlUrq-IyJeO_V1-pg-TsXsAL8Yq-xhY6_ooaPGnVhR83EQ"
+        },
+        {
+          "location": "Epsom, Auckland",
+          "year": "Completed 2023",
+          "title": {
+            "en": "Epsom Architectural Joinery & Living",
+            "vi": "Hệ Mộc Kiến Trúc & Phòng Khách Epsom"
+          },
+          "desc": {
+            "en": "Custom full-height veneer joinery, integrated media consoles, and open structural reconfigurations.",
+            "vi": "Hệ tủ vách gỗ veneer kịch trần, kệ TV giải trí tích hợp và tái cấu trúc không gian mở."
+          },
+          "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBzyNDzVJ6d_xeReH37DZtVmV2UghWo0X0RPbVZKMwScXF2XAcymy7zfzY9fbRSl2LfY7quNMsPn6kjMqUx6tU7FDLXfEv1hDyYk_ef7KwiQYLlTAEdOfcM17063pl4saNsMTBk-XuXp-Qr0qYf1bNyDILwsVkRXb8KODGgVIY4OM0beHO1XTRVaQF7uFJFNrOiFnsg1xngEs_1Yt-KUVnaJzzFs9AmwcFCMAqMSa-y5MiEkDMvYktObQ"
+        }
+      ]
+    },
+    "consultation": {
+      "tag": {
+        "en": "Direct Feasibility & Consultation",
+        "vi": "Khảo Sát Tính Khả Thi & Tư Vấn Trực Tiếp"
+      },
+      "title": {
+        "en": "Planning a similar home transformation in Auckland?",
+        "vi": "Bạn đang lên kế hoạch cải tạo ngôi nhà tương tự tại Auckland?"
+      },
+      "desc": {
+        "en": "Discuss your architectural drawings, timeline requirements, and council consenting feasibility directly with our Licensed Building Practitioner team. We provide transparent fixed-price tenders and comprehensive project management.",
+        "vi": "Trao đổi bản vẽ kiến trúc, tiến độ dự kiến và tính khả thi xin phép Council trực tiếp với đội ngũ Thợ LBP của chúng tôi. Chúng tôi cung cấp bảng dự toán cố định giá trọn gói minh bạch."
+      },
+      "cta_btn": {
+        "en": "Request Consultation / Yêu cầu Tư vấn",
+        "vi": "Đặt Lịch Khảo Sát & Tư Vấn Trực Tiếp"
+      },
+      "trust_points": [
+        { "icon": "verified", "text": { "en": "10-Year Master Builders Guarantee", "vi": "Bảo Hành Kết Cấu 10 Năm Master Builders" } },
+        { "icon": "assignment_turned_in", "text": { "en": "Auckland Council CCC Compliance", "vi": "Chuẩn Quy Chuẩn CCC Auckland Council" } },
+        { "icon": "handshake", "text": { "en": "Free Initial On-Site Assessment", "vi": "Khảo Sát Hiện Trạng Tận Nơi Miễn Phí" } },
+        { "icon": "translate", "text": { "en": "English & Tiếng Việt Support", "vi": "Hỗ Trợ Tiếng Anh & Tiếng Việt" } }
+      ]
+    }
+  }
+}

@@ -262,7 +262,7 @@ export default function HomePage({ params }: PageProps) {
         </section>
 
         {/* 5. OUR WORK: PORTFOLIO GALLERY WITH FILTER CONTROLS */}
-        <PortfolioSection portfolioDict={dict.portfolio} />
+        <PortfolioSection portfolioDict={dict.portfolio} locale={locale as "en" | "vi"} />
 
         {/* 6. BEFORE & AFTER SHOWCASE (INTERACTIVE SPLIT) */}
         <section className="w-full bg-surface-container-low py-20 lg:py-24" id="transformation-section">

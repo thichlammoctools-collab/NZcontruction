@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 
 interface PortfolioItem {
   id: string;
@@ -27,9 +28,10 @@ interface PortfolioSectionProps {
     };
     items: PortfolioItem[];
   };
+  locale?: "en" | "vi";
 }
 
-export default function PortfolioSection({ portfolioDict }: PortfolioSectionProps) {
+export default function PortfolioSection({ portfolioDict, locale = "en" }: PortfolioSectionProps) {
   const [activeFilter, setActiveFilter] = useState("all");
 
   const filterKeys = [
@@ -113,11 +115,23 @@ export default function PortfolioSection({ portfolioDict }: PortfolioSectionProp
                   <span className="text-slate-400 font-medium">{item.year}</span>
                 </div>
                 <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-bronze transition-colors">
-                  {item.title}
+                  <Link href={`/${locale}/projects/remuera-architectural-renovation`}>
+                    {item.title}
+                  </Link>
                 </h3>
                 <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 leading-relaxed">
                   {item.desc}
                 </p>
+              </div>
+
+              <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
+                <Link
+                  href={`/${locale}/projects/remuera-architectural-renovation`}
+                  className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-secondary group-hover:translate-x-1 transition-all"
+                >
+                  <span>{locale === "vi" ? "Xem Chi Tiết Dự Án" : "View Case Study"}</span>
+                  <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+                </Link>
               </div>
             </div>
           </div>
