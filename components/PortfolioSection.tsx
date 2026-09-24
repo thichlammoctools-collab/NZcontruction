@@ -66,7 +66,7 @@ export default function PortfolioSection({ portfolioDict, locale = "en" }: Portf
         </div>
 
         {/* Filter Controls */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 flex-nowrap sm:flex-wrap w-full md:w-auto -mx-4 px-4 sm:mx-0 sm:px-0">
           {filterKeys.map((f) => {
             const isActive = activeFilter === f.key;
             return (
@@ -74,7 +74,7 @@ export default function PortfolioSection({ portfolioDict, locale = "en" }: Portf
                 key={f.key}
                 type="button"
                 onClick={() => setActiveFilter(f.key)}
-                className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
+                className={`px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all shrink-0 whitespace-nowrap ${
                   isActive
                     ? "bg-primary text-on-primary shadow-sm"
                     : "bg-surface-container-high text-on-surface hover:bg-surface-container-highest"
