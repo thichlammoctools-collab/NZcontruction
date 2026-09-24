@@ -6,7 +6,6 @@
     "enabled": true,
     "provider": "gemini",
     "model": "gemini-1.5-flash",
-    "apiKey": "",
     "temperature": 0.3,
     "maxTokens": 600,
     "streamResponse": false
@@ -76,7 +75,14 @@
       "answer_vi": "Chi phí cải tạo phòng tắm trọn gói tại Auckland thường dao động từ $15,000 đến $35,000 NZD tùy diện tích và đẳng cấp thiết bị vệ sinh. Chi phí này bao gồm tháo dỡ, chống thấm chuẩn E3/AS1 được cấp thẻ bảo hành, đi lại đường ống nước, ốp lát gạch và lắp đặt thiết bị. Anh/Chị có thể để lại số điện thoại để anh Sơn (LBP #BP128842) đến đo đạc và báo giá chuẩn xác nhất nhé!",
       "question_en": "How much does a full bathroom renovation cost in Auckland?",
       "answer_en": "A turnkey bathroom remodel in Auckland typically ranges between $15,000 and $35,000 NZD depending on size, layout changes, and sanitary fixture selections. This covers demolition, plumbing alterations, Council-compliant E3/AS1 waterproofing with producer statement, tiling, and fitting installations. Please leave your phone number for Nguyen Son (LBP #BP128842) to provide a free site assessment!",
-      "keywords": ["phòng tắm", "bathroom", "toilet", "bath", "chi phí phòng tắm", "giá phòng tắm"],
+      "keywords": [
+        "phòng tắm",
+        "bathroom",
+        "toilet",
+        "bath",
+        "chi phí phòng tắm",
+        "giá phòng tắm"
+      ],
       "enabled": true
     },
     {
@@ -86,7 +92,14 @@
       "answer_vi": "Theo quy định Building Act 2004 tại New Zealand: bạn CẦN xin Council Consent khi thay đổi kết cấu chịu lực (đập tường, khoét dầm), thay đổi hệ thống thoát nước ngoài phạm vi cũ, cơi nới diện tích, hoặc thay đổi hệ thống chống thấm liên quan đến nhiều căn hộ. Các việc như thay gạch men cùng vị trí, thay tủ bếp, thay sàn gỗ hoặc sơn phết thì MIỄN PHÉP (Exempt work). NS Building sẽ tư vấn chính xác căn nhà của Anh/Chị có thuộc diện cần xin phép hay không.",
       "question_en": "When do I need an Auckland Council building consent for renovations?",
       "answer_en": "Under the NZ Building Act 2004, a building consent is required for structural alterations (removing load-bearing walls), adding bathrooms or moving sanitary drainage lines, and significant exterior envelope changes. Like-for-like fixture replacements, non-structural cabinetry, flooring, and repainting are generally consent-exempt. We will review your scope and advise whether council consent is needed.",
-      "keywords": ["consent", "council", "giấy phép", "xin phép", "building consent", "council permit"],
+      "keywords": [
+        "consent",
+        "council",
+        "giấy phép",
+        "xin phép",
+        "building consent",
+        "council permit"
+      ],
       "enabled": true
     },
     {
@@ -96,7 +109,15 @@
       "answer_vi": "Khí hậu New Zealand có độ ẩm thay đổi lớn giữa mùa đông và mùa hè. Sàn gỗ sồi kỹ thuật (Engineered Oak) là lựa chọn tối ưu nhất hiện nay vì cấu trúc nhiều lớp đan xen giúp chống cong vênh, co ngót tuyệt đối, đồng thời bề mặt vẫn là gỗ sồi tự nhiên sang trọng. Nếu nhà bạn là nhà cổ sàn Kauri/Rimu nguyên bản, NS Building có dịch vụ chà nhám và phủ bóng Polyurethane chuyên nghiệp để phục hồi vẻ đẹp cổ điển.",
       "question_en": "Should I choose solid timber or engineered oak flooring in NZ?",
       "answer_en": "Due to New Zealand's fluctuating humidity, engineered European oak is the gold standard for modern renovations because its multi-layer cross-ply core resists cupping and seasonal movement while providing an authentic hardwood surface. If your home has original native timber (Kauri/Rimu/Matai), we also offer specialist drum sanding and polyurethane restoration.",
-      "keywords": ["sàn", "floor", "flooring", "timber", "engineered oak", "gỗ sồi", "sàn gỗ"],
+      "keywords": [
+        "sàn",
+        "floor",
+        "flooring",
+        "timber",
+        "engineered oak",
+        "gỗ sồi",
+        "sàn gỗ"
+      ],
       "enabled": true
     },
     {
@@ -106,7 +127,14 @@
       "answer_vi": "Quy trình thiết kế và thi công tủ bếp của NS Building thường diễn ra trong khoảng 2 - 4 tuần. Chúng tôi tiến hành đo đạc laser chính xác tại nhà bạn, lên bản vẽ 3D, gia công xưởng với phụ kiện ray trượt Blum của Áo, và chỉ mất từ 2-3 ngày để lắp ráp hoàn thiện tại công trình nhằm hạn chế tối đa ảnh hưởng đến sinh hoạt của gia đình.",
       "question_en": "How long does a custom kitchen remodel take?",
       "answer_en": "A typical custom kitchen installation takes 2 to 4 weeks from measurement to completion. We perform laser site measuring, prepare 3D shop drawings, manufacture cabinets with Austrian Blum soft-close hardware, and complete on-site installation in just 2-3 working days to minimize disruption.",
-      "keywords": ["bếp", "kitchen", "cabinet", "tủ bếp", "joinery", "tủ áo"],
+      "keywords": [
+        "bếp",
+        "kitchen",
+        "cabinet",
+        "tủ bếp",
+        "joinery",
+        "tủ áo"
+      ],
       "enabled": true
     },
     {
@@ -116,7 +144,14 @@
       "answer_vi": "Chắc chắn có ạ! Kỹ sư Nguyễn Sơn là Licensed Building Practitioner (LBP) chính thức được Bộ Doanh nghiệp, Đổi mới và Việc làm New Zealand (MBIE) cấp phép với mã số giấy phép BP128842. Giấy phép LBP đảm bảo công trình của Anh/Chị được bảo hiểm công nhận, đủ điều kiện ký chứng chỉ hoàn công (Record of Work - RoW) nộp cho Hội đồng thành phố Auckland.",
       "question_en": "Are your builders Licensed Building Practitioners (LBP) certified in New Zealand?",
       "answer_en": "Yes, absolutely! Director Nguyen Son is an officially licensed NZ builder holding LBP License #BP128842 under MBIE. This qualification legally entitles us to carry out and supervise Restricted Building Work (RBW) and sign off Record of Work (RoW) documentation for Auckland Council compliance.",
-      "keywords": ["lbp", "giấy phép", "bằng thợ", "license", "thợ được cấp phép", "bp128842"],
+      "keywords": [
+        "lbp",
+        "giấy phép",
+        "bằng thợ",
+        "license",
+        "thợ được cấp phép",
+        "bp128842"
+      ],
       "enabled": true
     },
     {
@@ -126,7 +161,16 @@
       "answer_vi": "NS Building phục vụ toàn bộ khu vực Auckland, bao gồm North Shore (Albany, Takapuna, Browns Bay, Glenfield), Central Auckland (CBD, Remuera, Epsom, Ponsonby, Grey Lynn), West Auckland và East Auckland. Với các dự án lớn, chúng tôi cũng nhận thi công tại Hamilton và các vùng lân cận đảo Bắc New Zealand. Hotline tư vấn nhanh: 027 666 6510.",
       "question_en": "Which areas do you service across Auckland and New Zealand?",
       "answer_en": "We actively service Greater Auckland including North Shore, Remuera, Epsom, Takapuna, Albany, Ponsonby, and East/West Auckland suburbs. For larger turnkey projects, we also accept projects across the wider Auckland and Waikato regions. Direct hotline: 027 666 6510.",
-      "keywords": ["khu vực", "ở đâu", "auckland", "vùng", "địa chỉ", "where", "location", "suburb"],
+      "keywords": [
+        "khu vực",
+        "ở đâu",
+        "auckland",
+        "vùng",
+        "địa chỉ",
+        "where",
+        "location",
+        "suburb"
+      ],
       "enabled": true
     }
   ],

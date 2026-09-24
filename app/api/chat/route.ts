@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { rateLimit, clientIp } from "@/lib/rate-limit";
+import { writeJsonAtomic } from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +21,7 @@ function readConfig() {
 
 function saveConfig(data: any) {
   try {
-    fs.writeFileSync(aiConfigFilePath, JSON.stringify(data, null, 2), "utf8");
+    writeJsonAtomic(aiConfigFilePath, data);
   } catch (err) {
     console.error("Error saving ai_config.json:", err);
   }
@@ -28,13 +30,16 @@ function saveConfig(data: any) {
 // Call Google Gemini REST API if key is present
 async function callGemini(apiKey: string, modelName: string, systemPrompt: string, userMessage: string, knowledgeText: string) {
   const model = modelName || "gemini-1.5-flash";
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
 
-  const prompt = `System Instructions:\n${systemPrompt}\n\nCompany Knowledge Base & Context:\n${knowledgeText}\n\nClient inquiry: ${userMessage}\n\nRespond as NS Building AI Assistant:`;
+  const prompt = `System Instructions:\n${systemPrompt}\n\nCompany Knowledge Base & Context:\n${knowledgeText}\n\nClient inquiry: ${userMessage.slice(0, 2000)}\n\nRespond as NS Building AI Assistant:`;
 
   const res = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": apiKey,
+    },
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
@@ -55,8 +60,23 @@ async function callGemini(apiKey: string, modelName: string, systemPrompt: strin
 
 export async function POST(req: Request) {
   try {
+    // Per-IP throttle: max 20 messages / minute to bound LLM cost and abuse.
+    const ip = clientIp(req);
+    const rl = rateLimit(`chat:${ip}`, 20, 60 * 1000);
+    if (rl.remaining <= 0) {
+      return NextResponse.json(
+        {
+          reply: req.headers.get("accept-language")?.includes("vi")
+            ? "Bạn đã gửi quá nhiều tin nhắn trong thời gian ngắn. Vui lòng chờ một lát rồi thử lại, hoặc gọi hotline 027 666 6510 để được hỗ trợ ngay ạ."
+            : "You have sent too many messages in a short period. Please wait a moment before trying again, or call us on 027 666 6510.",
+          leadCaptured: false,
+        },
+        { status: 429, headers: { "Retry-After": String(rl.retryAfterSec || 60) } }
+      );
+    }
+
     const { message, locale } = await req.json();
-    const rawText = message || "";
+    const rawText = typeof message === "string" ? message.slice(0, 4000) : "";
     const text = rawText.toLowerCase();
     const isVi = locale === "vi";
 
@@ -74,8 +94,8 @@ export async function POST(req: Request) {
 
     let leadCaptured = false;
 
-    // Contact info detection (NZ phone numbers like 021, 022, 027, 09, +64, or general emails)
-    const phoneMatch = text.replace(/[\s-]/g, "").match(/\b(02\d{7,9}|09\d{8}|\+64\d{8,10}|\d{8,11})\b/);
+    // Contact info detection (NZ phone numbers like 02x, 09x, +64, or emails)
+    const phoneMatch = text.replace(/[\s-]/g, "").match(/(^|\D)(02\d{7,9}|09\d{8}|\+64\d{8,10})(\D|$)/);
     const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
 
     let reply = "";
@@ -83,7 +103,7 @@ export async function POST(req: Request) {
     // 1. Lead captured event
     if (phoneMatch || emailMatch) {
       leadCaptured = true;
-      const contactVal = phoneMatch ? phoneMatch[0] : emailMatch![0];
+      const contactVal = phoneMatch ? phoneMatch[2] : emailMatch![0];
       const contactType = phoneMatch ? "phone" : "email";
 
       // Save lead into ai_config.json
@@ -112,8 +132,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ reply, leadCaptured: true });
     }
 
-    // 2. Try Gemini API if key is present
-    const apiKey = config?.general?.apiKey || process.env.GEMINI_API_KEY;
+    // 2. Try Gemini API if key is present (server env only — never from CMS config)
+    const apiKey = process.env.GEMINI_API_KEY;
     const provider = config?.general?.provider;
 
     if (provider === "gemini" && apiKey) {

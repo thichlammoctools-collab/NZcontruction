@@ -2,14 +2,17 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import dynamicImport from "next/dynamic";
 import AdminSidebar, { AdminTab } from "@/components/admin/AdminSidebar";
 import AdminHeader from "@/components/admin/AdminHeader";
 import OverviewStats from "@/components/admin/OverviewStats";
-import InterfaceManager from "@/components/admin/InterfaceManager";
-import ServicesManager from "@/components/admin/ServicesManager";
-import ProjectsManager from "@/components/admin/ProjectsManager";
-import PostsManager from "@/components/admin/PostsManager";
-import AIChatManager from "@/components/admin/AIChatManager";
+
+// Lazy-load heavy tab components so initial paint of dashboard is fast
+const InterfaceManager = dynamicImport(() => import("@/components/admin/InterfaceManager"), { ssr: false });
+const ServicesManager = dynamicImport(() => import("@/components/admin/ServicesManager"), { ssr: false });
+const ProjectsManager = dynamicImport(() => import("@/components/admin/ProjectsManager"), { ssr: false });
+const PostsManager = dynamicImport(() => import("@/components/admin/PostsManager"), { ssr: false });
+const AIChatManager = dynamicImport(() => import("@/components/admin/AIChatManager"), { ssr: false });
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -25,16 +28,7 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Authentication check
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const auth = localStorage.getItem("ns_admin_auth");
-      if (!auth) {
-        router.push("/admin/login");
-        return;
-      }
-    }
-  }, [router]);
+  // Authentication is enforced server-side by middleware.ts (httpOnly session cookie).
 
   // Load all dashboard data
   const loadData = useCallback(async (isSilent = false) => {
@@ -78,11 +72,14 @@ export default function AdminDashboardPage() {
     loadData(false);
   }, [loadData]);
 
-  const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("ns_admin_auth");
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } catch {
+      // ignore network error, still redirect
     }
     router.push("/admin/login");
+    router.refresh();
   };
 
   const handleQuickAdd = (type: "project" | "service") => {

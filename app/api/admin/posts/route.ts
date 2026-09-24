@@ -1,22 +1,23 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
 import path from "path";
+import { revalidatePath } from "next/cache";
+import { writeJsonAtomic, readJsonSafe } from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
 
 const postsFilePath = path.join(process.cwd(), "content", "posts.json");
 
 function readPosts(): any[] {
-  try {
-    const data = fs.readFileSync(postsFilePath, "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
+  return readJsonSafe<any[]>(postsFilePath, []);
 }
 
 function writePosts(posts: any[]) {
-  fs.writeFileSync(postsFilePath, JSON.stringify(posts, null, 2), "utf8");
+  writeJsonAtomic(postsFilePath, posts);
+  try {
+    revalidatePath("/[locale]", "page");
+  } catch (e) {
+    console.error("revalidatePath failed:", e);
+  }
 }
 
 export async function GET() {

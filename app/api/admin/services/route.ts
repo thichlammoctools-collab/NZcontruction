@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
 import path from "path";
+import { revalidatePath } from "next/cache";
+import { writeJsonAtomic, readJsonSafe } from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
 
@@ -9,52 +10,52 @@ const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json"
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 
 function readServicesDetail(): Record<string, any> {
-  try {
-    const data = fs.readFileSync(servicesDetailPath, "utf8");
-    return JSON.parse(data);
-  } catch (e) {
-    return {};
-  }
+  return readJsonSafe<Record<string, any>>(servicesDetailPath, {});
 }
 
 function writeServicesDetail(data: Record<string, any>) {
-  fs.writeFileSync(servicesDetailPath, JSON.stringify(data, null, 2), "utf8");
+  writeJsonAtomic(servicesDetailPath, data);
+}
+
+function revalidateContent() {
+  try {
+    revalidatePath("/[locale]", "page");
+    revalidatePath("/[locale]/services/[serviceId]", "page");
+  } catch (e) {
+    console.error("revalidatePath failed:", e);
+  }
 }
 
 function syncDictionaries(serviceId: string, serviceData: any, isDelete = false) {
   try {
-    if (fs.existsSync(dictViPath)) {
-      const viDict = JSON.parse(fs.readFileSync(dictViPath, "utf8"));
-      if (viDict.services && viDict.services.items) {
-        if (isDelete) {
-          delete viDict.services.items[serviceId];
-        } else {
-          viDict.services.items[serviceId] = {
-            title: serviceData.title_vi || serviceData.title_en || "Dịch vụ",
-            tag: serviceData.tag_vi || serviceData.tag || "Thi công",
-            desc: serviceData.intro_vi ? serviceData.intro_vi.slice(0, 150) + "..." : "",
-            icon: serviceData.icon || "construction",
-          };
-        }
-        fs.writeFileSync(dictViPath, JSON.stringify(viDict, null, 2), "utf8");
+    const viDict = readJsonSafe<any>(dictViPath, null as any);
+    if (viDict?.services?.items) {
+      if (isDelete) {
+        delete viDict.services.items[serviceId];
+      } else {
+        viDict.services.items[serviceId] = {
+          title: serviceData.title_vi || serviceData.title_en || "Dịch vụ",
+          tag: serviceData.tag_vi || serviceData.tag || "Thi công",
+          desc: serviceData.intro_vi ? serviceData.intro_vi.slice(0, 150) + "..." : "",
+          icon: serviceData.icon || "construction",
+        };
       }
+      writeJsonAtomic(dictViPath, viDict);
     }
 
-    if (fs.existsSync(dictEnPath)) {
-      const enDict = JSON.parse(fs.readFileSync(dictEnPath, "utf8"));
-      if (enDict.services && enDict.services.items) {
-        if (isDelete) {
-          delete enDict.services.items[serviceId];
-        } else {
-          enDict.services.items[serviceId] = {
-            title: serviceData.title_en || "Service",
-            tag: serviceData.tag_en || serviceData.tag || "Construction",
-            desc: serviceData.intro_en ? serviceData.intro_en.slice(0, 150) + "..." : "",
-            icon: serviceData.icon || "construction",
-          };
-        }
-        fs.writeFileSync(dictEnPath, JSON.stringify(enDict, null, 2), "utf8");
+    const enDict = readJsonSafe<any>(dictEnPath, null as any);
+    if (enDict?.services?.items) {
+      if (isDelete) {
+        delete enDict.services.items[serviceId];
+      } else {
+        enDict.services.items[serviceId] = {
+          title: serviceData.title_en || "Service",
+          tag: serviceData.tag_en || serviceData.tag || "Construction",
+          desc: serviceData.intro_en ? serviceData.intro_en.slice(0, 150) + "..." : "",
+          icon: serviceData.icon || "construction",
+        };
       }
+      writeJsonAtomic(dictEnPath, enDict);
     }
   } catch (err) {
     console.error("Error syncing dictionaries for service:", err);
@@ -111,6 +112,7 @@ export async function POST(req: Request) {
     services[serviceId] = newService;
     writeServicesDetail(services);
     syncDictionaries(serviceId, { ...newService, tag_vi: body.tag_vi, tag_en: body.tag_en, icon: body.icon });
+    revalidateContent();
 
     return NextResponse.json({
       success: true,
@@ -163,6 +165,7 @@ export async function PUT(req: Request) {
       tag_en: body.tag_en,
       icon: body.icon,
     });
+    revalidateContent();
 
     return NextResponse.json({
       success: true,
@@ -199,6 +202,7 @@ export async function DELETE(req: Request) {
     delete services[id];
     writeServicesDetail(services);
     syncDictionaries(id, {}, true);
+    revalidateContent();
 
     return NextResponse.json({ success: true, deletedId: id });
   } catch (error) {

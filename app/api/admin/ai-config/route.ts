@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { writeJsonAtomic } from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +19,15 @@ function readConfig() {
 }
 
 function writeConfig(data: any) {
-  fs.writeFileSync(aiConfigFilePath, JSON.stringify(data, null, 2), "utf8");
+  if (data?.general) data.general.apiKey = "";
+  writeJsonAtomic(aiConfigFilePath, data);
+}
+
+// The API key is server-only (GEMINI_API_KEY env). Never persist or return it.
+function sanitize(config: any) {
+  if (!config?.general) return config;
+  const { apiKey, ...general } = config.general;
+  return { ...config, general };
 }
 
 export async function GET() {
@@ -39,9 +48,10 @@ export async function GET() {
       activeModel: config.general?.model || "gemini-1.5-flash",
       provider: config.general?.provider || "gemini",
       isEnabled: config.general?.enabled !== false,
+      hasServerApiKey: !!process.env.GEMINI_API_KEY,
     };
 
-    return NextResponse.json({ config, stats });
+    return NextResponse.json({ config: sanitize(config), stats });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch AI configuration" }, { status: 500 });
   }
@@ -54,7 +64,7 @@ export async function PUT(req: Request) {
 
     const updated = {
       ...current,
-      ...(body.general ? { general: { ...current.general, ...body.general } } : {}),
+      ...(body.general ? { general: { ...current.general, ...body.general, apiKey: "" } } : {}),
       ...(body.persona ? { persona: { ...current.persona, ...body.persona } } : {}),
       ...(body.knowledgeBase ? { knowledgeBase: { ...current.knowledgeBase, ...body.knowledgeBase } } : {}),
       ...(body.trainingFaqs ? { trainingFaqs: body.trainingFaqs } : {}),
@@ -67,7 +77,7 @@ export async function PUT(req: Request) {
     return NextResponse.json({
       success: true,
       message: "Đã lưu thành công cấu hình và dữ liệu huấn luyện AI!",
-      config: updated,
+      config: sanitize(updated),
     });
   } catch (error) {
     return NextResponse.json({ error: "Failed to update AI configuration" }, { status: 500 });
@@ -86,8 +96,8 @@ export async function POST(req: Request) {
       const text = (message || "").toLowerCase();
       const isVi = locale === "vi";
 
-      // Check contact info detection
-      const hasPhone = /\b(02\d{7,9}|09\d{8}|\+64\d{8,10}|\d{8,11})\b/.test(text.replace(/[\s-]/g, ""));
+      // Check contact info detection (NZ phone formats only)
+      const hasPhone = /(^|\D)(02\d{7,9}|09\d{8}|\+64\d{8,10})(\D|$)/.test(text.replace(/[\s-]/g, ""));
       const hasEmail = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(text);
 
       let matchedFaq = null;

@@ -22,8 +22,6 @@ import {
   Shield,
   Layers,
   ChevronDown,
-  Eye,
-  EyeOff,
   Flame,
   Check,
   Search,
@@ -72,7 +70,6 @@ interface AIChatConfig {
     enabled: boolean;
     provider: "gemini" | "openai" | "local";
     model: string;
-    apiKey: string;
     temperature: number;
     maxTokens: number;
     streamResponse?: boolean;
@@ -122,8 +119,8 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
-  const [showApiKey, setShowApiKey] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [stats, setStats] = useState<{ hasServerApiKey?: boolean } | null>(null);
 
   // FAQ Modal states
   const [faqModalOpen, setFaqModalOpen] = useState(false);
@@ -160,6 +157,7 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
       if (res.ok) {
         const data = await res.json();
         setConfig(data.config);
+        setStats(data.stats || null);
       }
     } catch (err) {
       console.error("Failed to load AI config:", err);
@@ -802,36 +800,18 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
                 <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
                   <span>API Key ({config.general.provider === "gemini" ? "Google AI Studio" : "OpenAI"})</span>
                   <span className="text-[10px] text-slate-400">
-                    {config.general.provider === "local" ? "Không yêu cầu" : "Có thể dùng qua biến môi trường server"}
+                    {config.general.provider === "local" ? "Không yêu cầu" : "Cấu hình server-only qua biến môi trường"}
                   </span>
                 </label>
-                <div className="relative">
-                  <input
-                    type={showApiKey ? "text" : "password"}
-                    disabled={config.general.provider === "local"}
-                    value={config.general.apiKey}
-                    placeholder={
-                      config.general.provider === "local"
-                        ? "Không cần API Key cho bộ máy cục bộ"
-                        : "Nhập khóa API (ví dụ: AIzaSy...)"
-                    }
-                    onChange={(e) =>
-                      setConfig({
-                        ...config,
-                        general: { ...config.general, apiKey: e.target.value },
-                      })
-                    }
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400 pr-10 font-mono disabled:opacity-50"
-                  />
-                  {config.general.provider !== "local" && (
-                    <button
-                      type="button"
-                      onClick={() => setShowApiKey(!showApiKey)}
-                      className="absolute right-3 top-2.5 text-slate-400 hover:text-white"
-                    >
-                      {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  )}
+                <div className="relative rounded-xl border border-slate-800 bg-slate-950/60 px-3.5 py-2.5">
+                  <p className="text-xs font-mono text-slate-400">
+                    {stats?.hasServerApiKey
+                      ? "✓ GEMINI_API_KEY đã được cấu hình trên máy chủ"
+                      : "Chưa cấu hình GEMINI_API_KEY — bot sẽ dùng bộ tri thức cục bộ"}
+                  </p>
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    Vì lý do bảo mật, API key chỉ được đặt trong biến môi trường server (GEMINI_API_KEY), không lưu trong CMS.
+                  </p>
                 </div>
               </div>
             </div>

@@ -1,22 +1,27 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
 import path from "path";
+import { revalidatePath } from "next/cache";
+import { writeJsonAtomic, readJsonSafe } from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
 
 const projectsFilePath = path.join(process.cwd(), "content", "projects.json");
 
 function readProjects(): any[] {
-  try {
-    const data = fs.readFileSync(projectsFilePath, "utf8");
-    return JSON.parse(data);
-  } catch (e) {
-    return [];
-  }
+  return readJsonSafe<any[]>(projectsFilePath, []);
 }
 
 function writeProjects(projects: any[]) {
-  fs.writeFileSync(projectsFilePath, JSON.stringify(projects, null, 2), "utf8");
+  writeJsonAtomic(projectsFilePath, projects);
+  revalidatePublicPages();
+}
+
+function revalidatePublicPages() {
+  try {
+    revalidatePath("/[locale]", "page");
+  } catch (e) {
+    console.error("revalidatePath failed:", e);
+  }
 }
 
 export async function GET() {

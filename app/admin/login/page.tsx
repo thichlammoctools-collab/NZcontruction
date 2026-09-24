@@ -8,18 +8,31 @@ import { Lock, ArrowRight, ShieldCheck, Home } from "lucide-react";
 export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Default admin PIN for Mr. Son & developer
-    if (password === "nsbuilding2026" || password === "admin123") {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("ns_admin_auth", "true");
+    if (submitting) return;
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      if (res.ok) {
+        router.push("/admin");
+        router.refresh();
+      } else {
+        const data = await res.json().catch(() => null);
+        setError(data?.error || "Mật khẩu không đúng. Vui lòng thử lại!");
       }
-      router.push("/admin");
-    } else {
-      setError("Mật khẩu không đúng. Vui lòng thử lại!");
+    } catch {
+      setError("Không thể kết nối máy chủ. Vui lòng thử lại!");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -58,16 +71,14 @@ export default function AdminLoginPage() {
               placeholder="Nhập mật khẩu..."
               className="w-full px-4 py-3.5 bg-slate-900/80 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-bronze transition-colors"
             />
-            <span className="block text-[11px] text-slate-500 mt-1.5">
-              Mật khẩu mặc định: <code className="text-bronze font-mono">nsbuilding2026</code>
-            </span>
           </div>
 
           <button
             type="submit"
-            className="w-full py-4 rounded-xl bg-bronze hover:bg-bronze-dark text-white font-bold text-sm uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-2"
+            disabled={submitting}
+            className="w-full py-4 rounded-xl bg-bronze hover:bg-bronze-dark text-white font-bold text-sm uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-60"
           >
-            <span>Đăng Nhập Quản Trị</span>
+            <span>{submitting ? "Đang đăng nhập..." : "Đăng Nhập Quản Trị"}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>

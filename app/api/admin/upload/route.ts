@@ -7,13 +7,13 @@ export const dynamic = "force-dynamic";
 // Maximum allowed image size: 10MB
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
-// Allowed image MIME types
+// Allowed image MIME types. SVG is intentionally EXCLUDED: it can embed
+// scripts and would be a stored-XSS vector when served from the same origin.
 const ALLOWED_MIME_TYPES = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
   "image/gif",
-  "image/svg+xml",
   "image/avif",
 ]);
 
@@ -23,9 +23,33 @@ const MIME_EXTENSION_MAP: Record<string, string> = {
   "image/png": ".png",
   "image/webp": ".webp",
   "image/gif": ".gif",
-  "image/svg+xml": ".svg",
   "image/avif": ".avif",
 };
+
+// Magic-byte sniffing: verify the real content type instead of trusting the
+// client-declared File.type. Returns the detected MIME or null.
+function detectImageMime(buf: Buffer): string | null {
+  if (buf.length >= 3 && buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return "image/jpeg";
+  if (buf.length >= 8 && buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47) return "image/png";
+  if (
+    buf.length >= 12 &&
+    buf.toString("ascii", 0, 4) === "RIFF" &&
+    buf.toString("ascii", 8, 12) === "WEBP"
+  ) {
+    // WEBP may be lossy/lossless/extended — all fine for browsers.
+    return "image/webp";
+  }
+  if (buf.length >= 6) {
+    const sig = buf.toString("ascii", 0, 6);
+    if (sig === "GIF87a" || sig === "GIF89a") return "image/gif";
+  }
+  // AVIF/HEIF share the ISO-BMFF "ftyp" box at offset 4.
+  if (buf.length >= 12 && buf.toString("ascii", 4, 8) === "ftyp") {
+    const brand = buf.toString("ascii", 8, 12);
+    if (["avif", "avis", "mif1"].includes(brand)) return "image/avif";
+  }
+  return null;
+}
 
 export async function POST(req: Request) {
   try {
@@ -41,11 +65,11 @@ export async function POST(req: Request) {
 
     const uploadedFile = file as File;
 
-    // Validate MIME type
+    // Validate declared MIME type
     if (!ALLOWED_MIME_TYPES.has(uploadedFile.type)) {
       return NextResponse.json(
         {
-          error: `Định dạng tệp không hợp lệ (${uploadedFile.type}). Chỉ chấp nhận file ảnh (JPG, PNG, WebP, GIF, SVG, AVIF).`,
+          error: `Định dạng tệp không hợp lệ (${uploadedFile.type}). Chỉ chấp nhận file ảnh (JPG, PNG, WebP, GIF, AVIF).`,
         },
         { status: 400 }
       );
@@ -61,17 +85,35 @@ export async function POST(req: Request) {
       );
     }
 
+    // Read bytes once for both magic-byte check and writing
+    const arrayBuffer = await uploadedFile.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const detectedMime = detectImageMime(buffer);
+    if (!detectedMime || !ALLOWED_MIME_TYPES.has(detectedMime)) {
+      return NextResponse.json(
+        { error: "Nội dung tệp không phải ảnh hợp lệ (bị chặn bởi kiểm tra magic-byte)." },
+        { status: 400 }
+      );
+    }
+    if (detectedMime !== uploadedFile.type) {
+      return NextResponse.json(
+        { error: `Kiểu tệp khai báo (${uploadedFile.type}) không khớp nội dung thực (${detectedMime}).` },
+        { status: 400 }
+      );
+    }
+
     // Prepare upload directory: /public/uploads
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    // Generate safe, unique filename
+    // Generate safe, unique filename — extension comes from the DETECTED mime,
+    // never from the client-supplied name.
     const originalName = uploadedFile.name || "image";
     const extFromOriginal = path.extname(originalName).toLowerCase();
-    const safeExt =
-      extFromOriginal || MIME_EXTENSION_MAP[uploadedFile.type] || ".jpg";
+    const safeExt = MIME_EXTENSION_MAP[detectedMime] || extFromOriginal || ".jpg";
 
     const baseName = path
       .basename(originalName, extFromOriginal)
@@ -87,8 +129,6 @@ export async function POST(req: Request) {
     const destinationPath = path.join(uploadDir, finalFilename);
 
     // Write file to disk
-    const arrayBuffer = await uploadedFile.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
     fs.writeFileSync(destinationPath, buffer);
 
     // Public URL served by Next.js static asset handler
@@ -100,7 +140,7 @@ export async function POST(req: Request) {
       filename: finalFilename,
       originalName: uploadedFile.name,
       size: uploadedFile.size,
-      mimeType: uploadedFile.type,
+      mimeType: detectedMime,
     });
   } catch (error: any) {
     console.error("Lỗi khi tải ảnh lên:", error);
@@ -123,7 +163,7 @@ export async function GET() {
 
     const files = fs.readdirSync(uploadDir);
     const imageFiles = files
-      .filter((file) => /\.(jpg|jpeg|png|webp|gif|svg|avif)$/i.test(file))
+      .filter((file) => /\.(jpg|jpeg|png|webp|gif|avif)$/i.test(file))
       .map((file) => {
         const stats = fs.statSync(path.join(uploadDir, file));
         return {

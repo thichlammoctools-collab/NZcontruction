@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
 import path from "path";
+import { revalidatePath } from "next/cache";
+import { writeJsonAtomic, readJsonSafe } from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
 
@@ -9,17 +10,11 @@ const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json"
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 
 function readJsonFile(filePath: string, fallback: any = {}) {
-  try {
-    if (!fs.existsSync(filePath)) return fallback;
-    const content = fs.readFileSync(filePath, "utf8");
-    return JSON.parse(content);
-  } catch (err) {
-    return fallback;
-  }
+  return readJsonSafe(filePath, fallback);
 }
 
 function writeJsonFile(filePath: string, data: any) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
+  writeJsonAtomic(filePath, data);
 }
 
 export async function GET() {
@@ -138,6 +133,12 @@ export async function PUT(req: Request) {
       };
     }
     writeJsonFile(dictEnPath, enDict);
+
+    try {
+      revalidatePath("/[locale]", "page");
+    } catch (e) {
+      console.error("revalidatePath failed:", e);
+    }
 
     return NextResponse.json({ success: true, message: "Settings saved successfully" });
   } catch (error) {

@@ -52,8 +52,8 @@ export default function ImageUpload({
     setErrorMessage(null);
 
     // Basic client validation
-    if (!file.type.startsWith("image/")) {
-      setErrorMessage("Vui lòng chọn tệp hình ảnh hợp lệ (JPG, PNG, WebP, GIF, SVG).");
+    if (!file.type.startsWith("image/") || file.type === "image/svg+xml") {
+      setErrorMessage("Vui lòng chọn tệp hình ảnh hợp lệ (JPG, PNG, WebP, GIF, AVIF).");
       return;
     }
 
@@ -184,7 +184,7 @@ export default function ImageUpload({
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,image/avif"
+        accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
         onChange={onFileInputChange}
         className="hidden"
       />
@@ -307,7 +307,7 @@ export default function ImageUpload({
                       Nhấp để chọn ảnh hoặc kéo thả vào đây
                     </p>
                     <p className="text-[11px] text-slate-400 mt-0.5">
-                      Hỗ trợ PNG, JPG, WebP, GIF, SVG (Tối đa 10MB)
+                      Hỗ trợ PNG, JPG, WebP, GIF, AVIF (Tối đa 10MB)
                     </p>
                   </div>
                   <button

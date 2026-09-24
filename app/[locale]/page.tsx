@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
@@ -14,7 +15,7 @@ import enDict from "@/content/dictionaries/en.json";
 import viDict from "@/content/dictionaries/vi.json";
 import siteSettings from "@/content/site_settings.json";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: refresh at most every 5 min; admin edits revalidate sooner
 
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "vi" }];
@@ -49,10 +50,13 @@ export default function HomePage({ params }: PageProps) {
         {/* 2. HERO SECTION */}
         <section className="relative w-full min-h-[640px] lg:min-h-[720px] flex items-center overflow-hidden bg-primary">
           {/* Full-bleed background image */}
-          <img
+          <Image
             src={siteSettings?.heroBackgroundImage || "https://lh3.googleusercontent.com/aida-public/AB6AXuAC4zySIsBFsCxbPwZoDwuqZtLQWpoTxQeVfs9GkcCOv8krWekpp7w-Sr4GIn4XjONGNLOByEmndm0tLOLyjs8PwH7QRkKbuuMMi34H0gnPxaPMwqQFVlSToJiD5aGeB16_nvb2zbNYsBr_w-OG4ktIRiEp6kaeOBtvN58A62ECHeBxKOEYa4sU7H5HmQaAugC9OSRbuHdHIOXPkFDOyfyHz-acP9xjnkESnozm5pyPzrINXZNh1K03Cg"}
             alt="NS Building - Architectural Renovation & Interior Craftsmanship"
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
           />
           {/* Subtle dark vignette and readability gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/35"></div>
@@ -204,12 +208,13 @@ export default function HomePage({ params }: PageProps) {
                 </div>
               </div>
               <div className="lg:col-span-6 order-1 lg:order-2">
-                <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-surface-dim border border-border-light">
-                  <img
-                    className="w-full h-full object-cover"
+                <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-surface-dim border border-border-light relative">
+                  <Image
+                    className="object-cover"
                     alt={f1.title}
                     src={f1.image}
-                    loading="lazy"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </div>
               </div>
@@ -218,12 +223,13 @@ export default function HomePage({ params }: PageProps) {
             {/* Feature 2: Bathrooms & Wet Areas */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
               <div className="lg:col-span-6">
-                <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-surface-dim border border-border-light">
-                  <img
-                    className="w-full h-full object-cover"
+                <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-surface-dim border border-border-light relative">
+                  <Image
+                    className="object-cover"
                     alt={f2.title}
                     src={f2.image}
-                    loading="lazy"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </div>
               </div>
