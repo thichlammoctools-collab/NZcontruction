@@ -296,6 +296,7 @@ export default function ServicesManager({
             </div>
 
             {/* Bottom Actions */}
+            <div className="p-4 bg-slate-900/60 border-t border-slate-700/60 flex items-center justify-between gap-2">
               <div className="flex items-center gap-1.5 text-xs text-slate-400">
                 <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
                 <span>Xem Live:</span>
