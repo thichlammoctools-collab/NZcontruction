@@ -238,10 +238,42 @@ export default function AIChatWidget({ locale }: AIChatWidgetProps) {
             </button>
           </form>
 
+          {/* HUMAN HANDOVER QUICK CHAT BAR (WHATSAPP & FACEBOOK) */}
+          <div className="bg-slate-800 px-3 py-1.5 flex items-center justify-between border-t border-slate-700/80 text-[10px]">
+            <span className="text-slate-300 font-medium">
+              {locale === "vi" ? "Hoặc chat người thật:" : "Or chat with us:"}
+            </span>
+            <div className="flex items-center gap-1.5">
+              <a
+                href={formatWhatsAppUrl(
+                  siteSettings.whatsapp || siteSettings.mobile || "64211531510",
+                  locale === "vi"
+                    ? "Xin chào NS Building! Tôi cần tư vấn trực tiếp về dịch vụ cải tạo / xây dựng."
+                    : "Kia Ora NS Building! I would like to consult directly with your builders."
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#25D366] text-white hover:bg-[#20ba5a] font-bold transition-transform hover:scale-105 shadow-xs"
+              >
+                <WhatsAppIcon className="w-2.5 h-2.5" />
+                <span>WhatsApp</span>
+              </a>
+              <a
+                href={siteSettings.facebookMessenger || siteSettings.facebook || "https://m.me/nsbuildingnz"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#0084FF] text-white hover:bg-[#0070dd] font-bold transition-transform hover:scale-105 shadow-xs"
+              >
+                <MessengerIcon className="w-2.5 h-2.5" />
+                <span>Messenger</span>
+              </a>
+            </div>
+          </div>
+
           {/* BOTTOM DIRECT CALL STRIP */}
           <div className="bg-slate-900 py-1.5 px-4 text-center text-[10px] text-slate-300 flex items-center justify-center gap-1.5">
             <Phone className="w-3 h-3 text-bronze" />
-            <span>{locale === "vi" ? "Hoặc gọi hotline trực tiếp:" : "Or call directly:"}</span>
+            <span>{locale === "vi" ? "Gọi hotline trực tiếp:" : "Call directly:"}</span>
             <a href="tel:0276666510" className="text-bronze font-bold hover:underline">
               027 666 6510
             </a>

@@ -21,6 +21,8 @@ import {
   PhoneCall,
   Mail,
 } from "lucide-react";
+import siteSettings from "@/content/site_settings.json";
+import { WhatsAppIcon, MessengerIcon, formatWhatsAppUrl } from "@/components/SocialChatButtons";
 
 interface MobileBottomNavProps {
   locale: "en" | "vi";
@@ -402,6 +404,57 @@ export default function MobileBottomNav({ locale, dict }: MobileBottomNavProps) 
                 </div>
                 <span className="text-xs text-primary font-bold">
                   {isVi ? "Gửi Thư" : "Email"}
+                </span>
+              </a>
+
+              {/* WhatsApp Direct Chat */}
+              <a
+                href={formatWhatsAppUrl(
+                  siteSettings.whatsapp || siteSettings.mobile || "64211531510",
+                  isVi
+                    ? "Xin chào NS Building! Tôi cần tư vấn về dịch vụ cải tạo / xây dựng nhà tại New Zealand."
+                    : "Kia Ora NS Building! I would like to inquire about renovation and construction services in NZ."
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3.5 rounded-2xl bg-emerald-50 text-emerald-900 border border-emerald-200 hover:bg-emerald-100 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#25D366] flex items-center justify-center text-white shadow-xs">
+                    <WhatsAppIcon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="block text-[11px] text-emerald-700 font-medium">
+                      WhatsApp Trực Tiếp
+                    </span>
+                    <span className="text-xs font-extrabold text-emerald-900">021 153 1510</span>
+                  </div>
+                </div>
+                <span className="text-xs bg-[#25D366] text-white px-3 py-1.5 rounded-lg font-bold shadow-xs">
+                  {isVi ? "Chat Ngay" : "Chat Now"}
+                </span>
+              </a>
+
+              {/* Facebook Messenger */}
+              <a
+                href={siteSettings.facebookMessenger || siteSettings.facebook || "https://m.me/nsbuildingnz"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3.5 rounded-2xl bg-sky-50 text-sky-900 border border-sky-200 hover:bg-sky-100 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0066FF] to-[#00C6FF] flex items-center justify-center text-white shadow-xs">
+                    <MessengerIcon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="block text-[11px] text-sky-700 font-medium">
+                      Facebook Messenger
+                    </span>
+                    <span className="text-xs font-extrabold text-sky-900">NS Building NZ</span>
+                  </div>
+                </div>
+                <span className="text-xs bg-[#0084FF] text-white px-3 py-1.5 rounded-lg font-bold shadow-xs">
+                  {isVi ? "Nhắn Tin" : "Message"}
                 </span>
               </a>
 

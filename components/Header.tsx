@@ -4,6 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Phone, PhoneCall } from "lucide-react";
+import siteSettings from "@/content/site_settings.json";
+import { WhatsAppIcon, MessengerIcon, formatWhatsAppUrl } from "@/components/SocialChatButtons";
 
 interface HeaderProps {
   locale: "en" | "vi";
@@ -63,6 +65,35 @@ export default function Header({ locale, dict, onToggleLocale }: HeaderProps) {
                 contact@nsbuilding.co.nz
               </a>
             </span>
+
+            {/* WhatsApp Direct Chat */}
+            <a
+              href={formatWhatsAppUrl(
+                siteSettings.whatsapp || siteSettings.mobile || "64211531510",
+                locale === "vi"
+                  ? "Xin chào NS Building! Tôi cần tư vấn về dịch vụ cải tạo / xây dựng nhà tại New Zealand."
+                  : "Kia Ora NS Building! I would like to inquire about renovation and construction services in NZ."
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-bold transition-colors ml-2"
+              title="Chat WhatsApp"
+            >
+              <WhatsAppIcon className="w-3.5 h-3.5" />
+              <span>WhatsApp</span>
+            </a>
+
+            {/* Facebook Messenger */}
+            <a
+              href={siteSettings.facebookMessenger || siteSettings.facebook || "https://m.me/nsbuildingnz"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-sky-400 hover:text-sky-300 font-bold transition-colors ml-1"
+              title="Chat Facebook Messenger"
+            >
+              <MessengerIcon className="w-3.5 h-3.5" />
+              <span>Messenger</span>
+            </a>
           </div>
 
           <div className="flex items-center space-x-6">
@@ -186,6 +217,22 @@ export default function Header({ locale, dict, onToggleLocale }: HeaderProps) {
             aria-label="Call NS Building"
           >
             <PhoneCall className="w-4 h-4" />
+          </a>
+
+          {/* Quick WhatsApp Button on Mobile */}
+          <a
+            href={formatWhatsAppUrl(
+              siteSettings.whatsapp || siteSettings.mobile || "64211531510",
+              locale === "vi"
+                ? "Xin chào NS Building! Tôi cần tư vấn về dịch vụ cải tạo / xây dựng nhà tại New Zealand."
+                : "Kia Ora NS Building! I would like to inquire about renovation and construction services in NZ."
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex md:hidden items-center justify-center w-8 h-8 rounded-full bg-emerald-500/15 text-emerald-600 hover:bg-emerald-500 hover:text-white transition-colors"
+            aria-label="Chat WhatsApp"
+          >
+            <WhatsAppIcon className="w-4 h-4" />
           </a>
 
           {/* Desktop/Tablet CTA Button */}

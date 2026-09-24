@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import siteSettings from "@/content/site_settings.json";
+import { WhatsAppIcon, MessengerIcon, formatWhatsAppUrl } from "@/components/SocialChatButtons";
 
 interface FooterProps {
   locale: "en" | "vi";
@@ -158,6 +160,33 @@ export default function Footer({ locale, dict }: FooterProps) {
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-secondary text-[18px]">home_pin</span>
                 <span>Auckland & Greater NZ Region</span>
+              </div>
+              <div className="flex items-center gap-2 pt-1">
+                <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+                <a
+                  href={formatWhatsAppUrl(
+                    siteSettings.whatsapp || siteSettings.mobile || "64211531510",
+                    locale === "vi"
+                      ? "Xin chào NS Building! Tôi cần tư vấn về dịch vụ cải tạo / xây dựng nhà tại New Zealand."
+                      : "Kia Ora NS Building! I would like to inquire about renovation and construction services in NZ."
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary font-bold text-emerald-600"
+                >
+                  WhatsApp: 021 153 1510
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <MessengerIcon className="w-4 h-4 text-[#0084FF]" />
+                <a
+                  href={siteSettings.facebookMessenger || siteSettings.facebook || "https://m.me/nsbuildingnz"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary font-bold text-sky-600"
+                >
+                  Facebook Messenger
+                </a>
               </div>
             </div>
           </div>
