@@ -1,26 +1,23 @@
 import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import path from "path";
 import ProjectDetailView from "@/components/ProjectDetailView";
-import enDict from "@/content/dictionaries/en.json";
-import viDict from "@/content/dictionaries/vi.json";
-import projectsDetailData from "@/content/projects_detail.json";
+import { readJsonSafe } from "@/lib/json-store";
 
-export function generateStaticParams() {
-  const locales = ["en", "vi"];
-  const projectIds = [
-    "remuera-architectural-renovation",
-    "takapuna-luxury-bathroom",
-    "epsom-custom-kitchen-cabinetry",
-  ];
+export const dynamic = "force-dynamic";
 
-  const params: { locale: string; projectId: string }[] = [];
-  locales.forEach((locale) => {
-    projectIds.forEach((projectId) => {
-      params.push({ locale, projectId });
-    });
-  });
-  return params;
+const projectsDetailPath = path.join(process.cwd(), "content", "projects_detail.json");
+const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
+const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
+
+function getProjectDetail(projectId: string) {
+  const data = readJsonSafe<Record<string, any>>(projectsDetailPath, {});
+  return data[projectId] || data["remuera-architectural-renovation"];
+}
+
+function getDictionary(locale: string) {
+  return readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
 }
 
 interface PageProps {
@@ -32,9 +29,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, projectId } = params;
-  const project =
-    (projectsDetailData as any)[projectId] ||
-    (projectsDetailData as any)["remuera-architectural-renovation"];
+  const project = getProjectDetail(projectId);
 
   if (!project) {
     return {

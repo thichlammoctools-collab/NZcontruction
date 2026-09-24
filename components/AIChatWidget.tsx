@@ -3,6 +3,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MessageSquare, X, Send, Bot, User, Phone, CheckCircle2 } from "lucide-react";
 import aiConfig from "@/content/ai_config.json";
+import siteSettings from "@/content/site_settings.json";
+import { WhatsAppIcon, MessengerIcon, formatWhatsAppUrl } from "@/components/SocialChatButtons";
 
 interface AIChatWidgetProps {
   locale: "en" | "vi";
