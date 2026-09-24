@@ -1,10 +1,12 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import path from "path";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import AIChatWidget from "@/components/AIChatWidget";
+import { readJsonSafe } from "@/lib/json-store";
 
 import RenovationServiceTemplate from "@/components/service-templates/RenovationServiceTemplate";
 import JoineryServiceTemplate from "@/components/service-templates/JoineryServiceTemplate";
@@ -12,31 +14,23 @@ import SurfaceFinishingServiceTemplate from "@/components/service-templates/Surf
 import EquipmentHireServiceTemplate from "@/components/service-templates/EquipmentHireServiceTemplate";
 import PropertyMaintenanceServiceTemplate from "@/components/service-templates/PropertyMaintenanceServiceTemplate";
 
-import enDict from "@/content/dictionaries/en.json";
-import viDict from "@/content/dictionaries/vi.json";
-import servicesDetailData from "@/content/services_detail.json";
-import projectsData from "@/content/projects.json";
+export const dynamic = "force-dynamic";
 
-export function generateStaticParams() {
-  const locales = ["en", "vi"];
-  const serviceIds = [
-    "renovations",
-    "bathrooms",
-    "cabinets",
-    "flooring",
-    "doors",
-    "painting",
-    "hiring",
-    "maintenance",
-  ];
+const servicesDetailPath = path.join(process.cwd(), "content", "services_detail.json");
+const projectsPath = path.join(process.cwd(), "content", "projects.json");
+const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
+const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 
-  const params: { locale: string; serviceId: string }[] = [];
-  locales.forEach((locale) => {
-    serviceIds.forEach((serviceId) => {
-      params.push({ locale, serviceId });
-    });
-  });
-  return params;
+function getServicesDetail(): Record<string, any> {
+  return readJsonSafe<Record<string, any>>(servicesDetailPath, {});
+}
+
+function getProjects(): any[] {
+  return readJsonSafe<any[]>(projectsPath, []);
+}
+
+function getDictionary(locale: string): any {
+  return readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
 }
 
 interface PageProps {
@@ -48,7 +42,8 @@ interface PageProps {
 
 export function generateMetadata({ params }: PageProps): Metadata {
   const { locale, serviceId } = params;
-  const service = (servicesDetailData as any)[serviceId];
+  const services = getServicesDetail();
+  const service = services[serviceId];
   if (!service) return {};
 
   const isVi = locale === "vi";
@@ -89,10 +84,12 @@ export default function ServiceDetailPage({ params }: PageProps) {
 
   if (locale !== "en" && locale !== "vi") notFound();
 
-  const service = (servicesDetailData as any)[serviceId];
+  const services = getServicesDetail();
+  const service = services[serviceId];
   if (!service) notFound();
 
-  const dict = locale === "vi" ? viDict : enDict;
+  const dict = getDictionary(locale);
+  const projectsData = getProjects();
 
   // Find related project for this service
   const relatedProject =

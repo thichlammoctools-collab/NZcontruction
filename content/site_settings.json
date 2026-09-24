@@ -4,6 +4,9 @@
   "director": "Nguyễn Sơn",
   "phone": "027 666 6510",
   "mobile": "021 153 1510",
+  "whatsapp": "64211531510",
+  "facebook": "https://www.facebook.com/nsbuildingnz",
+  "facebookMessenger": "https://m.me/nsbuildingnz",
   "email": "contact@nsbuilding.co.nz",
   "location": "Auckland & Toàn New Zealand",
   "heroBackgroundImage": "/uploads/thiet-ke-chua-co-ten-1790236683897-e3i55c.png",
@@ -12,6 +15,8 @@
     "showReviews": true,
     "showQuoteForm": true,
     "showChatWidget": true,
+    "showWhatsappBtn": true,
+    "showFacebookBtn": true,
     "showPricingSection": true
   }
 }

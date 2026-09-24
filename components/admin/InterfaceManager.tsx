@@ -69,6 +69,9 @@ export default function InterfaceManager({
     lbpLicense: initialData?.contact?.lbpLicense || "BP128842",
     phone: initialData?.contact?.phone || "027 666 6510",
     mobile: initialData?.contact?.mobile || "021 153 1510",
+    whatsapp: initialData?.contact?.whatsapp || "64211531510",
+    facebook: initialData?.contact?.facebook || "https://www.facebook.com/nsbuildingnz",
+    facebookMessenger: initialData?.contact?.facebookMessenger || "https://m.me/nsbuildingnz",
     email: initialData?.contact?.email || "contact@nsbuilding.co.nz",
     location_vi: initialData?.contact?.location_vi || "Auckland & Toàn New Zealand",
     location_en: initialData?.contact?.location_en || "Auckland & Across New Zealand",
@@ -97,6 +100,8 @@ export default function InterfaceManager({
     showReviews: initialData?.toggles?.showReviews ?? true,
     showQuoteForm: initialData?.toggles?.showQuoteForm ?? true,
     showChatWidget: initialData?.toggles?.showChatWidget ?? true,
+    showWhatsappBtn: initialData?.toggles?.showWhatsappBtn ?? true,
+    showFacebookBtn: initialData?.toggles?.showFacebookBtn ?? true,
     showPricingSection: initialData?.toggles?.showPricingSection ?? true,
   });
 
@@ -506,6 +511,54 @@ export default function InterfaceManager({
               </div>
 
               <div>
+                <label className="block font-bold text-slate-300 mb-1 flex items-center justify-between">
+                  <span>Số WhatsApp (Quốc tế hoặc NZ) *</span>
+                  <span className="text-[11px] text-emerald-400 font-normal">vd: 64211531510 hoặc 021 153 1510</span>
+                </label>
+                <input
+                  type="text"
+                  value={contactData.whatsapp}
+                  onChange={(e) =>
+                    setContactData({ ...contactData, whatsapp: e.target.value })
+                  }
+                  placeholder="64211531510"
+                  className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-emerald-400 font-mono font-bold"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-300 mb-1 flex items-center justify-between">
+                  <span>Link Chat Facebook Messenger *</span>
+                  <span className="text-[11px] text-sky-400 font-normal">vd: https://m.me/nsbuildingnz</span>
+                </label>
+                <input
+                  type="text"
+                  value={contactData.facebookMessenger}
+                  onChange={(e) =>
+                    setContactData({ ...contactData, facebookMessenger: e.target.value })
+                  }
+                  placeholder="https://m.me/nsbuildingnz"
+                  className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sky-400 font-mono text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-300 mb-1 flex items-center justify-between">
+                  <span>Link Trang Facebook (Fanpage)</span>
+                  <span className="text-[11px] text-slate-400 font-normal">vd: https://www.facebook.com/nsbuildingnz</span>
+                </label>
+                <input
+                  type="text"
+                  value={contactData.facebook}
+                  onChange={(e) =>
+                    setContactData({ ...contactData, facebook: e.target.value })
+                  }
+                  placeholder="https://www.facebook.com/nsbuildingnz"
+                  className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono text-xs"
+                />
+              </div>
+
+              <div>
                 <label className="block font-bold text-slate-300 mb-1">
                   Email tiếp nhận thông tin dự án *
                 </label>
@@ -687,6 +740,16 @@ export default function InterfaceManager({
                   key: "showChatWidget" as const,
                   title: "Hộp Thoại Trợ Lý AI Tư Vấn Xây Dựng (AI Chat Widget)",
                   desc: "Widget trò chuyện AI góc dưới hỗ trợ tư vấn quy chuẩn xây dựng NZ và báo giá tức thì.",
+                },
+                {
+                  key: "showWhatsappBtn" as const,
+                  title: "Nút Chat Trực Tiếp WhatsApp (WhatsApp Floating Chat Button)",
+                  desc: "Hiển thị nút tròn xanh WhatsApp góc dưới màn hình giúp khách hàng nhắn tin tư vấn trực tiếp 1-chạm.",
+                },
+                {
+                  key: "showFacebookBtn" as const,
+                  title: "Nút Chat Facebook Messenger (Messenger Floating Chat Button)",
+                  desc: "Hiển thị nút tròn Facebook Messenger hỗ trợ nhắn tin qua fanpage.",
                 },
                 {
                   key: "showPricingSection" as const,

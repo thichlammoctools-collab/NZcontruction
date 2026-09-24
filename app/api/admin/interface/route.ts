@@ -32,6 +32,9 @@ export async function GET() {
       contact: {
         phone: siteSettings.phone || viDict.nav?.phone || "027 666 6510",
         mobile: siteSettings.mobile || viDict.nav?.mobile || "021 153 1510",
+        whatsapp: siteSettings.whatsapp || "64211531510",
+        facebook: siteSettings.facebook || "https://www.facebook.com/nsbuildingnz",
+        facebookMessenger: siteSettings.facebookMessenger || "https://m.me/nsbuildingnz",
         email: siteSettings.email || viDict.nav?.email || "contact@nsbuilding.co.nz",
         location_vi: viDict.nav?.location || "Auckland & Toàn New Zealand",
         location_en: enDict.nav?.location || "Auckland & Across New Zealand",
@@ -48,6 +51,8 @@ export async function GET() {
         showReviews: true,
         showQuoteForm: true,
         showChatWidget: true,
+        showWhatsappBtn: true,
+        showFacebookBtn: true,
         showPricingSection: true,
       },
     });
@@ -68,6 +73,9 @@ export async function PUT(req: Request) {
       ...(siteSettings || {}),
       phone: contact?.phone ?? currentSettings.phone,
       mobile: contact?.mobile ?? currentSettings.mobile,
+      whatsapp: contact?.whatsapp ?? currentSettings.whatsapp,
+      facebook: contact?.facebook ?? currentSettings.facebook,
+      facebookMessenger: contact?.facebookMessenger ?? currentSettings.facebookMessenger,
       email: contact?.email ?? currentSettings.email,
       brandName: contact?.brandName ?? currentSettings.brandName,
       director: contact?.director ?? currentSettings.director,
