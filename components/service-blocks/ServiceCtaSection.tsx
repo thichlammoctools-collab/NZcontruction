@@ -88,7 +88,7 @@ export default function ServiceCtaSection({
 
           {/* Right Column: Fast Direct Action Card */}
           <div className="lg:col-span-5">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-6">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-5 sm:p-8 rounded-3xl shadow-2xl space-y-6">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-widest text-bronze-light block mb-1">
                   {isVi ? "Kết Nối Nhanh" : "Fast Direct Contact"}
@@ -116,7 +116,7 @@ export default function ServiceCtaSection({
                 </a>
 
                 <Link
-                  href={`/${locale}/#quote`}
+                  href={`/${locale}/#quote-section`}
                   className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs uppercase tracking-wider transition-all border border-white/20 group"
                 >
                   <span>
