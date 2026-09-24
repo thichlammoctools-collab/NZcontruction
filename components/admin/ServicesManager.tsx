@@ -296,15 +296,25 @@ export default function ServicesManager({
             </div>
 
             {/* Bottom Actions */}
-            <div className="p-4 bg-slate-900/60 border-t border-slate-700/60 flex items-center justify-between gap-2">
-              <Link
-                href={`/en/services/${service.id}`}
-                target="_blank"
-                className="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
-              >
+              <div className="flex items-center gap-1.5 text-xs text-slate-400">
                 <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
-                <span>Xem Live</span>
-              </Link>
+                <span>Xem Live:</span>
+                <Link
+                  href={`/vi/services/${service.id}`}
+                  target="_blank"
+                  className="text-amber-400 hover:text-amber-300 font-semibold underline transition-colors"
+                >
+                  VI
+                </Link>
+                <span>|</span>
+                <Link
+                  href={`/en/services/${service.id}`}
+                  target="_blank"
+                  className="hover:text-white transition-colors"
+                >
+                  EN
+                </Link>
+              </div>
 
               <div className="flex items-center gap-2">
                 <button
