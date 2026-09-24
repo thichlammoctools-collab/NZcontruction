@@ -5,7 +5,24 @@ import path from "path";
 import ProjectDetailView from "@/components/ProjectDetailView";
 import { readJsonSafe } from "@/lib/json-store";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: admin edits trigger revalidatePath sooner
+
+export function generateStaticParams() {
+  const locales = ["en", "vi"];
+  const projectIds = [
+    "remuera-architectural-renovation",
+    "takapuna-luxury-bathroom",
+    "epsom-custom-kitchen-cabinetry",
+  ];
+
+  const params: { locale: string; projectId: string }[] = [];
+  locales.forEach((locale) => {
+    projectIds.forEach((projectId) => {
+      params.push({ locale, projectId });
+    });
+  });
+  return params;
+}
 
 const projectsDetailPath = path.join(process.cwd(), "content", "projects_detail.json");
 const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");

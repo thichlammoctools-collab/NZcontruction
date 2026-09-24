@@ -7,11 +7,43 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import ServiceCard from "@/components/ServiceCard";
+
+// Server-safe WhatsApp link helper (mirrors SocialChatButtons logic; the client
+// module itself cannot be imported into this server component's scope).
+function formatWhatsAppUrl(numberStr: string, message: string): string {
+  let clean = numberStr.replace(/[^0-9]/g, "");
+  if (clean.startsWith("0")) {
+    clean = "64" + clean.substring(1);
+  } else if (!clean.startsWith("64") && clean.length <= 10) {
+    clean = "64" + clean;
+  }
+  return `https://wa.me/${clean}?text=${encodeURIComponent(message)}`;
+}
+
+// Inline SVG icons so the quick-contact strip stays server-rendered (SEO + LCP).
+function WhatsAppIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-5.805 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+    </svg>
+  );
+}
+
+function MessengerIcon({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 0C5.288 0 0 5.288 0 12c0 2.08.528 4.04 1.464 5.752L0 24l6.428-1.424A11.93 11.93 0 0012 24c6.712 0 12-5.288 12-12S18.712 0 12 0zm0 22a9.93 9.93 0 01-4.888-1.272l-.352-.192-3.6.8.784-3.504-.2-.368A9.93 9.93 0 012 12C2 6.488 6.488 2 12 2s10 4.488 10 10-4.488 10-10 10zm5.328-7.136l-2.528-3.928a1.5 1.5 0 00-2.096-.432L10.5 12.2l-2.288-2.2a1.2 1.2 0 00-1.664.048l-.448.448a1.2 1.2 0 00.048 1.664l4.048 4.2a1.5 1.5 0 002.16.064l3.12-3.792c.4-.48.32-1.184-.16-1.584l-.448-.352a1.2 1.2 0 00-1.664.16z"/>
+    </svg>
+  );
+}
+
 import PortfolioSection from "@/components/PortfolioSection";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import GoogleReviews from "@/components/GoogleReviews";
 import QuoteForm from "@/components/QuoteForm";
 import AIChatWidget from "@/components/AIChatWidget";
+import SocialChatButtons from "@/components/SocialChatButtons";
+
 import { readJsonSafe } from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
@@ -275,8 +307,10 @@ export default function HomePage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* 5. OUR WORK: PORTFOLIO GALLERY WITH FILTER CONTROLS */}
-        <PortfolioSection portfolioDict={dict.portfolio} locale={locale as "en" | "vi"} />
+          {/* 5. OUR WORK: PORTFOLIO GALLERY WITH FILTER CONTROLS */}
+          <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 lg:py-24" id="work-section">
+            <PortfolioSection portfolioDict={dict.portfolio} locale={locale as "en" | "vi"} />
+          </section>
 
         {/* 6. BEFORE & AFTER SHOWCASE (INTERACTIVE SPLIT) */}
         {siteSettings?.toggles?.showBeforeAfter !== false && (
@@ -469,6 +503,33 @@ export default function HomePage({ params }: PageProps) {
                 <span className="material-symbols-outlined text-secondary-fixed text-[20px]">mail</span>
                 <span>{qc.email}</span>
               </a>
+
+              {/* WhatsApp direct */}
+              <a
+                className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-400 hover:text-emerald-300 hover:underline"
+                href={formatWhatsAppUrl(
+                  siteSettings?.whatsapp || siteSettings?.mobile || "64211531510",
+                  locale === "vi"
+                    ? "Xin chào NS Building! Tôi cần tư vấn về dịch vụ cải tạo / xây dựng nhà tại New Zealand."
+                    : "Kia Ora NS Building! I would like to inquire about renovation and construction services in NZ."
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+                <span>WhatsApp: {siteSettings?.whatsapp || "021 153 1510"}</span>
+              </a>
+
+              {/* Facebook Messenger direct */}
+              <a
+                className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-sky-400 hover:text-sky-300 hover:underline"
+                href={siteSettings?.facebookMessenger || siteSettings?.facebook || "https://m.me/nsbuildingnz"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessengerIcon className="w-4 h-4 text-[#0084FF]" />
+                <span>Messenger</span>
+              </a>
             </div>
             <div className="flex items-center gap-2 text-xs text-on-primary-container">
               <span className="material-symbols-outlined text-secondary-fixed text-[18px]">translate</span>
@@ -481,12 +542,15 @@ export default function HomePage({ params }: PageProps) {
       {/* 12. FOOTER */}
       <Footer locale={locale as "en" | "vi"} dict={dict} />
 
-      {/* 13. 24/7 AI CHAT ASSISTANT WIDGET */}
+      {/* 13. FLOATING SOCIAL CHAT BUTTONS (WHATSAPP & FACEBOOK) */}
+      <SocialChatButtons locale={locale as "en" | "vi"} />
+
+      {/* 14. 24/7 AI CHAT ASSISTANT WIDGET */}
       {siteSettings?.toggles?.showChatWidget !== false && (
         <AIChatWidget locale={locale as "en" | "vi"} />
       )}
 
-      {/* 14. FIXED MOBILE BOTTOM NAVIGATION */}
+      {/* 15. FIXED MOBILE BOTTOM NAVIGATION */}
       <MobileBottomNav locale={locale as "en" | "vi"} dict={dict} />
     </div>
   );

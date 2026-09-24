@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Phone, PhoneCall } from "lucide-react";
 import siteSettings from "@/content/site_settings.json";
 import { WhatsAppIcon, MessengerIcon, formatWhatsAppUrl } from "@/components/SocialChatButtons";
+import Logo from "@/components/Logo";
 
 interface HeaderProps {
   locale: "en" | "vi";
@@ -134,12 +135,7 @@ export default function Header({ locale, dict, onToggleLocale }: HeaderProps) {
       <div className="h-16 md:h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
         {/* LOGO */}
         <Link href={`/${locale}`} className="flex items-center group">
-          <img
-            src="https://lh3.googleusercontent.com/aida/AEtjO1WV-uToml-V3DiWbTogPbJwT5vWlBCvxsKAoa_dKZELqw3WBBFFgOLflUG5o0pc72ci6JcEJRZWJlef0FVAivsvFWBhJ9M8pYcbNnusfAcEe_4idhC0YkjTKdT8atgDrk6IU9CMOHXgF0S94tk1AJeFihyfYncdOxBcHT8WjHnod4MzhTnd7QkHnPye4O-U8IuZSt78yKK3UD9-5Cg6zbHZUAVJqSutHZ8HAtlzUKMs"
-            alt="NS Building - Residential Craftsmen NZ"
-            className="h-8 sm:h-10 md:h-11 w-auto object-contain transition-transform group-hover:scale-[1.02]"
-          />
-          <span className="sr-only">NS Building - Residential Craftsmen NZ</span>
+          <Logo />
         </Link>
 
         {/* DESKTOP NAV LINKS (VISIBLE ONLY ON LG SCREENS) */}

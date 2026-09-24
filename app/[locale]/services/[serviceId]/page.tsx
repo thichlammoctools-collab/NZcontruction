@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import AIChatWidget from "@/components/AIChatWidget";
+import SocialChatButtons from "@/components/SocialChatButtons";
 import { readJsonSafe } from "@/lib/json-store";
 
 import RenovationServiceTemplate from "@/components/service-templates/RenovationServiceTemplate";
@@ -14,7 +15,29 @@ import SurfaceFinishingServiceTemplate from "@/components/service-templates/Surf
 import EquipmentHireServiceTemplate from "@/components/service-templates/EquipmentHireServiceTemplate";
 import PropertyMaintenanceServiceTemplate from "@/components/service-templates/PropertyMaintenanceServiceTemplate";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // ISR: admin edits trigger revalidatePath sooner
+
+export function generateStaticParams() {
+  const locales = ["en", "vi"];
+  const serviceIds = [
+    "renovations",
+    "bathrooms",
+    "cabinets",
+    "flooring",
+    "doors",
+    "painting",
+    "hiring",
+    "maintenance",
+  ];
+
+  const params: { locale: string; serviceId: string }[] = [];
+  locales.forEach((locale) => {
+    serviceIds.forEach((serviceId) => {
+      params.push({ locale, serviceId });
+    });
+  });
+  return params;
+}
 
 const servicesDetailPath = path.join(process.cwd(), "content", "services_detail.json");
 const projectsPath = path.join(process.cwd(), "content", "projects.json");
@@ -112,6 +135,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
       </main>
 
       <Footer locale={locale as "en" | "vi"} dict={dict} />
+      <SocialChatButtons locale={locale as "en" | "vi"} />
       <AIChatWidget locale={locale as "en" | "vi"} />
       <MobileBottomNav locale={locale as "en" | "vi"} dict={dict} />
     </div>

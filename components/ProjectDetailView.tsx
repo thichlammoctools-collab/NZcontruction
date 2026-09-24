@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import AIChatWidget from "@/components/AIChatWidget";
+import SocialChatButtons from "@/components/SocialChatButtons";
 import ProjectDetailSlider from "@/components/ProjectDetailSlider";
 import ConsultationModal from "@/components/ConsultationModal";
 import ImageLightbox from "@/components/ImageLightbox";
@@ -628,6 +629,9 @@ export default function ProjectDetailView({ project, locale, dict }: ProjectDeta
         initialIndex={lightboxIndex}
         locale={locale}
       />
+
+      {/* FLOATING SOCIAL CHAT BUTTONS (WHATSAPP & FACEBOOK) */}
+      <SocialChatButtons locale={locale} />
 
       {/* 24/7 AI CHAT WIDGET */}
       <AIChatWidget locale={locale} />

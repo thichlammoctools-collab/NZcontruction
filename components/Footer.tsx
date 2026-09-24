@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import siteSettings from "@/content/site_settings.json";
 import { WhatsAppIcon, MessengerIcon, formatWhatsAppUrl } from "@/components/SocialChatButtons";
+import Logo from "@/components/Logo";
 
 interface FooterProps {
   locale: "en" | "vi";
@@ -15,14 +18,9 @@ export default function Footer({ locale, dict }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* BRAND COLUMN */}
           <div className="space-y-4">
-            <div className="flex items-center">
-              <img
-                src="https://lh3.googleusercontent.com/aida/AEtjO1WV-uToml-V3DiWbTogPbJwT5vWlBCvxsKAoa_dKZELqw3WBBFFgOLflUG5o0pc72ci6JcEJRZWJlef0FVAivsvFWBhJ9M8pYcbNnusfAcEe_4idhC0YkjTKdT8atgDrk6IU9CMOHXgF0S94tk1AJeFihyfYncdOxBcHT8WjHnod4MzhTnd7QkHnPye4O-U8IuZSt78yKK3UD9-5Cg6zbHZUAVJqSutHZ8HAtlzUKMs"
-                alt="NS Building - New Zealand"
-                className="h-10 w-auto object-contain"
-              />
-              <span className="sr-only">NS BUILDING</span>
-            </div>
+            <Link href={`/${locale}`} className="inline-block group">
+              <Logo />
+            </Link>
             <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
               {dict.footer.tagline}
             </p>
