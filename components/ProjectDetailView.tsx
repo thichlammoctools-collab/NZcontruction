@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import AIChatWidget from "@/components/AIChatWidget";
 import ProjectDetailSlider from "@/components/ProjectDetailSlider";
 import ConsultationModal from "@/components/ConsultationModal";
@@ -32,7 +33,7 @@ export default function ProjectDetailView({ project, locale, dict }: ProjectDeta
       {/* 1. HEADER */}
       <Header locale={locale} dict={dict} />
 
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-16 md:pt-20">
         {/* TOP CONTEXT NAVIGATION & META BAR */}
         <div className="w-full bg-surface-container-low/70 py-6 border-b border-border-light">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -630,6 +631,9 @@ export default function ProjectDetailView({ project, locale, dict }: ProjectDeta
 
       {/* 24/7 AI CHAT WIDGET */}
       <AIChatWidget locale={locale} />
+
+      {/* FIXED MOBILE BOTTOM NAVIGATION */}
+      <MobileBottomNav locale={locale} dict={dict} />
     </div>
   );
 }

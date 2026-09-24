@@ -106,7 +106,7 @@ export default function BeforeAfterSlider({
           alt="After NS Building transformation"
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
         />
-        <div className="absolute top-4 right-4 bg-primary text-on-primary px-3 py-1.5 rounded-lg text-xs font-bold z-10 shadow-md">
+        <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-primary text-on-primary px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold z-10 shadow-md">
           {afterLabel}
         </div>
 
@@ -121,7 +121,7 @@ export default function BeforeAfterSlider({
             className="absolute top-0 left-0 h-full max-w-none object-cover pointer-events-none"
             style={{ width: `${containerWidth}px` }}
           />
-          <div className="absolute top-4 left-4 bg-inverse-surface/90 text-inverse-on-surface px-3 py-1.5 rounded-lg text-xs font-bold shadow-md">
+          <div className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-inverse-surface/90 text-inverse-on-surface px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold shadow-md">
             {beforeLabel}
           </div>
         </div>
@@ -131,7 +131,7 @@ export default function BeforeAfterSlider({
           className="absolute inset-y-0 w-1 bg-white z-20 shadow-[0_0_12px_rgba(0,0,0,0.6)] flex items-center justify-center pointer-events-none"
           style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}
         >
-          <div className="w-9 h-9 rounded-full bg-primary text-on-primary shadow-xl flex items-center justify-center border-2 border-white">
+          <div className="w-10 h-10 sm:w-9 sm:h-9 rounded-full bg-primary text-on-primary shadow-2xl flex items-center justify-center border-2 border-white ring-2 ring-primary/20">
             <span className="material-symbols-outlined text-[18px]">code</span>
           </div>
         </div>

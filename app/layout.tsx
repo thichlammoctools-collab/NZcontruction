@@ -24,6 +24,17 @@ export const metadata: Metadata = {
     "tradies Auckland",
   ],
   metadataBase: new URL("https://nsbuilding.co.nz"),
+  alternates: {
+    canonical: "/en",
+    languages: {
+      en: "/en",
+      vi: "/vi",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: "NS Building | New Zealand Residential Craftsmen",
     description: "Building better homes across Auckland & New Zealand. Quality renovations, bathrooms, flooring and cabinetry.",

@@ -57,9 +57,9 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
   const quoteDict = dict.quote;
 
   return (
-    <div id="quote-section" className="w-full bg-surface-container py-20 lg:py-24">
+    <div id="quote-section" className="w-full bg-surface-container py-14 sm:py-20 lg:py-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12">
-        <div className="bg-surface-container-lowest p-8 sm:p-12 rounded-2xl shadow-xl border border-border-light">
+        <div className="bg-surface-container-lowest p-5 sm:p-8 lg:p-12 rounded-2xl shadow-xl border border-border-light">
           {/* HEADER */}
           <div className="text-center max-w-xl mx-auto mb-10">
             <div className="inline-flex items-center justify-center gap-2 mb-2">
@@ -116,7 +116,7 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6" id="quote-form">
               {/* Row 1: Name & Phone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-2" htmlFor="client-name">
                     {quoteDict.name} *
@@ -128,7 +128,7 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. John Campbell"
-                    className="w-full h-11 px-4 rounded-lg bg-surface text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
+                    className="w-full h-11 px-4 rounded-lg bg-surface text-base sm:text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
                   />
                 </div>
                 <div>
@@ -142,13 +142,13 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="e.g. 021 123 4567"
-                    className="w-full h-11 px-4 rounded-lg bg-surface text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
+                    className="w-full h-11 px-4 rounded-lg bg-surface text-base sm:text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
                   />
                 </div>
               </div>
 
               {/* Row 2: Email & Address */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-2" htmlFor="client-email">
                     {quoteDict.email} *
@@ -160,7 +160,7 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="e.g. john@domain.co.nz"
-                    className="w-full h-11 px-4 rounded-lg bg-surface text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
+                    className="w-full h-11 px-4 rounded-lg bg-surface text-base sm:text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
                   />
                 </div>
                 <div>
@@ -174,13 +174,13 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     placeholder="e.g. Remuera, Auckland"
-                    className="w-full h-11 px-4 rounded-lg bg-surface text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
+                    className="w-full h-11 px-4 rounded-lg bg-surface text-base sm:text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
                   />
                 </div>
               </div>
 
               {/* Row 3: Category & Timeframe */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-primary mb-2" htmlFor="service-category">
                     {quoteDict.service} *
@@ -190,7 +190,7 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                     required
                     value={formData.service}
                     onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                    className="w-full h-11 px-4 rounded-lg bg-surface text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
+                    className="w-full h-11 px-4 rounded-lg bg-surface text-base sm:text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
                   >
                     <option value="" disabled>
                       {quoteDict.service_placeholder || "Select primary trade..."}
@@ -213,7 +213,7 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                     id="timeframe"
                     value={formData.timeframe}
                     onChange={(e) => setFormData({ ...formData, timeframe: e.target.value })}
-                    className="w-full h-11 px-4 rounded-lg bg-surface text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
+                    className="w-full h-11 px-4 rounded-lg bg-surface text-base sm:text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
                   >
                     <option value="immediate">
                       {quoteDict.timeframe_options?.immediate || "Immediately (Next 2-4 Weeks)"}
@@ -245,7 +245,7 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                     quoteDict.details_placeholder ||
                     "Briefly describe what you're looking to achieve (e.g. removing a wall between kitchen and living, installing full bathroom, consent status, architect plans ready)..."
                   }
-                  className="w-full p-4 rounded-lg bg-surface text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
+                  className="w-full p-4 rounded-lg bg-surface text-base sm:text-sm text-on-surface outline-none border border-slate-200 focus:border-primary focus:bg-white transition-colors"
                 ></textarea>
               </div>
 

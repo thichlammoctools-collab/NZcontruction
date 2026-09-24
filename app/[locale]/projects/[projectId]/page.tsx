@@ -46,6 +46,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${isVi ? project.header.title.vi : project.header.title.en} | NS Building NZ`,
     description: isVi ? project.header.subtitle.vi : project.header.subtitle.en,
+    alternates: {
+      canonical: `/${locale}/projects/${projectId}`,
+      languages: {
+        en: `/en/projects/${projectId}`,
+        vi: `/vi/projects/${projectId}`,
+      },
+    },
     openGraph: {
       title: `${isVi ? project.header.title.vi : project.header.title.en} | NS Building`,
       description: isVi ? project.header.subtitle.vi : project.header.subtitle.en,

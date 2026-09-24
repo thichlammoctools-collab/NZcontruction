@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import AIChatWidget from "@/components/AIChatWidget";
 
 import RenovationServiceTemplate from "@/components/service-templates/RenovationServiceTemplate";
@@ -57,6 +58,13 @@ export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: `${title} | NS Building Auckland`,
     description: intro,
+    alternates: {
+      canonical: `/${locale}/services/${serviceId}`,
+      languages: {
+        en: `/en/services/${serviceId}`,
+        vi: `/vi/services/${serviceId}`,
+      },
+    },
     openGraph: {
       title: `${title} | NS Building Auckland`,
       description: intro,
@@ -96,7 +104,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
     <div className="min-h-screen flex flex-col bg-surface text-on-surface antialiased">
       <Header locale={locale as "en" | "vi"} dict={dict} />
 
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-16 md:pt-20">
         <TemplateComponent
           serviceId={serviceId}
           service={service}
@@ -108,6 +116,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
 
       <Footer locale={locale as "en" | "vi"} dict={dict} />
       <AIChatWidget locale={locale as "en" | "vi"} />
+      <MobileBottomNav locale={locale as "en" | "vi"} dict={dict} />
     </div>
   );
 }

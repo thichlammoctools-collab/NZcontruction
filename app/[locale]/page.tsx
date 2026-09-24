@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import ServiceCard from "@/components/ServiceCard";
 import PortfolioSection from "@/components/PortfolioSection";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
@@ -46,9 +47,9 @@ export default function HomePage({ params }: PageProps) {
       {/* 1. HEADER & TOP UTILITY BAR */}
       <Header locale={locale as "en" | "vi"} dict={dict} />
 
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-16 md:pt-20">
         {/* 2. HERO SECTION */}
-        <section className="relative w-full min-h-[640px] lg:min-h-[720px] flex items-center overflow-hidden bg-primary">
+        <section className="relative w-full min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] flex items-center overflow-hidden bg-primary">
           {/* Full-bleed background image */}
           <Image
             src={siteSettings?.heroBackgroundImage || "https://lh3.googleusercontent.com/aida-public/AB6AXuAC4zySIsBFsCxbPwZoDwuqZtLQWpoTxQeVfs9GkcCOv8krWekpp7w-Sr4GIn4XjONGNLOByEmndm0tLOLyjs8PwH7QRkKbuuMMi34H0gnPxaPMwqQFVlSToJiD5aGeB16_nvb2zbNYsBr_w-OG4ktIRiEp6kaeOBtvN58A62ECHeBxKOEYa4sU7H5HmQaAugC9OSRbuHdHIOXPkFDOyfyHz-acP9xjnkESnozm5pyPzrINXZNh1K03Cg"}
@@ -62,11 +63,11 @@ export default function HomePage({ params }: PageProps) {
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/35"></div>
 
           {/* Content Container */}
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 lg:py-28 flex flex-col justify-center">
-            <div className="max-w-2xl space-y-6">
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-14 sm:py-20 lg:py-28 flex flex-col justify-center">
+            <div className="max-w-2xl space-y-5 sm:space-y-6">
               {/* Star Rating & Trust Proof Tag */}
-              <div className="inline-flex items-center gap-2.5 text-sm">
-                <span className="text-[#f59e0b] tracking-wider text-base font-bold select-none">
+              <div className="inline-flex items-center gap-2 text-sm">
+                <span className="text-[#f59e0b] tracking-wider text-sm sm:text-base font-bold select-none">
                   ★★★★★
                 </span>
                 <span className="text-surface-bright/90 font-medium tracking-wide text-xs sm:text-sm">
@@ -75,28 +76,28 @@ export default function HomePage({ params }: PageProps) {
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-white font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.08]">
+              <h1 className="text-white font-extrabold text-3xl sm:text-5xl lg:text-7xl tracking-tight leading-[1.12]">
                 {dict.hero.title_line1}
                 <br />
                 {dict.hero.title_line2}
               </h1>
 
               {/* Subtitle Description */}
-              <p className="text-white/85 text-base sm:text-lg lg:text-xl font-normal max-w-xl leading-relaxed">
+              <p className="text-white/85 text-sm sm:text-lg lg:text-xl font-normal max-w-xl leading-relaxed">
                 {dict.hero.subtitle}
               </p>
 
               {/* Action Buttons */}
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                 <a
                   href="#quote-section"
-                  className="inline-flex items-center justify-center px-7 py-3 rounded-lg bg-[#b6824a] hover:bg-[#a6723b] text-white font-bold text-sm sm:text-base tracking-wide transition-all shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-[#b6824a] hover:bg-[#a6723b] text-white font-bold text-sm sm:text-base tracking-wide transition-all shadow-lg hover:shadow-xl text-center"
                 >
                   {dict.hero.cta_quote}
                 </a>
                 <a
                   href="#work-section"
-                  className="inline-flex items-center justify-center px-7 py-3 rounded-lg border border-white/50 text-white hover:bg-white/10 font-bold text-sm sm:text-base tracking-wide transition-all backdrop-blur-sm"
+                  className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl border border-white/50 text-white hover:bg-white/10 font-bold text-sm sm:text-base tracking-wide transition-all backdrop-blur-sm text-center"
                 >
                   {dict.hero.cta_work}
                 </a>
@@ -480,6 +481,9 @@ export default function HomePage({ params }: PageProps) {
       {siteSettings?.toggles?.showChatWidget !== false && (
         <AIChatWidget locale={locale as "en" | "vi"} />
       )}
+
+      {/* 14. FIXED MOBILE BOTTOM NAVIGATION */}
+      <MobileBottomNav locale={locale as "en" | "vi"} dict={dict} />
     </div>
   );
 }

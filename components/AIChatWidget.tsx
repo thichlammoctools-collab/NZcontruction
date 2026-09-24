@@ -110,25 +110,25 @@ export default function AIChatWidget({ locale }: AIChatWidgetProps) {
       : (aiConfig?.leadCapture?.promptChips_en || ["Bathroom Renovation", "Flooring Solution", "Kitchen Cabinets", "Get a Free Quote"]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-[74px] right-3 sm:bottom-6 sm:right-6 z-40 sm:z-50">
       {/* TRIGGER BUTTON */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="relative group bg-primary hover:bg-primary-dark text-white p-4 rounded-full shadow-2xl flex items-center justify-center border-2 border-bronze transition-transform hover:scale-105"
+          className="relative group bg-primary hover:bg-primary-dark text-white p-3 sm:p-4 rounded-full shadow-2xl flex items-center justify-center border-2 border-bronze transition-transform hover:scale-105 active:scale-95"
           aria-label="Open AI Assistant"
         >
           <span className="absolute -top-1 -right-1 flex h-4 w-4">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500"></span>
           </span>
-          <MessageSquare className="w-6 h-6 text-bronze" />
+          <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-bronze" />
         </button>
       )}
 
       {/* CHAT WINDOW */}
       {isOpen && (
-        <div className="w-[360px] sm:w-[400px] h-[540px] bg-white rounded-2xl shadow-2xl border border-border-light flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200">
+        <div className="w-[calc(100vw-1.5rem)] max-w-[380px] sm:w-[400px] h-[72vh] max-h-[520px] bg-white rounded-2xl shadow-2xl border border-border-light flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200">
           {/* HEADER */}
           <div className="bg-primary text-white p-4 flex items-center justify-between border-b border-slate-800">
             <div className="flex items-center gap-3">
