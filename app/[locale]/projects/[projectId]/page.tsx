@@ -63,15 +63,13 @@ export default function ProjectPage({ params }: PageProps) {
     notFound();
   }
 
-  const project =
-    (projectsDetailData as any)[projectId] ||
-    (projectsDetailData as any)["remuera-architectural-renovation"];
+  const project = getProjectDetail(projectId);
 
   if (!project) {
     notFound();
   }
 
-  const dict = locale === "vi" ? viDict : enDict;
+  const dict = getDictionary(locale);
 
   return (
     <ProjectDetailView
