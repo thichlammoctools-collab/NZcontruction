@@ -73,6 +73,11 @@ export default function Footer({ locale, dict }: FooterProps) {
                   {dict.nav.quote}
                 </Link>
               </li>
+              <li>
+                <Link href={`/${locale}/posts`} className="hover:text-primary transition-colors">
+                  {locale === "vi" ? "Cẩm Nang & Kinh Nghiệm" : "Journal & Insights"}
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -4,33 +4,28 @@ import { notFound } from "next/navigation";
 import path from "path";
 import ProjectDetailView from "@/components/ProjectDetailView";
 import { readJsonSafe } from "@/lib/json-store";
+import { normalizeProject } from "@/lib/project-normalize";
 
 export const revalidate = 300; // ISR: admin edits trigger revalidatePath sooner
-
-export function generateStaticParams() {
-  const locales = ["en", "vi"];
-  const projectIds = [
-    "remuera-architectural-renovation",
-    "takapuna-luxury-bathroom",
-    "epsom-custom-kitchen-cabinetry",
-  ];
-
-  const params: { locale: string; projectId: string }[] = [];
-  locales.forEach((locale) => {
-    projectIds.forEach((projectId) => {
-      params.push({ locale, projectId });
-    });
-  });
-  return params;
-}
+export const dynamicParams = true; // allow admin-created projects not pre-rendered
 
 const projectsDetailPath = path.join(process.cwd(), "content", "projects_detail.json");
+const projectsPath = path.join(process.cwd(), "content", "projects.json");
 const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 
 function getProjectDetail(projectId: string) {
-  const data = readJsonSafe<Record<string, any>>(projectsDetailPath, {});
-  return data[projectId] || data["remuera-architectural-renovation"];
+  // 1. Flagship rich editorials (authored JSON with full schema).
+  const detailData = readJsonSafe<Record<string, any>>(projectsDetailPath, {});
+  if (detailData[projectId]) return detailData[projectId];
+
+  // 2. Admin-managed simple projects — normalize into the rich shape expected
+  // by ProjectDetailView so they render a full detail page.
+  const simpleProjects = readJsonSafe<any[]>(projectsPath, []);
+  const simple = simpleProjects.find((p) => p.id === projectId);
+  if (simple) return normalizeProject(simple);
+
+  return null;
 }
 
 function getDictionary(locale: string) {
@@ -90,7 +85,7 @@ export default function ProjectPage({ params }: PageProps) {
 
   return (
     <ProjectDetailView
-      project={project}
+      project={project as any}
       locale={locale as "en" | "vi"}
       dict={dict}
     />

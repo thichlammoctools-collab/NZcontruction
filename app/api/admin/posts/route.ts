@@ -39,6 +39,8 @@ export async function POST(req: Request) {
       id: newPost.id || `post-${Date.now()}`,
       date: newPost.date || new Date().toISOString().split("T")[0],
       author: newPost.author || "Nguyen Son",
+      content_en: newPost.content_en || "",
+      content_vi: newPost.content_vi || "",
     };
 
     posts.unshift(postWithId);

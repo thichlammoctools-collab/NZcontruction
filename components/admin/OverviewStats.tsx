@@ -16,12 +16,14 @@ import {
   Sliders,
   ExternalLink,
   Bot,
+  Inbox,
 } from "lucide-react";
 
 interface OverviewStatsProps {
   projects: any[];
   services: any[];
   posts: any[];
+  leads: any[];
   siteSettings: any;
   setActiveTab: (tab: AdminTab) => void;
   onOpenNewProject: () => void;
@@ -32,6 +34,7 @@ export default function OverviewStats({
   projects,
   services,
   posts,
+  leads,
   siteSettings,
   setActiveTab,
   onOpenNewProject,
@@ -83,7 +86,7 @@ export default function OverviewStats({
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
         {/* Card 1: Projects */}
         <div
           onClick={() => setActiveTab("projects")}
@@ -141,6 +144,28 @@ export default function OverviewStats({
           <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
             <span>Bài viết chuẩn SEO NZ</span>
             <ArrowUpRight className="w-4 h-4 text-blue-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </div>
+        </div>
+
+        {/* Card: Leads */}
+        <div
+          onClick={() => setActiveTab("leads")}
+          className="group cursor-pointer bg-slate-800/80 hover:bg-slate-800 p-6 rounded-2xl border border-slate-700 hover:border-rose-400/50 transition-all shadow-md"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">
+              Leads Mới
+            </span>
+            <div className="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Inbox className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="text-3xl font-black text-white">
+            {leads.filter((l: any) => (l.status || "new") === "new").length}
+          </div>
+          <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
+            <span>Tổng: {leads.length} leads</span>
+            <ArrowUpRight className="w-4 h-4 text-rose-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
         </div>
 

@@ -6,6 +6,7 @@ import dynamicImport from "next/dynamic";
 import AdminSidebar, { AdminTab } from "@/components/admin/AdminSidebar";
 import AdminHeader from "@/components/admin/AdminHeader";
 import OverviewStats from "@/components/admin/OverviewStats";
+import LeadsManager from "@/components/admin/LeadsManager";
 
 // Lazy-load heavy tab components so initial paint of dashboard is fast
 const InterfaceManager = dynamicImport(() => import("@/components/admin/InterfaceManager"), { ssr: false });
@@ -24,6 +25,7 @@ export default function AdminDashboardPage() {
   const [services, setServices] = useState<any[]>([]);
   const [posts, setPosts] = useState<any[]>([]);
   const [interfaceData, setInterfaceData] = useState<any>(null);
+  const [leads, setLeads] = useState<any[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -34,11 +36,12 @@ export default function AdminDashboardPage() {
   const loadData = useCallback(async (isSilent = false) => {
     if (!isSilent) setIsRefreshing(true);
     try {
-      const [projRes, servRes, postRes, ifaceRes] = await Promise.all([
+      const [projRes, servRes, postRes, ifaceRes, leadsRes] = await Promise.all([
         fetch("/api/admin/projects"),
         fetch("/api/admin/services"),
         fetch("/api/admin/posts"),
         fetch("/api/admin/interface"),
+        fetch("/api/admin/leads"),
       ]);
 
       if (projRes.ok) {
@@ -59,6 +62,15 @@ export default function AdminDashboardPage() {
       if (ifaceRes.ok) {
         const ifaceData = await ifaceRes.json();
         setInterfaceData(ifaceData);
+      }
+
+      if (leadsRes.ok) {
+        const leadsData = await leadsRes.json();
+        const combined = [
+          ...(leadsData.quoteLeads || []),
+          ...(leadsData.chatLeads || []),
+        ];
+        setLeads(combined);
       }
     } catch (err) {
       console.error("Error loading dashboard data:", err);
@@ -130,6 +142,7 @@ export default function AdminDashboardPage() {
             projects: projects.length,
             services: services.length,
             posts: posts.length,
+            leads: leads.length,
           }}
           onLogout={handleLogout}
         />
@@ -151,6 +164,7 @@ export default function AdminDashboardPage() {
               projects={projects}
               services={services}
               posts={posts}
+              leads={leads}
               siteSettings={interfaceData?.siteSettings || {}}
               setActiveTab={setActiveTab}
               onOpenNewProject={() => setActiveTab("projects")}
@@ -182,6 +196,13 @@ export default function AdminDashboardPage() {
           {activeTab === "posts" && (
             <PostsManager
               posts={posts}
+              onRefresh={() => loadData(true)}
+            />
+          )}
+
+          {activeTab === "leads" && (
+            <LeadsManager
+              leads={leads}
               onRefresh={() => loadData(true)}
             />
           )}

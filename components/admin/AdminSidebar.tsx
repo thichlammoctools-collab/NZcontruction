@@ -14,9 +14,17 @@ import {
   ChevronRight,
   HardHat,
   Bot,
+  Inbox,
 } from "lucide-react";
 
-export type AdminTab = "overview" | "interface" | "services" | "projects" | "posts" | "ai-chat";
+export type AdminTab =
+  | "overview"
+  | "interface"
+  | "services"
+  | "projects"
+  | "posts"
+  | "leads"
+  | "ai-chat";
 
 interface AdminSidebarProps {
   activeTab: AdminTab;
@@ -25,6 +33,7 @@ interface AdminSidebarProps {
     projects: number;
     services: number;
     posts: number;
+    leads: number;
   };
   onLogout: () => void;
 }
@@ -74,6 +83,14 @@ export default function AdminSidebar({
       icon: FileText,
       badge: counts.posts.toString(),
       badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/30",
+    },
+    {
+      id: "leads" as AdminTab,
+      label: "Quản Lý Leads",
+      sub: "Báo giá & Chatbot AI",
+      icon: Inbox,
+      badge: counts.leads > 0 ? counts.leads.toString() : null,
+      badgeColor: "bg-rose-500/20 text-rose-300 border-rose-500/30",
     },
     {
       id: "ai-chat" as AdminTab,

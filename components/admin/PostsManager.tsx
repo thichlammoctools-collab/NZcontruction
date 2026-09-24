@@ -41,6 +41,8 @@ export default function PostsManager({ posts, onRefresh }: PostsManagerProps) {
     image: "",
     summary_en: "",
     summary_vi: "",
+    content_en: "",
+    content_vi: "",
     author: "Nguyễn Sơn",
     date: new Date().toISOString().split("T")[0],
   };
@@ -63,6 +65,8 @@ export default function PostsManager({ posts, onRefresh }: PostsManagerProps) {
       image: post.image || "",
       summary_en: post.summary_en || "",
       summary_vi: post.summary_vi || "",
+      content_en: post.content_en || "",
+      content_vi: post.content_vi || "",
       author: post.author || "Nguyễn Sơn",
       date: post.date || new Date().toISOString().split("T")[0],
     });
@@ -371,6 +375,42 @@ export default function PostsManager({ posts, onRefresh }: PostsManagerProps) {
                   }
                   className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
                 />
+              </div>
+
+              <div className="pt-3 border-t border-slate-800 space-y-4">
+                <span className="font-bold text-amber-400 block uppercase tracking-wider text-[11px]">
+                  Nội Dung Bài Viết (Thân Bài)
+                </span>
+
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">
+                    Nội dung chi tiết (Tiếng Việt)
+                  </label>
+                  <textarea
+                    rows={6}
+                    placeholder="Viết nội dung bài viết, mỗi đoạn văn một dòng. Hỗ trợ xuống dòng tự nhiên..."
+                    value={formData.content_vi}
+                    onChange={(e) =>
+                      setFormData({ ...formData, content_vi: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white leading-relaxed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-300 mb-1">
+                    Nội dung chi tiết (Tiếng Anh)
+                  </label>
+                  <textarea
+                    rows={6}
+                    placeholder="Write the article body, one paragraph per line..."
+                    value={formData.content_en}
+                    onChange={(e) =>
+                      setFormData({ ...formData, content_en: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white leading-relaxed"
+                  />
+                </div>
               </div>
 
               <div className="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">

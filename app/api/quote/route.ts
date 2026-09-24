@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import path from "path";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
-import { writeJsonAtomic, readJsonSafe } from "@/lib/json-store";
+import {
+  writeJsonAtomic,
+  readJsonSafe,
+  sanitizeString,
+  isValidEmail,
+  normalizePhone,
+} from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
 
@@ -20,10 +26,6 @@ interface QuoteLead {
 
 const MAX_FIELD = 2000;
 
-function str(v: unknown): string {
-  return typeof v === "string" ? v.trim().slice(0, MAX_FIELD) : "";
-}
-
 export async function POST(req: Request) {
   try {
     // Per-IP throttle: max 5 quote submissions / 10 minutes.
@@ -37,14 +39,42 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
+    const name = sanitizeString(body?.name, 200);
+    const email = sanitizeString(body?.email, 200);
+    const phone = normalizePhone(body?.phone || "").slice(0, 20);
+    const service = sanitizeString(body?.service, 200);
+    const location = sanitizeString(body?.location, 200);
+    const details = sanitizeString(body?.details, 2000);
+
+    if (!name || (!phone && !email)) {
+      return NextResponse.json(
+        { success: false, message: "Vui lòng nhập tên và số điện thoại hoặc email." },
+        { status: 400 }
+      );
+    }
+
+    if (email && !isValidEmail(email)) {
+      return NextResponse.json(
+        { success: false, message: "Địa chỉ email không hợp lệ." },
+        { status: 400 }
+      );
+    }
+
+    if (phone && phone.replace(/\D/g, "").length < 6) {
+      return NextResponse.json(
+        { success: false, message: "Số điện thoại không hợp lệ." },
+        { status: 400 }
+      );
+    }
+
     const lead: QuoteLead = {
       id: `quote-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      name: str(body?.name),
-      phone: str(body?.phone),
-      email: str(body?.email),
-      service: str(body?.service),
-      location: str(body?.location),
-      details: str(body?.details),
+      name,
+      phone,
+      email,
+      service,
+      location,
+      details,
       createdAt: new Date().toISOString(),
     };
 

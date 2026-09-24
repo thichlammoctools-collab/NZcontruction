@@ -115,7 +115,7 @@ export default function PortfolioSection({ portfolioDict, locale = "en" }: Portf
                   <span className="text-slate-400 font-medium">{item.year}</span>
                 </div>
                 <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-bronze transition-colors">
-                  <Link href={`/${locale}/projects/remuera-architectural-renovation`}>
+                  <Link href={`/${locale}/projects/${item.id}`}>
                     {item.title}
                   </Link>
                 </h3>
@@ -126,7 +126,7 @@ export default function PortfolioSection({ portfolioDict, locale = "en" }: Portf
 
               <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
                 <Link
-                  href={`/${locale}/projects/remuera-architectural-renovation`}
+                  href={`/${locale}/projects/${item.id}`}
                   className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:text-secondary group-hover:translate-x-1 transition-all"
                 >
                   <span>{locale === "vi" ? "Xem Chi Tiết Dự Án" : "View Case Study"}</span>

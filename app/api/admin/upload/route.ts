@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { rateLimit, clientIp } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
 // Maximum allowed image size: 10MB
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+// Throttle uploads per IP to bound storage abuse (max 30 / 10 min).
+const UPLOAD_LIMIT = 30;
+const UPLOAD_WINDOW_MS = 10 * 60 * 1000;
 
 // Allowed image MIME types. SVG is intentionally EXCLUDED: it can embed
 // scripts and would be a stored-XSS vector when served from the same origin.
@@ -53,6 +58,15 @@ function detectImageMime(buf: Buffer): string | null {
 
 export async function POST(req: Request) {
   try {
+    // Per-IP throttle: bound storage abuse from a single client.
+    const rl = rateLimit(`upload:${clientIp(req)}`, UPLOAD_LIMIT, UPLOAD_WINDOW_MS);
+    if (rl.remaining <= 0) {
+      return NextResponse.json(
+        { error: "Quá nhiều lượt tải lên. Vui lòng thử lại sau." },
+        { status: 429, headers: { "Retry-After": String(rl.retryAfterSec || 600) } }
+      );
+    }
+
     const formData = await req.formData();
     const file = formData.get("file");
 
