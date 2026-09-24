@@ -3,6 +3,9 @@ import { Metadata } from "next";
 export function generateMetadata({ params }: { params: { locale: string } }): Metadata {
   const isVi = params.locale === "vi";
   return {
+    // Root layout hardcodes lang="en" (html tag cannot be re-rendered per-route
+    // in App Router); document the real page language for crawlers/readers.
+    other: isVi ? { "content-language": "vi" } : { "content-language": "en" },
     title: isVi
       ? "NS Building | Cải Tạo Nhà Ở Chuyên Nghiệp Auckland & New Zealand"
       : "NS Building | Residential Renovation & Construction Specialists New Zealand",
@@ -23,6 +26,12 @@ export function generateMetadata({ params }: { params: { locale: string } }): Me
   };
 }
 
-export default function LocaleLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
+  return <div lang={params.locale}>{children}</div>;
 }
