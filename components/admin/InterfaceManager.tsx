@@ -604,34 +604,32 @@ export default function InterfaceManager({
                   className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-semibold"
                 />
               </div>
+            </div>
 
-              <div>
-                <label className="block font-bold text-slate-300 mb-1">
-                  Link ảnh Trước Khi Sửa (Before Image URL) *
-                </label>
-                <input
-                  type="url"
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+              <div className="p-4 bg-slate-900/60 rounded-xl border border-slate-700/70 space-y-2">
+                <ImageUpload
+                  label="Ảnh Trước Khi Sửa (Before Image)"
                   required
                   value={baDataVi.before_img}
-                  onChange={(e) =>
-                    setBaDataVi({ ...baDataVi, before_img: e.target.value })
+                  onChange={(url) =>
+                    setBaDataVi({ ...baDataVi, before_img: url })
                   }
-                  className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono"
+                  aspectRatio="video"
+                  helperText="Tải file ảnh thực tế hiện trạng từ máy tính hoặc dán link URL"
                 />
               </div>
 
-              <div>
-                <label className="block font-bold text-slate-300 mb-1">
-                  Link ảnh Sau Khi Hoàn Thiện (After Image URL) *
-                </label>
-                <input
-                  type="url"
+              <div className="p-4 bg-slate-900/60 rounded-xl border border-slate-700/70 space-y-2">
+                <ImageUpload
+                  label="Ảnh Sau Khi Hoàn Thiện (After Image)"
                   required
                   value={baDataVi.after_img}
-                  onChange={(e) =>
-                    setBaDataVi({ ...baDataVi, after_img: e.target.value })
+                  onChange={(url) =>
+                    setBaDataVi({ ...baDataVi, after_img: url })
                   }
-                  className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono"
+                  aspectRatio="video"
+                  helperText="Tải file ảnh thực tế sau hoàn thiện từ máy tính hoặc dán link URL"
                 />
               </div>
             </div>

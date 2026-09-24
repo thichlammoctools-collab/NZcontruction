@@ -113,14 +113,14 @@ export default function AdminHeader({
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 text-xs font-bold transition-all shadow-md shadow-amber-400/10"
             >
               <PlusCircle className="w-3.5 h-3.5" />
-              <span>+ Dự Án</span>
+              <span>Dự Án</span>
             </button>
             <button
               onClick={() => onQuickAdd("service")}
               className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition-all border border-slate-700"
             >
               <PlusCircle className="w-3.5 h-3.5 text-amber-400" />
-              <span>+ Dịch Vụ</span>
+              <span>Dịch Vụ</span>
             </button>
           </div>
         )}

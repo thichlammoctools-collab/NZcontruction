@@ -363,9 +363,9 @@ export default function ServicesManager({
       {/* Add / Edit Service Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-slate-850 border border-slate-700 rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden my-8">
+          <div className="bg-[#0F172A] border border-slate-700 rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden my-8">
             {/* Modal Header */}
-            <div className="p-6 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+            <div className="p-6 bg-[#0F172A] border-b border-slate-800 flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
                   {modalMode === "create" ? "Thêm Mới" : "Cập Nhật"} &bull; Services CMS
@@ -385,7 +385,7 @@ export default function ServicesManager({
             </div>
 
             {/* Modal Tabs */}
-            <div className="flex border-b border-slate-800 px-6 bg-slate-900/60 overflow-x-auto">
+            <div className="flex border-b border-slate-800 px-6 bg-[#0F172A] overflow-x-auto">
               <button
                 type="button"
                 onClick={() => setActiveModalTab("basic")}
@@ -437,7 +437,7 @@ export default function ServicesManager({
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSaveService} className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
+            <form onSubmit={handleSaveService} className="p-6 space-y-6 max-h-[70vh] overflow-y-auto bg-[#0F172A]">
               {/* TAB 1: BASIC INFO */}
               {activeModalTab === "basic" && (
                 <div className="space-y-4 text-xs">

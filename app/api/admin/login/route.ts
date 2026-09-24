@@ -10,11 +10,11 @@ export async function POST(req: NextRequest) {
     // invalid body → treat as wrong password
   }
 
-  if (!verifyPassword(password)) {
+  if (!(await verifyPassword(password))) {
     return NextResponse.json({ error: "Mật khẩu không đúng." }, { status: 401 });
   }
 
-  const token = createSessionToken();
+  const token = await createSessionToken();
   if (!token) {
     return NextResponse.json(
       { error: "Server chưa cấu hình ADMIN_PASSWORD_HASH / ADMIN_SESSION_SECRET." },
