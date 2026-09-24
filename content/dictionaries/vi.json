@@ -33,16 +33,16 @@
     "view_service": "Chi Tiết Dịch Vụ",
     "items": {
       "renovations": {
-        "title": "Cải Tạo Toàn Bộ Ngôi Nhà",
-        "tag": "Tổng Thể",
-        "desc": "Tái cấu trúc không gian sống và cải tạo nội thất toàn diện, thiết kế tối ưu cho cuộc sống hiện đại của gia đình.",
-        "icon": "home_repair_service"
+        "title": "Cải Tạo Nhà Trọn Gói",
+        "tag": "Dịch vụ",
+        "desc": "Quản lý cải tạo nhà ở toàn diện từ thiết kế ý tưởng, hỗ trợ xin phép Council, tháo dỡ, gia cố dầm thép chịu lực cho đến hoàn thiện nội thất bàn giao c...",
+        "icon": "construction"
       },
       "bathrooms": {
-        "title": "Phòng Tắm Sang Trọng",
-        "tag": "Khu Vực Ướt",
-        "desc": "Phòng tắm chống thấm chuẩn kỹ thuật, lát đá tinh xảo và lắp đặt phụ kiện thiết bị vệ sinh kiến trúc cao cấp.",
-        "icon": "bathtub"
+        "title": "Phòng Tắm Cao Cấp",
+        "tag": "Dịch vụ",
+        "desc": "Biến đổi phòng tắm cũ kỹ thành không gian thư giãn đẳng cấp mang đậm phong cách kiến trúc hiện đại. Chuyên sâu màng chống thấm đạt chứng nhận Council ...",
+        "icon": "construction"
       },
       "cabinets": {
         "title": "Tủ Bếp & Đồ Gỗ Nội Thất",

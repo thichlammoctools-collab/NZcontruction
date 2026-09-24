@@ -2,7 +2,7 @@
   "renovations": {
     "title_en": "Full Home Renovations",
     "title_vi": "Cải Tạo Nhà Trọn Gói",
-    "hero_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAC4zySIsBFsCxbPwZoDwuqZtLQWpoTxQeVfs9GkcCOv8krWekpp7w-Sr4GIn4XjONGNLOByEmndm0tLOLyjs8PwH7QRkKbuuMMi34H0gnPxaPMwqQFVlSToJiD5aGeB16_nvb2zbNYsBr_w-OG4ktIRiEp6kaeOBtvN58A62ECHeBxKOEYa4sU7H5HmQaAugC9OSRbuHdHIOXPkFDOyfyHz-acP9xjnkESnozm5pyPzrINXZNh1K03Cg",
+    "hero_image": "/uploads/thiet-ke-chua-co-ten-1790236696813-7me02n.png",
     "intro_en": "End-to-end residential renovation management from initial architectural planning through council consent support, demolition, structural steel framing, to premium interior handover across Auckland & New Zealand.",
     "intro_vi": "Quản lý cải tạo nhà ở toàn diện từ thiết kế ý tưởng, hỗ trợ xin phép Council, tháo dỡ, gia cố dầm thép chịu lực cho đến hoàn thiện nội thất bàn giao chìa khóa trao tay tại Auckland và New Zealand.",
     "features_en": [
@@ -93,7 +93,7 @@
   "bathrooms": {
     "title_en": "Luxury Bathroom Renovations",
     "title_vi": "Phòng Tắm Cao Cấp",
-    "hero_image": "https://lh3.googleusercontent.com/aida/AEtjO1XSuSr6cmDXZuKxglbOfbb5uB1o87dL_LOk5uj-DhuKFDdPGO-EL-FvW3yJYxTngXPBUO--rjxoUaabyTmFPxf9jUxXau9yGlP53aQ1Lb6SQOWVJ1CvmJzTrt9QT0FVtUeZtV2aoJ0ENmA2kI_Jim31snDr9Ct17MXSIr3xOFcBQoWcraAHhYKrwcZS_7hIPewjK-e0vwvds_eOHbtetjyzEdd2uTb3EvhQveRd3KYi2WJGo_vOGPfvbXQ3",
+    "hero_image": "/uploads/555729772-24196493666695757-2590209359946361665-n-1790236716602-f5b2xq.jpg",
     "intro_en": "Transform outdated bathrooms into serene, architecturally refined sanctuaries. Specializing in council-compliant certified waterproofing membranes, floor-to-ceiling tiling, and custom joinery.",
     "intro_vi": "Biến đổi phòng tắm cũ kỹ thành không gian thư giãn đẳng cấp mang đậm phong cách kiến trúc hiện đại. Chuyên sâu màng chống thấm đạt chứng nhận Council NZ, ốp lát gạch đá kịch trần và lavabo may đo.",
     "features_en": [
@@ -175,7 +175,8 @@
         "unit_vi": "Khu vực ướt",
         "popular": false
       }
-    ]
+    ],
+    "timeline_steps": []
   },
   "cabinets": {
     "title_en": "Custom Cabinets & Joinery",

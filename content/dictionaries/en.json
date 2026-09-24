@@ -34,15 +34,15 @@
     "items": {
       "renovations": {
         "title": "Full Home Renovations",
-        "tag": "Comprehensive",
-        "desc": "Complete structural reconfigurations and interior transformations designed around modern family living.",
-        "icon": "home_repair_service"
+        "tag": "Services",
+        "desc": "End-to-end residential renovation management from initial architectural planning through council consent support, demolition, structural steel framing...",
+        "icon": "construction"
       },
       "bathrooms": {
-        "title": "Luxury Bathrooms",
-        "tag": "Wet Areas",
-        "desc": "Practical, luxurious, engineered waterproof bathrooms crafted with precision tiling and architectural fittings.",
-        "icon": "bathtub"
+        "title": "Luxury Bathroom Renovations",
+        "tag": "Services",
+        "desc": "Transform outdated bathrooms into serene, architecturally refined sanctuaries. Specializing in council-compliant certified waterproofing membranes, fl...",
+        "icon": "construction"
       },
       "cabinets": {
         "title": "Cabinets & Joinery",

@@ -186,7 +186,7 @@ export default function PostsManager({ posts, onRefresh }: PostsManagerProps) {
             className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-amber-400/20"
           >
             <Plus className="w-4 h-4" />
-            <span>+ Viết Bài Mới</span>
+            <span>Viết Bài Mới</span>
           </button>
         </div>
       </div>

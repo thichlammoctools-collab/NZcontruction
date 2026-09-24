@@ -238,7 +238,7 @@ export default function ServicesManager({
             className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-amber-400/20"
           >
             <Plus className="w-4 h-4" />
-            <span>+ Thêm Dịch Vụ Mới</span>
+            <span>Thêm Dịch Vụ Mới</span>
           </button>
         </div>
       </div>
@@ -679,7 +679,7 @@ export default function ServicesManager({
                       className="px-3 py-1.5 rounded-lg bg-amber-400/10 border border-amber-400/30 text-amber-400 font-bold flex items-center gap-1.5"
                     >
                       <Plus className="w-3.5 h-3.5" />
-                      <span>+ Thêm Gói Giá</span>
+                      <span>Thêm Gói Giá</span>
                     </button>
                   </div>
 
@@ -835,7 +835,7 @@ export default function ServicesManager({
                       className="px-3 py-1.5 rounded-lg bg-amber-400/10 border border-amber-400/30 text-amber-400 font-bold flex items-center gap-1.5"
                     >
                       <Plus className="w-3.5 h-3.5" />
-                      <span>+ Thêm Bước Quy Trình</span>
+                      <span>Thêm Bước Quy Trình</span>
                     </button>
                   </div>
 
