@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import path from "path";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -11,15 +12,18 @@ import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import GoogleReviews from "@/components/GoogleReviews";
 import QuoteForm from "@/components/QuoteForm";
 import AIChatWidget from "@/components/AIChatWidget";
+import { readJsonSafe } from "@/lib/json-store";
 
-import enDict from "@/content/dictionaries/en.json";
-import viDict from "@/content/dictionaries/vi.json";
-import siteSettings from "@/content/site_settings.json";
+export const dynamic = "force-dynamic";
 
-export const revalidate = 300; // ISR: refresh at most every 5 min; admin edits revalidate sooner
+const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
+const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
+const siteSettingsPath = path.join(process.cwd(), "content", "site_settings.json");
 
-export function generateStaticParams() {
-  return [{ locale: "en" }, { locale: "vi" }];
+function getPageData(locale: string) {
+  const dict = readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
+  const siteSettings = readJsonSafe<any>(siteSettingsPath, {});
+  return { dict, siteSettings };
 }
 
 interface PageProps {
@@ -35,12 +39,12 @@ export default function HomePage({ params }: PageProps) {
     notFound();
   }
 
-  const dict = locale === "vi" ? viDict : enDict;
-  const f1 = dict.featured_flagships.feature_01;
-  const f2 = dict.featured_flagships.feature_02;
-  const pillars = dict.pillars;
-  const areas = dict.service_areas;
-  const qc = dict.quick_contact;
+  const { dict, siteSettings } = getPageData(locale);
+  const f1 = dict.featured_flagships?.feature_01 || {};
+  const f2 = dict.featured_flagships?.feature_02 || {};
+  const pillars = dict.pillars || { items: [] };
+  const areas = dict.service_areas || { items: [] };
+  const qc = dict.quick_contact || {};
 
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface antialiased">

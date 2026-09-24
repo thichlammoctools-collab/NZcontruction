@@ -19,6 +19,7 @@ function writeServicesDetail(data: Record<string, any>) {
 
 function revalidateContent() {
   try {
+    revalidatePath("/", "layout");
     revalidatePath("/[locale]", "page");
     revalidatePath("/[locale]/services/[serviceId]", "page");
   } catch (e) {
@@ -40,6 +41,13 @@ function syncDictionaries(serviceId: string, serviceData: any, isDelete = false)
           icon: serviceData.icon || "construction",
         };
       }
+
+      if (serviceId === "renovations" && viDict.featured_flagships?.feature_01 && serviceData.hero_image) {
+        viDict.featured_flagships.feature_01.image = serviceData.hero_image;
+      } else if (serviceId === "bathrooms" && viDict.featured_flagships?.feature_02 && serviceData.hero_image) {
+        viDict.featured_flagships.feature_02.image = serviceData.hero_image;
+      }
+
       writeJsonAtomic(dictViPath, viDict);
     }
 
@@ -55,6 +63,13 @@ function syncDictionaries(serviceId: string, serviceData: any, isDelete = false)
           icon: serviceData.icon || "construction",
         };
       }
+
+      if (serviceId === "renovations" && enDict.featured_flagships?.feature_01 && serviceData.hero_image) {
+        enDict.featured_flagships.feature_01.image = serviceData.hero_image;
+      } else if (serviceId === "bathrooms" && enDict.featured_flagships?.feature_02 && serviceData.hero_image) {
+        enDict.featured_flagships.feature_02.image = serviceData.hero_image;
+      }
+
       writeJsonAtomic(dictEnPath, enDict);
     }
   } catch (err) {

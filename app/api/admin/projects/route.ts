@@ -6,6 +6,58 @@ import { writeJsonAtomic, readJsonSafe } from "@/lib/json-store";
 export const dynamic = "force-dynamic";
 
 const projectsFilePath = path.join(process.cwd(), "content", "projects.json");
+const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
+const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
+
+function getCategoryLabel(category: string, locale: "vi" | "en"): string {
+  const map: Record<string, { vi: string; en: string }> = {
+    renovations: { vi: "Cải Tạo Nhà", en: "Renovation" },
+    bathrooms: { vi: "Phòng Tắm", en: "Bathroom" },
+    cabinets: { vi: "Tủ Bếp & Đồ Gỗ", en: "Joinery" },
+    flooring: { vi: "Sàn Nhà", en: "Flooring" },
+    doors: { vi: "Cửa & Mộc", en: "Doors" },
+    painting: { vi: "Sơn Bả", en: "Painting" },
+    hiring: { vi: "Cho Thuê Thiết Bị", en: "Equipment Hire" },
+    maintenance: { vi: "Bảo Trì Nhà Cửa", en: "Maintenance" },
+  };
+  return map[category]?.[locale] || (locale === "vi" ? "Công Trình" : "Project");
+}
+
+function syncProjectsToDictionaries(projects: any[]) {
+  try {
+    const viDict = readJsonSafe<any>(dictViPath, null as any);
+    if (viDict?.portfolio) {
+      viDict.portfolio.items = projects.map((p) => ({
+        id: p.id,
+        category: p.category || "renovations",
+        category_label: getCategoryLabel(p.category, "vi"),
+        location: p.suburb || "Auckland",
+        year: p.completed_year ? `Hoàn thành ${p.completed_year}` : "Hoàn thành 2026",
+        title: p.title_vi || p.title_en || "Dự Án NS Building",
+        desc: p.description_vi || p.description_en || "",
+        image: p.after_image || p.image || p.before_image || "",
+      }));
+      writeJsonAtomic(dictViPath, viDict);
+    }
+
+    const enDict = readJsonSafe<any>(dictEnPath, null as any);
+    if (enDict?.portfolio) {
+      enDict.portfolio.items = projects.map((p) => ({
+        id: p.id,
+        category: p.category || "renovations",
+        category_label: getCategoryLabel(p.category, "en"),
+        location: p.suburb || "Auckland",
+        year: p.completed_year ? `Completed ${p.completed_year}` : "Completed 2026",
+        title: p.title_en || p.title_vi || "NS Building Project",
+        desc: p.description_en || p.description_vi || "",
+        image: p.after_image || p.image || p.before_image || "",
+      }));
+      writeJsonAtomic(dictEnPath, enDict);
+    }
+  } catch (err) {
+    console.error("Error syncing projects to dictionaries:", err);
+  }
+}
 
 function readProjects(): any[] {
   return readJsonSafe<any[]>(projectsFilePath, []);
@@ -13,11 +65,13 @@ function readProjects(): any[] {
 
 function writeProjects(projects: any[]) {
   writeJsonAtomic(projectsFilePath, projects);
+  syncProjectsToDictionaries(projects);
   revalidatePublicPages();
 }
 
 function revalidatePublicPages() {
   try {
+    revalidatePath("/", "layout");
     revalidatePath("/[locale]", "page");
   } catch (e) {
     console.error("revalidatePath failed:", e);
