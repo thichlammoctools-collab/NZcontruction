@@ -37,6 +37,7 @@ export default function ServicesManager({
   >("basic");
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [saving, setSaving] = useState(false);
   const [notification, setNotification] = useState<{
     type: "success" | "error";
@@ -164,12 +165,14 @@ export default function ServicesManager({
   };
 
   const handleDeleteService = async (id: string) => {
+    setIsDeleting(true);
     try {
       const res = await fetch(`/api/admin/services?id=${encodeURIComponent(id)}`, {
         method: "DELETE",
       });
       if (!res.ok) {
-        throw new Error("Không thể xóa dịch vụ này");
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || "Không thể xóa dịch vụ này");
       }
       setNotification({
         type: "success",
@@ -183,6 +186,8 @@ export default function ServicesManager({
         type: "error",
         text: err.message || "Lỗi khi xóa dịch vụ",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -354,17 +359,19 @@ export default function ServicesManager({
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="button"
+                disabled={isDeleting}
                 onClick={() => setDeleteConfirmId(null)}
-                className="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold transition-colors"
+                className="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 disabled:opacity-50 text-white text-xs font-bold transition-colors"
               >
                 Hủy Bỏ
               </button>
               <button
                 type="button"
+                disabled={isDeleting}
                 onClick={() => handleDeleteService(deleteConfirmId)}
-                className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-colors shadow-lg shadow-red-600/30"
+                className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-xs font-bold transition-colors shadow-lg shadow-red-600/30 flex items-center gap-2"
               >
-                Đồng Ý Xóa
+                {isDeleting ? "Đang Xóa..." : "Đồng Ý Xóa"}
               </button>
             </div>
           </div>

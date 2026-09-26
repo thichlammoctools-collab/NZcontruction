@@ -43,6 +43,11 @@ export function resolveKvKey(filePathOrKey: string): string {
 export async function writeJsonAtomic(filePath: string, data: unknown): Promise<void> {
   const key = resolveKvKey(filePath);
 
+  // Sync in-memory default cache for current runtime process
+  if (BUNDLED_DEFAULTS[key] !== undefined) {
+    BUNDLED_DEFAULTS[key] = data;
+  }
+
   // 1. Persist to Cloudflare KV
   await kvPutJson(key, data);
 
@@ -63,7 +68,34 @@ export async function writeJsonAtomic(filePath: string, data: unknown): Promise<
   }
 }
 
-// Durable JSON read: checks Cloudflare KV first -> bundled JSON -> local fs -> fallback
+function deepMerge<T = any>(target: any, source: any): T {
+  if (!source) return target;
+  if (!target) return source;
+  if (typeof target !== "object" || typeof source !== "object") return source;
+  if (Array.isArray(target) || Array.isArray(source)) return source;
+
+  const result: any = { ...target };
+  for (const key of Object.keys(source)) {
+    const srcVal = source[key];
+    const tgtVal = target[key];
+    if (
+      srcVal !== null &&
+      typeof srcVal === "object" &&
+      !Array.isArray(srcVal) &&
+      key in target &&
+      tgtVal !== null &&
+      typeof tgtVal === "object" &&
+      !Array.isArray(tgtVal)
+    ) {
+      result[key] = deepMerge(tgtVal, srcVal);
+    } else {
+      result[key] = srcVal;
+    }
+  }
+  return result as T;
+}
+
+// Durable JSON read: checks Cloudflare KV first -> local fs -> bundled JSON -> fallback
 export async function readJsonSafe<T>(filePath: string, fallback: T): Promise<T> {
   const key = resolveKvKey(filePath);
 
@@ -71,14 +103,21 @@ export async function readJsonSafe<T>(filePath: string, fallback: T): Promise<T>
   try {
     const remoteData = await kvGetJson<T>(key);
     if (remoteData !== null && remoteData !== undefined) {
+      // Deep-merge default configs for singleton settings and dictionaries to ensure
+      // newly added keys or sub-objects are never lost if KV has a partial/older schema.
+      // NEVER merge collections (services_detail, projects_detail, posts, etc.), otherwise deleted items will be resurrected!
       if (
+        (key === "content:site_settings" ||
+          key === "content:ai_config" ||
+          key === "content:dict_vi" ||
+          key === "content:dict_en") &&
         typeof remoteData === "object" &&
         !Array.isArray(remoteData) &&
         BUNDLED_DEFAULTS[key] &&
         typeof BUNDLED_DEFAULTS[key] === "object" &&
         !Array.isArray(BUNDLED_DEFAULTS[key])
       ) {
-        return { ...(BUNDLED_DEFAULTS[key] as any), ...(remoteData as any) } as T;
+        return deepMerge(BUNDLED_DEFAULTS[key], remoteData) as T;
       }
       return remoteData;
     }
@@ -86,12 +125,7 @@ export async function readJsonSafe<T>(filePath: string, fallback: T): Promise<T>
     console.warn(`[Read Warning] KV get failed for ${key}:`, err);
   }
 
-  // 2. Check bundled default content
-  if (BUNDLED_DEFAULTS[key] !== undefined) {
-    return BUNDLED_DEFAULTS[key] as T;
-  }
-
-  // 3. Fall back to local disk if fs exists
+  // 2. Try reading from local filesystem if available (local dev)
   try {
     if (fs.existsSync(filePath)) {
       return JSON.parse(fs.readFileSync(filePath, "utf8")) as T;
@@ -100,20 +134,28 @@ export async function readJsonSafe<T>(filePath: string, fallback: T): Promise<T>
     console.error(`Error reading ${filePath}:`, err);
   }
 
+  // 3. Fall back to bundled default content (useful when running on Cloudflare Workers before KV is initialized or fs is unavailable)
+  if (BUNDLED_DEFAULTS[key] !== undefined) {
+    return BUNDLED_DEFAULTS[key] as T;
+  }
+
   return fallback;
 }
 
 // Synchronous read (used for components/utilities that cannot be made async)
 export function readJsonSafeSync<T>(filePath: string, fallback: T): T {
   const key = resolveKvKey(filePath);
-  if (BUNDLED_DEFAULTS[key] !== undefined) {
-    return BUNDLED_DEFAULTS[key] as T;
-  }
+  // Try reading from local filesystem first if exists
   try {
     if (fs.existsSync(filePath)) {
       return JSON.parse(fs.readFileSync(filePath, "utf8")) as T;
     }
   } catch {}
+
+  // Fall back to bundled defaults
+  if (BUNDLED_DEFAULTS[key] !== undefined) {
+    return BUNDLED_DEFAULTS[key] as T;
+  }
   return fallback;
 }
 

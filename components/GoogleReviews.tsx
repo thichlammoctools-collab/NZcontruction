@@ -5,7 +5,7 @@ interface GoogleReviewsProps {
 }
 
 export default function GoogleReviews({ dict }: GoogleReviewsProps) {
-  const reviews = dict.reviews.items;
+  const reviews = Array.isArray(dict?.reviews?.items) ? dict.reviews.items : [];
 
   return (
     <section id="reviews" className="w-full bg-surface-container-low py-20 lg:py-24">
@@ -16,11 +16,11 @@ export default function GoogleReviews({ dict }: GoogleReviewsProps) {
             <div className="inline-flex items-center gap-2 mb-2">
               <span className="h-0.5 w-5 bg-secondary"></span>
               <span className="text-xs uppercase tracking-widest text-secondary font-bold">
-                {dict.reviews.badge}
+                {dict?.reviews?.badge || "Testimonials"}
               </span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
-              {dict.reviews.title}
+              {dict?.reviews?.title || "Customer Reviews"}
             </h2>
           </div>
 
@@ -39,10 +39,10 @@ export default function GoogleReviews({ dict }: GoogleReviewsProps) {
             </div>
             <div>
               <p className="text-sm font-bold text-primary">
-                {dict.reviews.rating_score || "4.9 on Google Reviews"}
+                {dict?.reviews?.rating_score || "4.9 on Google Reviews"}
               </p>
               <p className="text-xs text-on-surface-variant">
-                {dict.reviews.rating_sub || "Top-Rated Builder Across Auckland"}
+                {dict?.reviews?.rating_sub || "Top-Rated Builder Across Auckland"}
               </p>
             </div>
           </div>
@@ -68,13 +68,13 @@ export default function GoogleReviews({ dict }: GoogleReviewsProps) {
                   ))}
                 </div>
                 <p className="text-sm text-on-surface italic mb-6 leading-relaxed">
-                  &ldquo;{rev.review}&rdquo;
+                  &ldquo;{rev?.review}&rdquo;
                 </p>
               </div>
 
               <div className="pt-4 border-t border-slate-100">
-                <h4 className="text-sm font-bold text-primary">{rev.name}</h4>
-                <p className="text-xs text-on-surface-variant mt-0.5">{rev.location}</p>
+                <h4 className="text-sm font-bold text-primary">{rev?.name}</h4>
+                <p className="text-xs text-on-surface-variant mt-0.5">{rev?.location}</p>
               </div>
             </div>
           ))}

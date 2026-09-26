@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ADMIN_COOKIE, createSessionToken, verifyPassword } from "@/lib/admin-auth";
+import { ADMIN_COOKIE, createSessionToken } from "@/lib/admin-auth";
+import { verifyPassword } from "@/lib/admin-password-kv";
 
 export async function POST(req: NextRequest) {
   let password = "";

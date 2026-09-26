@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAdminRequest, unauthorized, verifyPassword } from "@/lib/admin-auth";
+import { isAdminRequest, unauthorized } from "@/lib/admin-auth";
+import { verifyPassword } from "@/lib/admin-password-kv";
 import { getKV } from "@/lib/cloud-storage";
 
 export async function POST(req: NextRequest) {

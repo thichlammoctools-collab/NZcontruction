@@ -173,7 +173,7 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
     }
   };
 
-  const quoteDict = dict.quote;
+  const quoteDict = dict?.quote || {};
 
   return (
     <div id="quote-section" className="w-full bg-surface-container py-14 sm:py-20 lg:py-24">
@@ -184,15 +184,15 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
             <div className="inline-flex items-center justify-center gap-2 mb-2">
               <span className="h-0.5 w-6 bg-secondary"></span>
               <span className="text-xs uppercase tracking-widest text-secondary font-bold">
-                {quoteDict.badge}
+                {quoteDict.badge || "Quote"}
               </span>
               <span className="h-0.5 w-6 bg-secondary"></span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
-              {quoteDict.title}
+              {quoteDict.title || "Request a Free Quote"}
             </h2>
             <p className="text-sm sm:text-base text-on-surface-variant mt-2 leading-relaxed">
-              {quoteDict.subtitle}
+              {quoteDict.subtitle || ""}
             </p>
           </div>
 

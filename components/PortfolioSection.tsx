@@ -33,16 +33,33 @@ interface PortfolioSectionProps {
 
 export default function PortfolioSection({ portfolioDict, locale = "en" }: PortfolioSectionProps) {
   const [activeFilter, setActiveFilter] = useState("all");
+  const isVi = locale === "vi";
+
+  const pDict = portfolioDict || {
+    badge: isVi ? "Dự Án Tiêu Biểu" : "Portfolio",
+    title: isVi ? "Công Trình Đã Thực Hiện" : "Featured Projects",
+    subtitle: "",
+    filters: {
+      all: isVi ? "Tất Cả" : "All",
+      renovations: isVi ? "Cải Tạo" : "Renovations",
+      bathrooms: isVi ? "Phòng Tắm" : "Bathrooms",
+      flooring: isVi ? "Sàn Nhà" : "Flooring",
+      cabinets: isVi ? "Tủ Bếp" : "Cabinets",
+    },
+    items: [],
+  };
 
   const filterKeys = [
-    { key: "all", label: portfolioDict.filters.all },
-    { key: "renovations", label: portfolioDict.filters.renovations },
-    { key: "bathrooms", label: portfolioDict.filters.bathrooms },
-    { key: "flooring", label: portfolioDict.filters.flooring },
-    { key: "cabinets", label: portfolioDict.filters.cabinets },
+    { key: "all", label: pDict.filters?.all || (isVi ? "Tất Cả" : "All") },
+    { key: "renovations", label: pDict.filters?.renovations || (isVi ? "Cải Tạo" : "Renovations") },
+    { key: "bathrooms", label: pDict.filters?.bathrooms || (isVi ? "Phòng Tắm" : "Bathrooms") },
+    { key: "flooring", label: pDict.filters?.flooring || (isVi ? "Sàn Nhà" : "Flooring") },
+    { key: "cabinets", label: pDict.filters?.cabinets || (isVi ? "Tủ Bếp" : "Cabinets") },
   ];
 
-  const filteredItems = portfolioDict.items.filter((item) => {
+  const rawItems = Array.isArray(pDict.items) ? pDict.items : [];
+  const filteredItems = rawItems.filter((item) => {
+    if (!item) return false;
     if (activeFilter === "all") return true;
     return item.category === activeFilter;
   });
@@ -54,16 +71,16 @@ export default function PortfolioSection({ portfolioDict, locale = "en" }: Portf
           <div className="inline-flex items-center gap-2 mb-2">
             <span className="h-0.5 w-5 bg-secondary"></span>
             <span className="text-xs uppercase tracking-widest text-secondary font-bold">
-              {portfolioDict.badge}
+              {pDict.badge || (isVi ? "Dự Án Tiêu Biểu" : "Portfolio")}
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
-            {portfolioDict.title}
+            {pDict.title || (isVi ? "Công Trình Đã Thực Hiện" : "Featured Projects")}
           </h2>
         </div>
 
         <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl">
-          {portfolioDict.subtitle}
+          {pDict.subtitle || ""}
         </p>
 
         {/* Filter Controls */}
@@ -98,7 +115,7 @@ export default function PortfolioSection({ portfolioDict, locale = "en" }: Portf
             <div className="aspect-[16/10] overflow-hidden relative bg-surface-dim">
               <img
                 src={item.image}
-                alt={item.title}
+                alt={item.title || "Project"}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
               />
@@ -117,7 +134,7 @@ export default function PortfolioSection({ portfolioDict, locale = "en" }: Portf
                 </div>
                 <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-bronze transition-colors">
                   <Link href={`/${locale}/projects/${item.id}`}>
-                    {item.title}
+                    {item.title || "Project"}
                   </Link>
                 </h3>
                 <p className="text-xs sm:text-sm text-on-surface-variant line-clamp-2 leading-relaxed">

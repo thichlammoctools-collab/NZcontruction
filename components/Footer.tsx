@@ -13,6 +13,8 @@ interface FooterProps {
 }
 
 export default function Footer({ locale, dict }: FooterProps) {
+  const isVi = locale === "vi";
+
   return (
     <footer className="w-full bg-surface-container-low border-t border-border-light">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pt-14 pb-28 md:py-16">
@@ -23,12 +25,12 @@ export default function Footer({ locale, dict }: FooterProps) {
               <Logo />
             </Link>
             <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-              {dict.footer.tagline}
+              {dict?.footer?.tagline || (isVi ? "Dịch vụ cải tạo, hoàn thiện và xây dựng chất lượng cao tại New Zealand." : "Renovation and building services for homes across New Zealand.")}
             </p>
             <div className="pt-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container text-on-secondary-container rounded-lg text-xs font-semibold">
                 <CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
-                {dict.footer.rights}
+                {dict?.footer?.rights || (isVi ? "Chuẩn Quy Chuẩn Xây Dựng NZ" : "NZ Code Compliant & Insured")}
               </span>
             </div>
           </div>
@@ -36,47 +38,47 @@ export default function Footer({ locale, dict }: FooterProps) {
           {/* QUICK LINKS */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-4">
-              {dict.footer.quick_links}
+              {dict?.footer?.quick_links || (isVi ? "Liên Kết Nhanh" : "Quick Links")}
             </h3>
             <ul className="space-y-2.5 text-xs sm:text-sm text-on-surface-variant">
               <li>
                 <Link href={`/${locale}`} className="hover:text-primary transition-colors">
-                  {dict.nav.home}
+                  {dict?.nav?.home || (isVi ? "Trang Chủ" : "Home")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/#services`} className="hover:text-primary transition-colors">
-                  {dict.nav.services}
+                  {dict?.nav?.services || (isVi ? "Dịch Vụ" : "Services")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/#work-section`} className="hover:text-primary transition-colors">
-                  {dict.nav.work}
+                  {dict?.nav?.work || (isVi ? "Dự Án Đã Làm" : "Our Work")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/#about`} className="hover:text-primary transition-colors">
-                  {dict.nav.about || "About"}
+                  {dict?.nav?.about || (isVi ? "Về Chúng Tôi" : "About")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/#reviews`} className="hover:text-primary transition-colors">
-                  {dict.nav.reviews}
+                  {dict?.nav?.reviews || (isVi ? "Đánh Giá" : "Reviews")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/#contact`} className="hover:text-primary transition-colors">
-                  {dict.nav.contact}
+                  {dict?.nav?.contact || (isVi ? "Liên Hệ" : "Contact")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/#quote-section`} className="hover:text-primary transition-colors">
-                  {dict.nav.quote}
+                  {dict?.nav?.quote || (isVi ? "Yêu Cầu Báo Giá" : "Request a Quote")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/posts`} className="hover:text-primary transition-colors">
-                  {locale === "vi" ? "Cẩm Nang & Kinh Nghiệm" : "Journal & Insights"}
+                  {isVi ? "Cẩm Nang & Kinh Nghiệm" : "Journal & Insights"}
                 </Link>
               </li>
             </ul>
@@ -85,47 +87,47 @@ export default function Footer({ locale, dict }: FooterProps) {
           {/* TRADE SERVICES */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-4">
-              {dict.footer.services}
+              {dict?.footer?.services || (isVi ? "Năng Lực & Tay Nghề" : "Trade Services")}
             </h3>
             <ul className="space-y-2.5 text-xs sm:text-sm text-on-surface-variant">
               <li>
                 <Link href={`/${locale}/services/renovations`} className="hover:text-primary transition-colors">
-                  {dict.services.items.renovations.title}
+                  {dict?.services?.items?.renovations?.title || (isVi ? "Cải Tạo Nhà Trọn Gói" : "Full Home Renovations")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/services/bathrooms`} className="hover:text-primary transition-colors">
-                  {dict.services.items.bathrooms.title}
+                  {dict?.services?.items?.bathrooms?.title || (isVi ? "Phòng Tắm Cao Cấp" : "Luxury Bathroom Renovations")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/services/cabinets`} className="hover:text-primary transition-colors">
-                  {dict.services.items.cabinets.title}
+                  {dict?.services?.items?.cabinets?.title || (isVi ? "Tủ Bếp & Đồ Gỗ Nội Thất" : "Cabinets & Joinery")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/services/flooring`} className="hover:text-primary transition-colors">
-                  {dict.services.items.flooring.title}
+                  {dict?.services?.items?.flooring?.title || (isVi ? "Giải Pháp Sàn Nhà" : "Flooring Solutions")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/services/doors`} className="hover:text-primary transition-colors">
-                  {dict.services.items.doors.title}
+                  {dict?.services?.items?.doors?.title || (isVi ? "Hệ Cửa & Ô Mở Kiến Trúc" : "Doors & Openings")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/services/painting`} className="hover:text-primary transition-colors">
-                  {dict.services.items.painting.title}
+                  {dict?.services?.items?.painting?.title || (isVi ? "Sơn Nội Thất & Ngoại Thất" : "Interior & Exterior Painting")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/services/plastering`} className="hover:text-primary transition-colors">
-                  {dict.services.items.plastering.title}
+                  {dict?.services?.items?.plastering?.title || (isVi ? "Trát Bả & Gib Stopping" : "Plastering & Gib Stopping")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/services/hiring`} className="hover:text-primary transition-colors">
-                  {dict.services.items.equipment.title}
+                  {dict?.services?.items?.equipment?.title || dict?.services?.items?.hiring?.title || (isVi ? "Cho Thuê Thiết Bị & Đội Thợ" : "Equipment & Trade Hire")}
                 </Link>
               </li>
             </ul>
@@ -134,7 +136,7 @@ export default function Footer({ locale, dict }: FooterProps) {
           {/* CONTACT & SERVICE HUB */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-primary mb-4">
-              {dict.footer.contact_us}
+              {dict?.footer?.contact_us || (isVi ? "Liên Hệ Trực Tiếp" : "Contact & Service Hub")}
             </h3>
             <div className="space-y-3 text-xs sm:text-sm text-on-surface-variant">
               <div className="flex items-center gap-2">
@@ -209,7 +211,7 @@ export default function Footer({ locale, dict }: FooterProps) {
             <span>Licensed Building Practitioner NZ</span>
           </div>
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-3 gap-y-1">
-            <span>{dict.footer.copyright}</span>
+            <span>{dict?.footer?.copyright || `© ${new Date().getFullYear()} NS Building. All rights reserved.`}</span>
             <span className="text-slate-300 hidden sm:inline">•</span>
             <span>
               Made with love -{" "}

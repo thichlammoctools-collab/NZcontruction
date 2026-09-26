@@ -24,6 +24,7 @@ import {
   Eye,
   Paperclip,
   Clock,
+  MoreVertical,
 } from "lucide-react";
 
 export type LeadStatus =
@@ -98,6 +99,7 @@ export default function LeadsManager({
     text: string;
   } | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
   const quoteLeads = leads.filter((l) => l.source === "quote");
   const chatLeads = leads.filter((l) => l.source === "chat");
@@ -365,27 +367,73 @@ export default function LeadsManager({
           <span className="text-[10px] text-slate-500">
             {formatLeadDate(lead.createdAt)}
           </span>
-          <div className="flex items-center gap-2">
+          <div className="relative">
             <button
-              onClick={() => setViewingLead(lead)}
-              className="p-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white text-xs transition-colors"
-              title="Xem chi tiết"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenMenuId(openMenuId === lead.id ? null : lead.id);
+              }}
+              className={`p-1.5 rounded-lg border transition-colors ${
+                openMenuId === lead.id
+                  ? "bg-amber-400 text-slate-950 border-amber-400 shadow-sm"
+                  : "bg-slate-700/80 hover:bg-slate-700 text-slate-300 hover:text-white border-slate-600/50"
+              }`}
+              title="Thao tác"
             >
-              <Eye className="w-3.5 h-3.5" />
+              <MoreVertical className="w-4 h-4" />
             </button>
-            <button
-              onClick={() => openEdit(lead)}
-              className="px-2.5 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-[11px] font-semibold transition-colors"
-            >
-              Cập nhật
-            </button>
-            <button
-              onClick={() => setDeleteId(lead.id)}
-              className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors border border-red-500/20"
-              title="Xóa lead"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-            </button>
+
+            {openMenuId === lead.id && (
+              <>
+                <div
+                  className="fixed inset-0 z-30 cursor-default"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenMenuId(null);
+                  }}
+                />
+                <div className="absolute right-0 bottom-full mb-1.5 z-40 w-44 py-1.5 bg-slate-900/95 backdrop-blur-md border border-slate-700 rounded-xl shadow-2xl">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenMenuId(null);
+                      setViewingLead(lead);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-slate-800 transition-colors text-left"
+                  >
+                    <Eye className="w-4 h-4 text-slate-400" />
+                    <span>Xem chi tiết</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenMenuId(null);
+                      openEdit(lead);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-colors text-left font-medium"
+                  >
+                    <Edit2 className="w-4 h-4 text-amber-400" />
+                    <span>Cập nhật</span>
+                  </button>
+                  <div className="my-1 border-t border-slate-800" />
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenMenuId(null);
+                      setDeleteId(lead.id);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-left"
+                  >
+                    <Trash2 className="w-4 h-4 text-red-400" />
+                    <span>Xóa lead</span>
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -538,7 +586,7 @@ export default function LeadsManager({
       ) : (
         /* List / Table View */
         <div className="bg-slate-800/90 rounded-2xl border border-slate-700 overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto min-h-[300px]">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-slate-900/80 border-b border-slate-700 text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
@@ -552,7 +600,7 @@ export default function LeadsManager({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/60">
-                {filtered.map((lead) => {
+                {filtered.map((lead, index) => {
                   const name = lead.name || lead.customerName || "Khách hàng";
                   const phone = lead.phone || lead.contact;
                   const email = lead.email;
@@ -675,28 +723,79 @@ export default function LeadsManager({
 
                       {/* Actions */}
                       <td className="py-3.5 px-4 align-top text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1.5">
+                        <div className="relative inline-block text-left">
                           <button
-                            onClick={() => setViewingLead(lead)}
-                            className="p-1.5 rounded-lg bg-slate-700/80 hover:bg-slate-600 text-slate-300 hover:text-white transition-colors"
-                            title="Xem chi tiết lead"
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenMenuId(openMenuId === lead.id ? null : lead.id);
+                            }}
+                            className={`p-1.5 rounded-lg border transition-colors ${
+                              openMenuId === lead.id
+                                ? "bg-amber-400 text-slate-950 border-amber-400 shadow-sm"
+                                : "bg-slate-700/80 hover:bg-slate-700 text-slate-300 hover:text-white border-slate-600/50"
+                            }`}
+                            title="Thao tác"
                           >
-                            <Eye className="w-3.5 h-3.5" />
+                            <MoreVertical className="w-4 h-4" />
                           </button>
-                          <button
-                            onClick={() => openEdit(lead)}
-                            className="px-2.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-[11px] transition-colors flex items-center gap-1"
-                          >
-                            <Edit2 className="w-3 h-3" />
-                            <span>Cập nhật</span>
-                          </button>
-                          <button
-                            onClick={() => setDeleteId(lead.id)}
-                            className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 transition-colors"
-                            title="Xóa lead"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
+
+                          {openMenuId === lead.id && (
+                            <>
+                              <div
+                                className="fixed inset-0 z-30 cursor-default"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setOpenMenuId(null);
+                                }}
+                              />
+                              <div
+                                className={`absolute right-0 z-40 w-44 py-1.5 bg-slate-900/95 backdrop-blur-md border border-slate-700 rounded-xl shadow-2xl ${
+                                  filtered.length > 2 && index >= filtered.length - 2
+                                    ? "bottom-full mb-1.5"
+                                    : "top-full mt-1.5"
+                                }`}
+                              >
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenMenuId(null);
+                                    setViewingLead(lead);
+                                  }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-slate-800 transition-colors text-left"
+                                >
+                                  <Eye className="w-4 h-4 text-slate-400" />
+                                  <span>Xem chi tiết</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenMenuId(null);
+                                    openEdit(lead);
+                                  }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-colors text-left font-medium"
+                                >
+                                  <Edit2 className="w-4 h-4 text-amber-400" />
+                                  <span>Cập nhật</span>
+                                </button>
+                                <div className="my-1 border-t border-slate-800" />
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenMenuId(null);
+                                    setDeleteId(lead.id);
+                                  }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-left"
+                                >
+                                  <Trash2 className="w-4 h-4 text-red-400" />
+                                  <span>Xóa lead</span>
+                                </button>
+                              </div>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>

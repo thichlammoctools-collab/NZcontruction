@@ -209,18 +209,20 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Service ID is required" }, { status: 400 });
     }
 
+    id = id.trim();
+
     const services = await readServicesDetail();
-    if (!services[id]) {
-      return NextResponse.json({ error: "Service not found" }, { status: 404 });
+    if (services[id]) {
+      delete services[id];
+      await writeServicesDetail(services);
     }
 
-    delete services[id];
-    await writeServicesDetail(services);
     await syncDictionaries(id, {}, true);
     revalidateContent();
 
     return NextResponse.json({ success: true, deletedId: id });
   } catch (error) {
+    console.error("Failed to delete service:", error);
     return NextResponse.json({ error: "Failed to delete service" }, { status: 500 });
   }
 }
