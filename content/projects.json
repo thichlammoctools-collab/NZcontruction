@@ -6,7 +6,7 @@
     "suburb": "Remuera, Auckland",
     "category": "renovations",
     "completed_year": "2026",
-    "before_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAdQdqRW4OVOEzixpLbLUz1zx5JkFb59SHaKOQGUQebuvav1nQK0vsz6eNq7RPwiIkcFWusjjO9WKxy3vSqE6TXVYEl1GQXgCirLpuvHKFUODNOdu_FCiNfURDXu6rHsKC5raofLdUKklxU6D3QgEKQYd88USPCLRfmoRUhM4kzElWSQ-oxxbYSf_V-i_Svrse_bUHip6xv8DtEU08Tis2FWScqw7RTOKCyF5Fl612BGogaOCdk6RRjQg",
+    "before_image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
     "after_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAC4zySIsBFsCxbPwZoDwuqZtLQWpoTxQeVfs9GkcCOv8krWekpp7w-Sr4GIn4XjONGNLOByEmndm0tLOLyjs8PwH7QRkKbuuMMi34H0gnPxaPMwqQFVlSToJiD5aGeB16_nvb2zbNYsBr_w-OG4ktIRiEp6kaeOBtvN58A62ECHeBxKOEYa4sU7H5HmQaAugC9OSRbuHdHIOXPkFDOyfyHz-acP9xjnkESnozm5pyPzrINXZNh1K03Cg",
     "description_en": "Full living room, open-plan kitchen reconfiguration, removal of old load-bearing walls, engineered beam installation, and seamless indoor-outdoor cedar deck connection.",
     "description_vi": "Cải tạo toàn bộ phòng khách mở và nhà bếp, tháo dỡ tường chịu lực cũ, lắp dầm thép gia cố và kết nối sàn hiên gỗ cedar ngoài trời."
@@ -34,5 +34,77 @@
     "after_image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
     "description_en": "Architectural oak cabinetry with soft-close Blum hardware, honed stone benchtops, and hidden walk-in pantry.",
     "description_vi": "Hệ tủ bếp gỗ sồi kiến trúc với ray trượt giảm chấn Blum, mặt đá mài honed chống ố và kho chứa đồ pantry giấu cánh."
+  },
+  {
+    "id": "epsom-joinery",
+    "title_en": "Architectural Joinery & Storage Suites",
+    "title_vi": "Hệ Tủ Kệ May Đo Kiến Trúc Cao Cấp Epsom",
+    "suburb": "Epsom · Auckland",
+    "category": "cabinets",
+    "completed_year": "2024",
+    "before_image": "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?auto=format&fit=crop&w=1200&q=80",
+    "after_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCoJSubAoamyiV8efxNcL3JGNMKQ7hyi6RluO12WBJZTYVYjURh19LrupT4G4ukj19DX-XyLwApkMu6c5_qtGkILvy-k0G51hl9Yew3nJ-NCbIjXozkHXCtGie_j6f8NtlRg5QkYEJ3yCjcDaYmHcsKNdrsV9yuW6ER28CBgzxyTyEGRJpobGBvRTmH0a3vMVq2rbCCbeSC-IWmSxDE8hgTDZeg0DWsJ99UffMCSvGj",
+    "description_en": "Bespoke veneered oak wall systems with concealed magnetic touch-latches and acoustic fabric backing.",
+    "description_vi": "Hệ vách tủ gỗ sồi tự nhiên phủ veneer với khóa nhấn nam châm ẩn và lớp vải lót tiêu âm phía sau."
+  },
+  {
+    "id": "ponsonby-bathroom",
+    "title_en": "Modern Bathroom Renovation",
+    "title_vi": "Cải Tạo Phòng Tắm Hiện Đại Ponsonby",
+    "suburb": "Ponsonby · Auckland",
+    "category": "bathrooms",
+    "completed_year": "2024",
+    "before_image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80",
+    "after_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDeZ2YrJ6ZC201I36BykuT1VBfP2KSlejBVbpt___H9PqTbXs9SbyIrQ-1_IjIyRYrW0z42mfaRbl34X5vQl_v6277-eP2a3ciJPcda0wnBwThbxuSm0SOOY6y-DMroB3UOifWuppGn_W4qJlB3XYYUt_I20QD6EsHLrFn9Cd1g3NxcqaPbBYkoFbiwVVIYbRmWa4bxbn8xR3EXJxIEZ7piCJOusAYAMtOhrrGJjgOa",
+    "description_en": "Complete strip-out and structural realignment with custom wet-room waterproofing and micro-cement accents.",
+    "description_vi": "Bóc tách cải tạo toàn bộ, căn chỉnh kết cấu, màng chống thấm ướt cao cấp và điểm nhấn bề mặt xi măng vi hạt."
+  },
+  {
+    "id": "takapuna-kitchen",
+    "title_en": "Mid-Century Kitchen & Living Reconfiguration",
+    "title_vi": "Tái Cấu Trúc Bếp & Phòng Khách Mở Takapuna",
+    "suburb": "Takapuna · North Shore",
+    "category": "renovations",
+    "completed_year": "2024",
+    "before_image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
+    "after_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuCYRXMjRoZVOOO2XbNXwq-HyNA3x6SclH_Y9-LDc8aXydR6Gv7_bDsUcnTNUTZGecKzyNwKYpZwbeHDs024FyaWc3EWttyR1iZm9ryGGM8LrxvIbu2Tjs0BKgvrkJxfYcW7wV8UOPgNqZePWJJAzgltVw-ZqvZ39Q45OtcKCTFA3L-j0EiaXmz0yky6JNdUw4o3CCohjax66Cz6UtF0sZmhSMGu6xne0KafyDQKLxaD",
+    "description_en": "Removal of two internal load-bearing partitions to introduce a sun-drenched architectural social hub.",
+    "description_vi": "Dỡ bỏ 2 bức tường ngăn chịu lực cũ, mở ra không gian phòng khách sinh hoạt chung ngập tràn ánh nắng."
+  },
+  {
+    "id": "remuera-flooring",
+    "title_en": "Herringbone Engineered Oak Installation",
+    "title_vi": "Lát Sàn Gỗ Sồi Châu Âu Xương Cá Remuera",
+    "suburb": "Remuera · Auckland",
+    "category": "flooring",
+    "completed_year": "2023",
+    "before_image": "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1200&q=80",
+    "after_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDQXqecbGPgpS_ocH7dqd579QC2-4sOzNLn-4DhxwLvgs6csr9uY9OGAy9W8FZZxwembWU9yNoKi1nqHT4qAUs-Qh2jBQkGgGjzlkPa2AS5KZN9qpgqx9A3mm9xZOWK9Z3IdqLKTBN1x2Kt84lAgKf2h4b7XQzsHcTx_spK9a0A4vWWveizzwSYbuu9s7vREzf1kFyq7akycSZkqH6lMkMOhXmSgvcbv0jO-WLajGiB",
+    "description_en": "Acoustic subfloor levelling followed by hand-aligned parquet geometry across 140 square meters.",
+    "description_vi": "Cân bằng tiêu âm cốt sàn trước khi ghép nối hình học xương cá thủ công tinh tế trên diện tích 140 mét vuông."
+  },
+  {
+    "id": "mt-eden-villa",
+    "title_en": "Heritage Villa Exterior Restoration",
+    "title_vi": "Phục Hồi Mặt Tiền Biệt Thự Cổ Villa Mount Eden",
+    "suburb": "Mount Eden · Auckland",
+    "category": "renovations",
+    "completed_year": "2023",
+    "before_image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
+    "after_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAECxsqGT5i0uO7ZGrsafhWBSQJdhoVxy5Pc2DNSCarhw7jy9q38HoYHqFTcKQvlNAXxNyXOahvvfS79CpcScipQkXUXigF4ZapX-0D3A4d0r2eIqA2cm44Pilg-1IADUzS2zSnfRLaxDxGcrL7f2cobKPhpqT2vuOdTOprivWzQZWDeZgupfoSnOU-6dZLxD0c4mo4HdCchw_hWerj0i07jETgOAgmKHFGMaudB_ed",
+    "description_en": "Complete weatherboard repair, lead abatement, heritage sill reproduction, and weather-tight elastomeric paint systems.",
+    "description_vi": "Sửa chữa ốp gỗ weatherboard, loại bỏ sơn cũ, phục chế phào chỉ hoa văn cổ và sơn phủ chống thấm thời tiết."
+  },
+  {
+    "id": "devonport-ensuite",
+    "title_en": "Coastal Skylit Ensuite Sanctuary",
+    "title_vi": "Phòng Tắm Master Có Giếng Trời Devonport",
+    "suburb": "Devonport · Auckland",
+    "category": "bathrooms",
+    "completed_year": "2024",
+    "before_image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80",
+    "after_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDhWjNCMY3_verfg1R0syUlYXDad4HBgehuhtZ0SkE4zDrIwo9GyVdJ4sVcXQ9KIvkNQidAccOHApu77amkpIWV-zbtccsmm9GW-AzbZZy3n8zMHDl-QRQpFk_q_xk8zZwOXs8aeHGerWK6DZ4UivMi4zTwnFba4h6jLmfb16rMPdVV3KQpVAcpEKb2GnP1RaS3R_uNID51N10kpwPe3K5IOrr5of2VrLOBoHqheR27",
+    "description_en": "High-performance roof penetration for natural daylighting paired with acoustic insulation and moisture barrier systems.",
+    "description_vi": "Mở giếng trời đón ánh sáng tự nhiên từ mái nhà kết hợp vật liệu cách âm và lớp chống thấm ẩm bảo vệ tuyệt đối."
   }
 ]

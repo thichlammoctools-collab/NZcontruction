@@ -52,9 +52,9 @@ const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json"
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 const siteSettingsPath = path.join(process.cwd(), "content", "site_settings.json");
 
-function getPageData(locale: string) {
-  const dict = readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
-  const siteSettings = readJsonSafe<any>(siteSettingsPath, {});
+async function getPageData(locale: string) {
+  const dict = await readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
+  const siteSettings = await readJsonSafe<any>(siteSettingsPath, {});
   return { dict, siteSettings };
 }
 
@@ -64,14 +64,14 @@ interface PageProps {
   };
 }
 
-export default function HomePage({ params }: PageProps) {
+export default async function HomePage({ params }: PageProps) {
   const { locale } = params;
 
   if (locale !== "en" && locale !== "vi") {
     notFound();
   }
 
-  const { dict, siteSettings } = getPageData(locale);
+  const { dict, siteSettings } = await getPageData(locale);
   const f1 = dict.featured_flagships?.feature_01 || {};
   const f2 = dict.featured_flagships?.feature_02 || {};
   const pillars = dict.pillars || { items: [] };

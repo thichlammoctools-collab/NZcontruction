@@ -9,6 +9,7 @@ import {
   isValidEmail,
   normalizePhone,
 } from "@/lib/json-store";
+import { r2PutObject } from "@/lib/cloud-storage";
 
 export const dynamic = "force-dynamic";
 
@@ -83,10 +84,23 @@ export async function POST(req: Request) {
                 .slice(0, 40);
               const unique = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
               const finalName = `${base || "quote"}-${unique}${ext}`;
-              const dest = path.join(uploadDir, finalName);
+              const r2Key = `quotes/${finalName}`;
               const buf = Buffer.from(await entry.arrayBuffer());
-              fs.writeFileSync(dest, buf);
-              savedFiles.push(`/uploads/quotes/${finalName}`);
+              
+              // 1. Upload to Cloudflare R2
+              await r2PutObject(r2Key, buf, entry.type || "application/octet-stream");
+
+              // 2. Also write to local disk if fs is available
+              try {
+                const uploadDir = path.join(process.cwd(), "public", "uploads", "quotes");
+                if (!fs.existsSync(uploadDir)) {
+                  fs.mkdirSync(uploadDir, { recursive: true });
+                }
+                const dest = path.join(uploadDir, finalName);
+                fs.writeFileSync(dest, buf);
+              } catch {}
+
+              savedFiles.push(`/uploads/${r2Key}`);
             }
           }
         }
@@ -148,9 +162,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const leads = readJsonSafe<QuoteLead[]>(leadsFilePath, []);
+    const leads = await readJsonSafe<QuoteLead[]>(leadsFilePath, []);
     leads.unshift(lead);
-    writeJsonAtomic(leadsFilePath, leads.slice(0, 500));
+    await writeJsonAtomic(leadsFilePath, leads.slice(0, 500));
 
     return NextResponse.json({
       success: true,

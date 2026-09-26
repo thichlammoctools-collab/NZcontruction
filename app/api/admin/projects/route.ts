@@ -23,9 +23,9 @@ function getCategoryLabel(category: string, locale: "vi" | "en"): string {
   return map[category]?.[locale] || (locale === "vi" ? "Công Trình" : "Project");
 }
 
-function syncProjectsToDictionaries(projects: any[]) {
+async function syncProjectsToDictionaries(projects: any[]) {
   try {
-    const viDict = readJsonSafe<any>(dictViPath, null as any);
+    const viDict = await readJsonSafe<any>(dictViPath, null as any);
     if (viDict?.portfolio) {
       viDict.portfolio.items = projects.map((p) => ({
         id: p.id,
@@ -37,10 +37,10 @@ function syncProjectsToDictionaries(projects: any[]) {
         desc: p.description_vi || p.description_en || "",
         image: p.after_image || p.image || p.before_image || "",
       }));
-      writeJsonAtomic(dictViPath, viDict);
+      await writeJsonAtomic(dictViPath, viDict);
     }
 
-    const enDict = readJsonSafe<any>(dictEnPath, null as any);
+    const enDict = await readJsonSafe<any>(dictEnPath, null as any);
     if (enDict?.portfolio) {
       enDict.portfolio.items = projects.map((p) => ({
         id: p.id,
@@ -52,20 +52,20 @@ function syncProjectsToDictionaries(projects: any[]) {
         desc: p.description_en || p.description_vi || "",
         image: p.after_image || p.image || p.before_image || "",
       }));
-      writeJsonAtomic(dictEnPath, enDict);
+      await writeJsonAtomic(dictEnPath, enDict);
     }
   } catch (err) {
     console.error("Error syncing projects to dictionaries:", err);
   }
 }
 
-function readProjects(): any[] {
-  return readJsonSafe<any[]>(projectsFilePath, []);
+async function readProjects(): Promise<any[]> {
+  return await readJsonSafe<any[]>(projectsFilePath, []);
 }
 
-function writeProjects(projects: any[]) {
-  writeJsonAtomic(projectsFilePath, projects);
-  syncProjectsToDictionaries(projects);
+async function writeProjects(projects: any[]) {
+  await writeJsonAtomic(projectsFilePath, projects);
+  await syncProjectsToDictionaries(projects);
   revalidatePublicPages();
 }
 
@@ -82,7 +82,7 @@ export const revalidate = 0;
 
 export async function GET() {
   try {
-    const projects = readProjects();
+    const projects = await readProjects();
     return NextResponse.json(projects, {
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
@@ -98,7 +98,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const newProject = await req.json();
-    const projects = readProjects();
+    const projects = await readProjects();
 
     const slug = newProject.id
       ? newProject.id
@@ -114,7 +114,7 @@ export async function POST(req: Request) {
     };
 
     projects.unshift(projectWithId);
-    writeProjects(projects);
+    await writeProjects(projects);
 
     return NextResponse.json({ success: true, project: projectWithId });
   } catch (error) {
@@ -129,7 +129,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Project ID is required" }, { status: 400 });
     }
 
-    const projects = readProjects();
+    const projects = await readProjects();
     const index = projects.findIndex((p) => p.id === updatedProject.id);
 
     if (index === -1) {
@@ -141,7 +141,7 @@ export async function PUT(req: Request) {
       ...updatedProject,
     };
 
-    writeProjects(projects);
+    await writeProjects(projects);
     return NextResponse.json({ success: true, project: projects[index] });
   } catch (error) {
     return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
@@ -166,14 +166,14 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Project ID is required" }, { status: 400 });
     }
 
-    const projects = readProjects();
+    const projects = await readProjects();
     const filtered = projects.filter((p) => p.id !== id);
 
     if (filtered.length === projects.length) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
-    writeProjects(filtered);
+    await writeProjects(filtered);
     return NextResponse.json({ success: true, deletedId: id });
   } catch (error) {
     return NextResponse.json({ error: "Failed to delete project" }, { status: 500 });

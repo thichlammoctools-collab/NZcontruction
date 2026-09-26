@@ -196,39 +196,5 @@
     "leadSuccess_vi": "Dạ em đã ghi nhận thông tin liên hệ của Anh/Chị! Anh Nguyễn Sơn và đội ngũ NS Building sẽ trực tiếp liên hệ lại trong thời gian sớm nhất để hỗ trợ giải pháp và báo giá chi tiết ạ.",
     "leadSuccess_en": "Thank you! I have safely recorded your details. Nguyen Son and our engineering team will get in touch shortly to assist with your project."
   },
-  "capturedLeads": [
-    {
-      "id": "lead-1",
-      "contact": "021 582 3991",
-      "type": "phone",
-      "customerName": "David Chen",
-      "suburb": "Albany, North Shore",
-      "message": "Cần cải tạo 2 phòng tắm và thay 80m2 sàn gỗ sồi xương cá trước tháng sau.",
-      "createdAt": "2026-09-21T09:30:00Z",
-      "status": "site_visit",
-      "notes": "Đã hẹn khảo sát vào thứ Sáu tuần này lúc 10h sáng."
-    },
-    {
-      "id": "lead-2",
-      "contact": "sarah.williams@nzmail.co.nz",
-      "type": "email",
-      "customerName": "Sarah Williams",
-      "suburb": "Remuera, Auckland",
-      "message": "Looking for high-end master ensuite bathroom renovation with freestanding stone tub.",
-      "createdAt": "2026-09-22T14:15:00Z",
-      "status": "quoted",
-      "notes": "Đã gửi bản dự toán $28,500 NZD qua email cho khách."
-    },
-    {
-      "id": "lead-3",
-      "contact": "027 894 1120",
-      "type": "phone",
-      "customerName": "Minh Tran",
-      "suburb": "Epsom",
-      "message": "Muốn đập tường ngăn phòng khách và đóng lại hệ tủ bếp chữ L mặt đá.",
-      "createdAt": "2026-09-23T11:45:00Z",
-      "status": "new",
-      "notes": "Khách vừa nhắn tin qua website, cần gọi lại tư vấn."
-    }
-  ]
+  "capturedLeads": []
 }

@@ -19,11 +19,11 @@ const LEAD_STATUSES = [
 
 type LeadStatus = (typeof LEAD_STATUSES)[number];
 
-function readQuoteLeads() {
-  return readJsonSafe<any[]>(quoteLeadsFilePath, []);
+async function readQuoteLeads() {
+  return await readJsonSafe<any[]>(quoteLeadsFilePath, []);
 }
-function readChatLeads() {
-  const config = readJsonSafe<any>(aiConfigFilePath, {});
+async function readChatLeads() {
+  const config = await readJsonSafe<any>(aiConfigFilePath, {});
   return Array.isArray(config.capturedLeads) ? config.capturedLeads : [];
 }
 
@@ -51,8 +51,12 @@ function buildStats(quoteLeads: any[], chatLeads: any[]) {
 
 export async function GET() {
   try {
-    const quoteLeads = readQuoteLeads().map((l: any) => ({ ...l, source: "quote" }));
-    const chatLeads = readChatLeads().map((l: any) => ({ ...l, source: "chat" }));
+    const [rawQuoteLeads, rawChatLeads] = await Promise.all([
+      readQuoteLeads(),
+      readChatLeads(),
+    ]);
+    const quoteLeads = rawQuoteLeads.map((l: any) => ({ ...l, source: "quote" }));
+    const chatLeads = rawChatLeads.map((l: any) => ({ ...l, source: "chat" }));
     const stats = buildStats(quoteLeads, chatLeads);
 
     return NextResponse.json({ quoteLeads, chatLeads, stats });
@@ -77,7 +81,7 @@ export async function PUT(req: Request) {
     }
 
     if (source === "quote") {
-      const leads = readQuoteLeads();
+      const leads = await readQuoteLeads();
       const idx = leads.findIndex((l) => l.id === id);
       if (idx === -1) {
         return NextResponse.json({ error: "Quote lead not found" }, { status: 404 });
@@ -85,12 +89,12 @@ export async function PUT(req: Request) {
       if (status) leads[idx].status = status;
       if (notes !== undefined) leads[idx].notes = String(notes).slice(0, 2000);
       leads[idx].updatedAt = new Date().toISOString();
-      writeJsonAtomic(quoteLeadsFilePath, leads);
+      await writeJsonAtomic(quoteLeadsFilePath, leads);
       return NextResponse.json({ success: true, lead: { ...leads[idx], source: "quote" } });
     }
 
     // source === "chat"
-    const config = readJsonSafe<any>(aiConfigFilePath, {});
+    const config = await readJsonSafe<any>(aiConfigFilePath, {});
     const leads = Array.isArray(config.capturedLeads) ? config.capturedLeads : [];
     const idx = leads.findIndex((l: any) => l.id === id);
     if (idx === -1) {
@@ -100,7 +104,7 @@ export async function PUT(req: Request) {
     if (notes !== undefined) leads[idx].notes = String(notes).slice(0, 2000);
     leads[idx].updatedAt = new Date().toISOString();
     config.capturedLeads = leads;
-    writeJsonAtomic(aiConfigFilePath, config);
+    await writeJsonAtomic(aiConfigFilePath, config);
     return NextResponse.json({ success: true, lead: { ...leads[idx], source: "chat" } });
   } catch (error) {
     return NextResponse.json({ error: "Failed to update lead" }, { status: 500 });
@@ -118,23 +122,23 @@ export async function DELETE(req: Request) {
     }
 
     if (source === "quote") {
-      const leads = readQuoteLeads();
+      const leads = await readQuoteLeads();
       const filtered = leads.filter((l) => l.id !== id);
       if (filtered.length === leads.length) {
         return NextResponse.json({ error: "Quote lead not found" }, { status: 404 });
       }
-      writeJsonAtomic(quoteLeadsFilePath, filtered);
+      await writeJsonAtomic(quoteLeadsFilePath, filtered);
       return NextResponse.json({ success: true, deletedId: id });
     }
 
-    const config = readJsonSafe<any>(aiConfigFilePath, {});
+    const config = await readJsonSafe<any>(aiConfigFilePath, {});
     const leads = Array.isArray(config.capturedLeads) ? config.capturedLeads : [];
     const filtered = leads.filter((l: any) => l.id !== id);
     if (filtered.length === leads.length) {
       return NextResponse.json({ error: "Chat lead not found" }, { status: 404 });
     }
     config.capturedLeads = filtered;
-    writeJsonAtomic(aiConfigFilePath, config);
+    await writeJsonAtomic(aiConfigFilePath, config);
     return NextResponse.json({ success: true, deletedId: id });
   } catch (error) {
     return NextResponse.json({ error: "Failed to delete lead" }, { status: 500 });

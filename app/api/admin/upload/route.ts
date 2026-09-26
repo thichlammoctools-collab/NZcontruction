@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
+import { r2PutObject, r2ListObjects } from "@/lib/cloud-storage";
 
 export const dynamic = "force-dynamic";
 
@@ -41,14 +42,12 @@ function detectImageMime(buf: Buffer): string | null {
     buf.toString("ascii", 0, 4) === "RIFF" &&
     buf.toString("ascii", 8, 12) === "WEBP"
   ) {
-    // WEBP may be lossy/lossless/extended — all fine for browsers.
     return "image/webp";
   }
   if (buf.length >= 6) {
     const sig = buf.toString("ascii", 0, 6);
     if (sig === "GIF87a" || sig === "GIF89a") return "image/gif";
   }
-  // AVIF/HEIF share the ISO-BMFF "ftyp" box at offset 4.
   if (buf.length >= 12 && buf.toString("ascii", 4, 8) === "ftyp") {
     const brand = buf.toString("ascii", 8, 12);
     if (["avif", "avis", "mif1"].includes(brand)) return "image/avif";
@@ -58,55 +57,53 @@ function detectImageMime(buf: Buffer): string | null {
 
 export async function POST(req: Request) {
   try {
-    // Per-IP throttle: bound storage abuse from a single client.
-    const rl = rateLimit(`upload:${clientIp(req)}`, UPLOAD_LIMIT, UPLOAD_WINDOW_MS);
-    if (rl.remaining <= 0) {
+    const ip = clientIp(req);
+    const { remaining, retryAfterSec } = rateLimit(`upload:${ip}`, UPLOAD_LIMIT, UPLOAD_WINDOW_MS);
+    if (remaining === 0) {
       return NextResponse.json(
-        { error: "Quá nhiều lượt tải lên. Vui lòng thử lại sau." },
-        { status: 429, headers: { "Retry-After": String(rl.retryAfterSec || 600) } }
+        { error: `Quá nhiều lượt tải lên. Vui lòng thử lại sau ${retryAfterSec}s.` },
+        {
+          status: 429,
+          headers: { "Retry-After": String(retryAfterSec) },
+        }
       );
     }
 
     const formData = await req.formData();
     const file = formData.get("file");
 
-    if (!file || typeof file === "string") {
+    if (!file || !(file instanceof Blob)) {
       return NextResponse.json(
-        { error: "Không tìm thấy file tải lên." },
+        { error: "Vui lòng chọn một tệp hình ảnh để tải lên." },
         { status: 400 }
       );
     }
 
     const uploadedFile = file as File;
 
-    // Validate declared MIME type
     if (!ALLOWED_MIME_TYPES.has(uploadedFile.type)) {
       return NextResponse.json(
         {
-          error: `Định dạng tệp không hợp lệ (${uploadedFile.type}). Chỉ chấp nhận file ảnh (JPG, PNG, WebP, GIF, AVIF).`,
+          error: "Định dạng tệp không được hỗ trợ. Chỉ chấp nhận JPG, PNG, WEBP, GIF, AVIF.",
         },
         { status: 400 }
       );
     }
 
-    // Validate file size
     if (uploadedFile.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        {
-          error: `Dung lượng tệp quá lớn (${(uploadedFile.size / (1024 * 1024)).toFixed(1)}MB). Giới hạn tối đa là 10MB.`,
-        },
+        { error: "Kích thước tệp quá lớn. Tối đa cho phép là 10MB." },
         { status: 400 }
       );
     }
 
-    // Read bytes once for both magic-byte check and writing
     const arrayBuffer = await uploadedFile.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
     const detectedMime = detectImageMime(buffer);
-    if (!detectedMime || !ALLOWED_MIME_TYPES.has(detectedMime)) {
+    if (!detectedMime) {
       return NextResponse.json(
-        { error: "Nội dung tệp không phải ảnh hợp lệ (bị chặn bởi kiểm tra magic-byte)." },
+        { error: "Nội dung tệp không phải hình ảnh hợp lệ (chữ ký nhị phân không khớp)." },
         { status: 400 }
       );
     }
@@ -117,14 +114,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Prepare upload directory: /public/uploads
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
-    // Generate safe, unique filename — extension comes from the DETECTED mime,
-    // never from the client-supplied name.
+    // Generate safe, unique filename
     const originalName = uploadedFile.name || "image";
     const extFromOriginal = path.extname(originalName).toLowerCase();
     const safeExt = MIME_EXTENSION_MAP[detectedMime] || extFromOriginal || ".jpg";
@@ -140,12 +130,22 @@ export async function POST(req: Request) {
 
     const uniqueSuffix = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
     const finalFilename = `${baseName || "photo"}-${uniqueSuffix}${safeExt}`;
-    const destinationPath = path.join(uploadDir, finalFilename);
 
-    // Write file to disk
-    fs.writeFileSync(destinationPath, buffer);
+    // 1. Upload to Cloudflare R2 bucket
+    await r2PutObject(finalFilename, buffer, detectedMime);
 
-    // Public URL served by Next.js static asset handler
+    // 2. Also save to local public/uploads if fs is writeable (local dev)
+    try {
+      const uploadDir = path.join(process.cwd(), "public", "uploads");
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      fs.writeFileSync(path.join(uploadDir, finalFilename), buffer);
+    } catch {
+      // In Cloudflare Workers edge environment, fs is read-only. Ignore.
+    }
+
+    // Public URL served by Next.js static asset handler or /uploads/[...path]
     const publicUrl = `/uploads/${finalFilename}`;
 
     return NextResponse.json({
@@ -170,6 +170,21 @@ export async function POST(req: Request) {
 // GET endpoint to list recently uploaded files
 export async function GET() {
   try {
+    // 1. Try listing from Cloudflare R2
+    const r2Files = await r2ListObjects(undefined, 30);
+    if (r2Files.length > 0) {
+      const files = r2Files
+        .filter((item) => /\.(jpg|jpeg|png|webp|gif|avif)$/i.test(item.key))
+        .map((item) => ({
+          filename: item.key,
+          url: `/uploads/${item.key}`,
+          size: item.size,
+          createdAt: item.uploaded,
+        }));
+      return NextResponse.json({ files });
+    }
+
+    // 2. Fall back to local disk if available
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     if (!fs.existsSync(uploadDir)) {
       return NextResponse.json({ files: [] });

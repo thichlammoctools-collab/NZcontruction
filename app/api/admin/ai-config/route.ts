@@ -1,26 +1,18 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
 import path from "path";
-import { writeJsonAtomic } from "@/lib/json-store";
+import { writeJsonAtomic, readJsonSafe } from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
 
 const aiConfigFilePath = path.join(process.cwd(), "content", "ai_config.json");
 
-function readConfig() {
-  try {
-    if (!fs.existsSync(aiConfigFilePath)) return null;
-    const raw = fs.readFileSync(aiConfigFilePath, "utf8");
-    return JSON.parse(raw);
-  } catch (err) {
-    console.error("Error reading ai_config.json:", err);
-    return null;
-  }
+async function readConfig() {
+  return await readJsonSafe<any>(aiConfigFilePath, null);
 }
 
-function writeConfig(data: any) {
+async function writeConfig(data: any) {
   if (data?.general) data.general.apiKey = "";
-  writeJsonAtomic(aiConfigFilePath, data);
+  await writeJsonAtomic(aiConfigFilePath, data);
 }
 
 // The API key is server-only (GEMINI_API_KEY env). Never persist or return it.
@@ -32,7 +24,7 @@ function sanitize(config: any) {
 
 export async function GET() {
   try {
-    const config = readConfig();
+    const config = await readConfig();
     if (!config) {
       return NextResponse.json({ error: "Configuration not found" }, { status: 404 });
     }
@@ -60,7 +52,7 @@ export async function GET() {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const current = readConfig() || {};
+    const current = (await readConfig()) || {};
 
     const updated = {
       ...current,
@@ -72,7 +64,7 @@ export async function PUT(req: Request) {
       ...(body.capturedLeads ? { capturedLeads: body.capturedLeads } : {}),
     };
 
-    writeConfig(updated);
+    await writeConfig(updated);
 
     return NextResponse.json({
       success: true,
@@ -88,7 +80,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { action } = body;
-    const config = readConfig() || {};
+    const config = (await readConfig()) || {};
 
     // 1. Interactive sandbox test
     if (action === "test_chat") {
@@ -179,7 +171,7 @@ export async function POST(req: Request) {
       if (notes !== undefined) leads[index].notes = notes;
 
       config.capturedLeads = leads;
-      writeConfig(config);
+      await writeConfig(config);
 
       return NextResponse.json({ success: true, lead: leads[index] });
     }
@@ -188,7 +180,7 @@ export async function POST(req: Request) {
     if (action === "delete_lead") {
       const { leadId } = body;
       config.capturedLeads = (config.capturedLeads || []).filter((l: any) => l.id !== leadId);
-      writeConfig(config);
+      await writeConfig(config);
       return NextResponse.json({ success: true });
     }
 

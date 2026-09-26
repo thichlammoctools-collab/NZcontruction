@@ -101,7 +101,7 @@ export default function SurfaceFinishingServiceTemplate({
                     <Shield className="w-3.5 h-3.5" />
                     <span>{isVi ? "Độ bền phủ" : "Wear Layer"}</span>
                   </div>
-                  <span className="block text-xl font-bold text-white">15+ Năm</span>
+                  <span className="block text-xl font-bold text-white">{isVi ? "15+ Năm" : "15+ Years"}</span>
                   <span className="text-[11px] text-slate-400 block">
                     {isVi ? "Chống trầy & bạc màu" : "Scratch & UV resistant"}
                   </span>

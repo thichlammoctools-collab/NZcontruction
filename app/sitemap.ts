@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import path from "path";
 import { readJsonSafe } from "@/lib/json-store";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://nsbuilding.co.nz";
   const locales = ["en", "vi"];
 
@@ -18,14 +18,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Read projects + posts dynamically so new admin-created entries appear.
-  const projects = readJsonSafe<any[]>(
+  const projectsData = await readJsonSafe<any[]>(
     path.join(process.cwd(), "content", "projects.json"),
     []
-  ).map((p) => p.id);
-  const posts = readJsonSafe<any[]>(
+  );
+  const projects = projectsData.map((p) => p.id);
+
+  const postsData = await readJsonSafe<any[]>(
     path.join(process.cwd(), "content", "posts.json"),
     []
-  ).map((p) => p.id);
+  );
+  const posts = postsData.map((p) => p.id);
 
   const routes: MetadataRoute.Sitemap = [];
 

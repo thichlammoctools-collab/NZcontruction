@@ -7,12 +7,12 @@ export const dynamic = "force-dynamic";
 
 const postsFilePath = path.join(process.cwd(), "content", "posts.json");
 
-function readPosts(): any[] {
-  return readJsonSafe<any[]>(postsFilePath, []);
+async function readPosts(): Promise<any[]> {
+  return await readJsonSafe<any[]>(postsFilePath, []);
 }
 
-function writePosts(posts: any[]) {
-  writeJsonAtomic(postsFilePath, posts);
+async function writePosts(posts: any[]) {
+  await writeJsonAtomic(postsFilePath, posts);
   try {
     revalidatePath("/[locale]", "page");
   } catch (e) {
@@ -22,7 +22,7 @@ function writePosts(posts: any[]) {
 
 export async function GET() {
   try {
-    const posts = readPosts();
+    const posts = await readPosts();
     return NextResponse.json(posts);
   } catch (error) {
     return NextResponse.json({ error: "Failed to read posts" }, { status: 500 });
@@ -32,7 +32,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const newPost = await req.json();
-    const posts = readPosts();
+    const posts = await readPosts();
 
     const postWithId = {
       ...newPost,
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     };
 
     posts.unshift(postWithId);
-    writePosts(posts);
+    await writePosts(posts);
 
     return NextResponse.json({ success: true, post: postWithId });
   } catch (error) {
@@ -59,7 +59,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
     }
 
-    const posts = readPosts();
+    const posts = await readPosts();
     const index = posts.findIndex((p) => p.id === updatedPost.id);
 
     if (index === -1) {
@@ -71,7 +71,7 @@ export async function PUT(req: Request) {
       ...updatedPost,
     };
 
-    writePosts(posts);
+    await writePosts(posts);
     return NextResponse.json({ success: true, post: posts[index] });
   } catch (error) {
     return NextResponse.json({ error: "Failed to update post" }, { status: 500 });
@@ -96,14 +96,14 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
     }
 
-    const posts = readPosts();
+    const posts = await readPosts();
     const filtered = posts.filter((p) => p.id !== id);
 
     if (filtered.length === posts.length) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
 
-    writePosts(filtered);
+    await writePosts(filtered);
     return NextResponse.json({ success: true, deletedId: id });
   } catch (error) {
     return NextResponse.json({ error: "Failed to delete post" }, { status: 500 });

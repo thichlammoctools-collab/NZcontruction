@@ -113,7 +113,7 @@ export default function JoineryServiceTemplate({
                   </span>
                 </div>
                 <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm space-y-1">
-                  <span className="block text-2xl font-extrabold text-primary">10 Năm</span>
+                  <span className="block text-2xl font-extrabold text-primary">{isVi ? "10 Năm" : "10 Years"}</span>
                   <span className="text-xs text-slate-600 block">
                     {isVi ? "Bảo hành lắp đặt" : "Workmanship guarantee"}
                   </span>

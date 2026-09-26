@@ -16,12 +16,12 @@ const postsFilePath = path.join(process.cwd(), "content", "posts.json");
 const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 
-function getPosts(): any[] {
-  return readJsonSafe<any[]>(postsFilePath, []);
+async function getPosts(): Promise<any[]> {
+  return await readJsonSafe<any[]>(postsFilePath, []);
 }
 
-function getDictionary(locale: string): any {
-  return readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
+async function getDictionary(locale: string): Promise<any> {
+  return await readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
 }
 
 export function generateStaticParams() {
@@ -61,12 +61,12 @@ const CATEGORY_LABELS: Record<string, { vi: string; en: string }> = {
   news: { vi: "Tin Tức", en: "News" },
 };
 
-export default function PostsListPage({ params }: PageProps) {
+export default async function PostsListPage({ params }: PageProps) {
   const { locale } = params;
   if (locale !== "en" && locale !== "vi") notFound();
   const isVi = locale === "vi";
-  const dict = getDictionary(locale);
-  const posts = getPosts();
+  const dict = await getDictionary(locale);
+  const posts = await getPosts();
 
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface antialiased">

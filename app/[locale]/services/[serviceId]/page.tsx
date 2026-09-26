@@ -44,16 +44,16 @@ const projectsPath = path.join(process.cwd(), "content", "projects.json");
 const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 
-function getServicesDetail(): Record<string, any> {
-  return readJsonSafe<Record<string, any>>(servicesDetailPath, {});
+async function getServicesDetail(): Promise<Record<string, any>> {
+  return await readJsonSafe<Record<string, any>>(servicesDetailPath, {});
 }
 
-function getProjects(): any[] {
-  return readJsonSafe<any[]>(projectsPath, []);
+async function getProjects(): Promise<any[]> {
+  return await readJsonSafe<any[]>(projectsPath, []);
 }
 
-function getDictionary(locale: string): any {
-  return readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
+async function getDictionary(locale: string): Promise<any> {
+  return await readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
 }
 
 interface PageProps {
@@ -63,9 +63,9 @@ interface PageProps {
   };
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, serviceId } = params;
-  const services = getServicesDetail();
+  const services = await getServicesDetail();
   const service = services[serviceId];
   if (!service) return {};
 
@@ -102,17 +102,17 @@ const TEMPLATE_MAP: Record<string, React.ComponentType<any>> = {
   maintenance: PropertyMaintenanceServiceTemplate,
 };
 
-export default function ServiceDetailPage({ params }: PageProps) {
+export default async function ServiceDetailPage({ params }: PageProps) {
   const { locale, serviceId } = params;
 
   if (locale !== "en" && locale !== "vi") notFound();
 
-  const services = getServicesDetail();
+  const services = await getServicesDetail();
   const service = services[serviceId];
   if (!service) notFound();
 
-  const dict = getDictionary(locale);
-  const projectsData = getProjects();
+  const dict = await getDictionary(locale);
+  const projectsData = await getProjects();
 
   // Find related project for this service
   const relatedProject =

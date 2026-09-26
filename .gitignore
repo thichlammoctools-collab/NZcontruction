@@ -7,3 +7,5 @@ out/
 content/quote_leads.json
 .DS_Store
 *.log
+.open-next/
+.wrangler/

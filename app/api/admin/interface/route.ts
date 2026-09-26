@@ -9,19 +9,19 @@ const settingsFilePath = path.join(process.cwd(), "content", "site_settings.json
 const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 
-function readJsonFile(filePath: string, fallback: any = {}) {
-  return readJsonSafe(filePath, fallback);
+async function readJsonFile(filePath: string, fallback: any = {}) {
+  return await readJsonSafe(filePath, fallback);
 }
 
-function writeJsonFile(filePath: string, data: any) {
-  writeJsonAtomic(filePath, data);
+async function writeJsonFile(filePath: string, data: any) {
+  await writeJsonAtomic(filePath, data);
 }
 
 export async function GET() {
   try {
-    const siteSettings = readJsonFile(settingsFilePath, {});
-    const viDict = readJsonFile(dictViPath, {});
-    const enDict = readJsonFile(dictEnPath, {});
+    const siteSettings = await readJsonFile(settingsFilePath, {});
+    const viDict = await readJsonFile(dictViPath, {});
+    const enDict = await readJsonFile(dictEnPath, {});
 
     return NextResponse.json({
       siteSettings,
@@ -67,7 +67,7 @@ export async function PUT(req: Request) {
     const { siteSettings, hero, contact, before_after, toggles } = body;
 
     // 1. Update site_settings.json
-    const currentSettings = readJsonFile(settingsFilePath, {});
+    const currentSettings = await readJsonFile(settingsFilePath, {});
     const updatedSettings = {
       ...currentSettings,
       ...(siteSettings || {}),
@@ -86,10 +86,10 @@ export async function PUT(req: Request) {
         ...(toggles || {}),
       },
     };
-    writeJsonFile(settingsFilePath, updatedSettings);
+    await writeJsonFile(settingsFilePath, updatedSettings);
 
     // 2. Update vi.json
-    const viDict = readJsonFile(dictViPath, {});
+    const viDict = await readJsonFile(dictViPath, {});
     if (viDict.nav && contact) {
       if (contact.phone) viDict.nav.phone = contact.phone;
       if (contact.mobile) viDict.nav.mobile = contact.mobile;
@@ -113,10 +113,10 @@ export async function PUT(req: Request) {
         ...before_after.vi,
       };
     }
-    writeJsonFile(dictViPath, viDict);
+    await writeJsonFile(dictViPath, viDict);
 
     // 3. Update en.json
-    const enDict = readJsonFile(dictEnPath, {});
+    const enDict = await readJsonFile(dictEnPath, {});
     if (enDict.nav && contact) {
       if (contact.phone) enDict.nav.phone = contact.phone;
       if (contact.mobile) enDict.nav.mobile = contact.mobile;
@@ -140,7 +140,7 @@ export async function PUT(req: Request) {
         ...before_after.en,
       };
     }
-    writeJsonFile(dictEnPath, enDict);
+    await writeJsonFile(dictEnPath, enDict);
 
     try {
       revalidatePath("/[locale]", "page");

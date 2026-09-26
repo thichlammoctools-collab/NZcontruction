@@ -15,22 +15,22 @@ const postsFilePath = path.join(process.cwd(), "content", "posts.json");
 const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 
-function getPost(id: string): any | null {
-  const posts = readJsonSafe<any[]>(postsFilePath, []);
+async function getPost(id: string): Promise<any | null> {
+  const posts = await readJsonSafe<any[]>(postsFilePath, []);
   return posts.find((p) => p.id === id) || null;
 }
 
-function getDictionary(locale: string): any {
-  return readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
+async function getDictionary(locale: string): Promise<any> {
+  return await readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
 }
 
 interface PageProps {
   params: { locale: string; id: string };
 }
 
-export function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps) {
   const { locale, id } = params;
-  const post = getPost(id);
+  const post = await getPost(id);
   if (!post) return { title: "Post Not Found | NS Building" };
   const isVi = locale === "vi";
   const title = isVi ? post.title_vi || post.title_en : post.title_en;
@@ -72,15 +72,15 @@ function toParagraphs(text: string | undefined): string[] {
     .filter(Boolean);
 }
 
-export default function PostDetailPage({ params }: PageProps) {
+export default async function PostDetailPage({ params }: PageProps) {
   const { locale, id } = params;
   if (locale !== "en" && locale !== "vi") notFound();
   const isVi = locale === "vi";
 
-  const post = getPost(id);
+  const post = await getPost(id);
   if (!post) notFound();
 
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
   const cat = CATEGORY_LABELS[post.category] || {
     vi: post.category,
     en: post.category,

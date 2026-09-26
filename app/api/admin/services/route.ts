@@ -9,12 +9,12 @@ const servicesDetailPath = path.join(process.cwd(), "content", "services_detail.
 const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 
-function readServicesDetail(): Record<string, any> {
-  return readJsonSafe<Record<string, any>>(servicesDetailPath, {});
+async function readServicesDetail(): Promise<Record<string, any>> {
+  return await readJsonSafe<Record<string, any>>(servicesDetailPath, {});
 }
 
-function writeServicesDetail(data: Record<string, any>) {
-  writeJsonAtomic(servicesDetailPath, data);
+async function writeServicesDetail(data: Record<string, any>) {
+  await writeJsonAtomic(servicesDetailPath, data);
 }
 
 function revalidateContent() {
@@ -27,9 +27,9 @@ function revalidateContent() {
   }
 }
 
-function syncDictionaries(serviceId: string, serviceData: any, isDelete = false) {
+async function syncDictionaries(serviceId: string, serviceData: any, isDelete = false) {
   try {
-    const viDict = readJsonSafe<any>(dictViPath, null as any);
+    const viDict = await readJsonSafe<any>(dictViPath, null as any);
     if (viDict?.services?.items) {
       if (isDelete) {
         delete viDict.services.items[serviceId];
@@ -48,10 +48,10 @@ function syncDictionaries(serviceId: string, serviceData: any, isDelete = false)
         viDict.featured_flagships.feature_02.image = serviceData.hero_image;
       }
 
-      writeJsonAtomic(dictViPath, viDict);
+      await writeJsonAtomic(dictViPath, viDict);
     }
 
-    const enDict = readJsonSafe<any>(dictEnPath, null as any);
+    const enDict = await readJsonSafe<any>(dictEnPath, null as any);
     if (enDict?.services?.items) {
       if (isDelete) {
         delete enDict.services.items[serviceId];
@@ -70,7 +70,7 @@ function syncDictionaries(serviceId: string, serviceData: any, isDelete = false)
         enDict.featured_flagships.feature_02.image = serviceData.hero_image;
       }
 
-      writeJsonAtomic(dictEnPath, enDict);
+      await writeJsonAtomic(dictEnPath, enDict);
     }
   } catch (err) {
     console.error("Error syncing dictionaries for service:", err);
@@ -79,7 +79,7 @@ function syncDictionaries(serviceId: string, serviceData: any, isDelete = false)
 
 export async function GET() {
   try {
-    const services = readServicesDetail();
+    const services = await readServicesDetail();
     // Convert object to array for easier consumption in frontend table/list
     const list = Object.entries(services).map(([id, item]) => ({
       id,
@@ -103,7 +103,7 @@ export async function POST(req: Request) {
         .replace(/(^-|-$)/g, "");
     }
 
-    const services = readServicesDetail();
+    const services = await readServicesDetail();
 
     if (services[serviceId]) {
       return NextResponse.json(
@@ -125,8 +125,8 @@ export async function POST(req: Request) {
     };
 
     services[serviceId] = newService;
-    writeServicesDetail(services);
-    syncDictionaries(serviceId, { ...newService, tag_vi: body.tag_vi, tag_en: body.tag_en, icon: body.icon });
+    await writeServicesDetail(services);
+    await syncDictionaries(serviceId, { ...newService, tag_vi: body.tag_vi, tag_en: body.tag_en, icon: body.icon });
     revalidateContent();
 
     return NextResponse.json({
@@ -147,7 +147,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Service ID is required" }, { status: 400 });
     }
 
-    const services = readServicesDetail();
+    const services = await readServicesDetail();
     if (!services[serviceId]) {
       return NextResponse.json({ error: "Service not found" }, { status: 404 });
     }
@@ -173,8 +173,8 @@ export async function PUT(req: Request) {
         : services[serviceId].pricing,
     };
 
-    writeServicesDetail(services);
-    syncDictionaries(serviceId, {
+    await writeServicesDetail(services);
+    await syncDictionaries(serviceId, {
       ...services[serviceId],
       tag_vi: body.tag_vi,
       tag_en: body.tag_en,
@@ -209,14 +209,14 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Service ID is required" }, { status: 400 });
     }
 
-    const services = readServicesDetail();
+    const services = await readServicesDetail();
     if (!services[id]) {
       return NextResponse.json({ error: "Service not found" }, { status: 404 });
     }
 
     delete services[id];
-    writeServicesDetail(services);
-    syncDictionaries(id, {}, true);
+    await writeServicesDetail(services);
+    await syncDictionaries(id, {}, true);
     revalidateContent();
 
     return NextResponse.json({ success: true, deletedId: id });

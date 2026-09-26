@@ -2,26 +2,19 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
-import { writeJsonAtomic } from "@/lib/json-store";
+import { writeJsonAtomic, readJsonSafe } from "@/lib/json-store";
 
 export const dynamic = "force-dynamic";
 
 const aiConfigFilePath = path.join(process.cwd(), "content", "ai_config.json");
 
-function readConfig() {
-  try {
-    if (!fs.existsSync(aiConfigFilePath)) return null;
-    const raw = fs.readFileSync(aiConfigFilePath, "utf8");
-    return JSON.parse(raw);
-  } catch (err) {
-    console.error("Error reading ai_config.json in chat:", err);
-    return null;
-  }
+async function readConfig() {
+  return await readJsonSafe<any>(aiConfigFilePath, null);
 }
 
-function saveConfig(data: any) {
+async function saveConfig(data: any) {
   try {
-    writeJsonAtomic(aiConfigFilePath, data);
+    await writeJsonAtomic(aiConfigFilePath, data);
   } catch (err) {
     console.error("Error saving ai_config.json:", err);
   }
@@ -80,7 +73,7 @@ export async function POST(req: Request) {
     const text = rawText.toLowerCase();
     const isVi = locale === "vi";
 
-    const config = readConfig();
+    const config = await readConfig();
 
     // Check if chatbot is disabled
     if (config?.general?.enabled === false) {
@@ -121,7 +114,7 @@ export async function POST(req: Request) {
           notes: `Tự động ghi nhận lúc ${new Date().toLocaleTimeString()} - ${new Date().toLocaleDateString()}`,
         };
         config.capturedLeads = [newLead, ...leads];
-        saveConfig(config);
+        await saveConfig(config);
       }
 
       const customSuccess = isVi ? config?.leadCapture?.leadSuccess_vi : config?.leadCapture?.leadSuccess_en;
