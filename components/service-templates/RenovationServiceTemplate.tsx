@@ -2,7 +2,6 @@ import React from "react";
 import ServiceHero from "@/components/service-blocks/ServiceHero";
 import ServicePricingTable from "@/components/service-blocks/ServicePricingTable";
 import ServiceCtaSection from "@/components/service-blocks/ServiceCtaSection";
-import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import { CheckCircle2, ShieldCheck, Clock, Award, Hammer } from "lucide-react";
 
 interface RenovationServiceTemplateProps {
@@ -43,9 +42,9 @@ export default function RenovationServiceTemplate({
         }
       />
 
-      {/* 2. KEY SCOPE & BEFORE-AFTER SHOWCASE */}
+      {/* 2. KEY SCOPE & QUALITY STANDARDS */}
       <section className="w-full max-w-7xl mx-auto px-4 sm:px-8 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-6">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-bronze mb-2 block">
@@ -58,7 +57,17 @@ export default function RenovationServiceTemplate({
               </h2>
             </div>
 
-            <div className="space-y-4 pt-2">
+            <p className="text-sm text-slate-600 leading-relaxed">
+              {isVi
+                ? (serviceId === "bathrooms"
+                    ? "Khu vực ẩm ướt đòi hỏi kỹ thuật chống thấm màng liên tục và kiểm định áp lực nước khắt khe. Chúng tôi mang đến giải pháp trọn gói từ tháo dỡ, gia cố đến lắp đặt thiết bị vệ sinh cao cấp."
+                    : "Cải tạo nhà ở tại Auckland đòi hỏi kiểm soát chặt chẽ từ kết cấu dầm chịu lực, đường ống kỹ thuật đến hồ sơ xin phép Council. Chúng tôi cam kết tiến độ rõ ràng và bảo hành toàn diện.")
+                : (serviceId === "bathrooms"
+                    ? "Wet areas require rigorous membrane waterproofing and pressure testing to NZ building standards. We deliver complete luxury bathroom renovations from demolition to premium fit-offs."
+                    : "Home renovations in Auckland demand rigorous structural control, engineering compliance, and seamless council consent management. We deliver on time and to the highest building standards.")}
+            </p>
+
+            <div className="space-y-3 pt-2">
               {features.map((feat: string, idx: number) => (
                 <div
                   key={idx}
@@ -73,25 +82,52 @@ export default function RenovationServiceTemplate({
             </div>
           </div>
 
-          {/* RELATED BEFORE & AFTER PROJECT */}
-          {relatedProject && (
-            <div className="lg:col-span-6 space-y-4">
-              <span className="text-xs font-bold uppercase tracking-widest text-secondary block">
-                {isVi ? "Công Trình Thực Tế (Trước & Sau)" : "Featured Case Study (Before & After)"}
-              </span>
-              <div className="bg-white p-4 rounded-2xl border border-border-light shadow-md">
-                <BeforeAfterSlider
-                  beforeImage={relatedProject.before_image}
-                  afterImage={relatedProject.after_image}
-                  beforeLabel={dict?.before_after?.before_label || "Trước"}
-                  afterLabel={dict?.before_after?.after_label || "Sau"}
-                  projectName={isVi ? relatedProject.title_vi : relatedProject.title_en}
-                  location={relatedProject.suburb}
-                  scope={isVi ? relatedProject.description_vi : relatedProject.description_en}
-                />
+          <div className="lg:col-span-6">
+            <div className="p-8 rounded-3xl bg-gradient-to-br from-surface-container-low via-white to-amber-50/40 border border-border-light shadow-lg space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-bronze/15 text-bronze flex items-center justify-center">
+                  {serviceId === "bathrooms" ? <ShieldCheck className="w-6 h-6" /> : <Award className="w-6 h-6" />}
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-primary">
+                    {isVi ? "Cam Kết Chất Lượng NS Building" : "NS Building Quality Guarantee"}
+                  </h3>
+                  <span className="text-xs text-slate-500 font-medium">
+                    {serviceId === "bathrooms"
+                      ? (isVi ? "Chống thấm chuẩn E3/AS1 & Nghiệm thu PS3 Council" : "E3/AS1 compliance & Council PS3 sign-off")
+                      : (isVi ? "Đội ngũ thợ LBP & Nghiệm thu Code Compliance (CCC)" : "LBP certified builders & CCC compliance guarantee")}
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm space-y-1">
+                  <span className="block text-2xl font-extrabold text-primary">100%</span>
+                  <span className="text-xs text-slate-600 block">
+                    {isVi ? "Chuẩn New Zealand Code" : "NZ Building Code compliant"}
+                  </span>
+                </div>
+                <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm space-y-1">
+                  <span className="block text-2xl font-extrabold text-primary">Fixed</span>
+                  <span className="text-xs text-slate-600 block">
+                    {isVi ? "Báo giá trọn gói minh bạch" : "Transparent fixed pricing"}
+                  </span>
+                </div>
+                <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm space-y-1">
+                  <span className="block text-2xl font-extrabold text-primary">LBP</span>
+                  <span className="text-xs text-slate-600 block">
+                    {isVi ? "Thợ chứng chỉ hành nghề" : "Licensed Practitioners"}
+                  </span>
+                </div>
+                <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm space-y-1">
+                  <span className="block text-2xl font-extrabold text-primary">{isVi ? "10 Năm" : "10 Years"}</span>
+                  <span className="text-xs text-slate-600 block">
+                    {isVi ? "Bảo hành trách nhiệm" : "Workmanship warranty"}
+                  </span>
+                </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </section>
 
