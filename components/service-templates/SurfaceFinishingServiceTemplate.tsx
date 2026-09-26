@@ -37,6 +37,8 @@ export default function SurfaceFinishingServiceTemplate({
         badgeText={
           serviceId === "flooring"
             ? (isVi ? "Sàn Gỗ Kỹ Thuật • Phục Hồi Gỗ Bản Địa NZ" : "Engineered Oak • Native Heritage Timber Sanding")
+            : serviceId === "plastering"
+            ? (isVi ? "Chuẩn GIB Level 5 • Vách Cách Âm & Microcement" : "Level 5 GIB Stopping • Acoustic Lining & Microcement")
             : (isVi ? "Chuẩn Bả GIB Level 5 • Trát Microcement & Sơn UV" : "Level 5 GIB Stopping • Microcement & UV Shield")
         }
       />
@@ -215,7 +217,7 @@ export default function SurfaceFinishingServiceTemplate({
       )}
 
       {/* 3B. PAINTING SPECIALIZED SECTION: SURFACE FINISHES & GIB STOPPING */}
-      {serviceId === "painting" && surfaceFinishes.length > 0 && (
+      {(serviceId === "painting" || serviceId === "plastering") && surfaceFinishes.length > 0 && (
         <section className="w-full py-16 bg-surface-container-low border-t border-border-light">
           <div className="max-w-7xl mx-auto px-4 sm:px-8">
             <div className="text-center max-w-2xl mx-auto mb-14">

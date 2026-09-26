@@ -548,6 +548,97 @@
       }
     ]
   },
+  "plastering": {
+    "title_en": "Plastering & Gib Stopping",
+    "title_vi": "Trát Bả & Gib Stopping",
+    "hero_image": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80",
+    "intro_en": "Specialist GIB plasterboard lining, multi-stage joint stopping, and architectural skim coating. From Level 4 standard to Level 5 mirror-flat perfection under harsh raking sunlight — built to New Zealand finishing standards.",
+    "intro_vi": "Chuyên sâu thi công tường trần thạch cao GIB, xử lý mối nối nhiều lớp và bả skim coat kiến trúc. Từ chuẩn Level 4 phổ thông đến Level 5 phẳng mịn tuyệt đối dưới ánh nắng xiên — đạt tiêu chuẩn hoàn thiện New Zealand.",
+    "features_en": [
+      "Level 4 & Level 5 GIB board stopping and skim coating",
+      "Seamless plasterboard joint taping and multi-stage compound finishing",
+      "Acoustic and fire-rated wall and ceiling lining systems",
+      "Textured microcement plaster finishes for feature walls and wet areas"
+    ],
+    "features_vi": [
+      "Bả bột xử lý mối nối thạch cao GIB đạt chuẩn Level 4 & 5",
+      "Dán băng xử lý mối nối và trét bả bột nhiều lớp phẳng tuyệt đối",
+      "Hệ thống tường trần cách âm và chống cháy chuyên dụng",
+      "Trát tường hiệu ứng vi xi măng microcement cho vách tắm và phòng khách"
+    ],
+    "surface_finishes": [
+      {
+        "level": "Level 4",
+        "title_en": "Standard Paint-Ready Finish",
+        "title_vi": "Bả Bột Tiêu Chuẩn Phổ Thông",
+        "desc_en": "3-coat taping system over GIB plasterboard joints, thoroughly sanded for standard diffuse lighting with flat or low-sheen interior paints.",
+        "desc_vi": "Quy trình xử lý mối nối thạch cao 3 lớp tiêu chuẩn, xả phẳng cho khu vực ánh sáng tán xạ nhẹ nhàng với sơn mờ hoặc ít bóng."
+      },
+      {
+        "level": "Level 5",
+        "title_en": "Full Skim Coat Mirror Finish",
+        "title_vi": "Bả Phẳng Toàn Diện Level 5 Cao Cấp",
+        "desc_en": "Complete thin skim coating over the entire drywall surface, eliminating all texture variations and joint shadows under harsh raking light and gloss paint.",
+        "desc_vi": "Phủ lớp bả mỏng láng toàn bộ bề mặt tường thạch cao, loại bỏ hoàn toàn hiện tượng bóng mờ gợn sóng khi có ánh nắng rọi xiên hoặc sơn bóng."
+      },
+      {
+        "level": "Acoustic",
+        "title_en": "Acoustic & Fire-Rated GIB Systems",
+        "title_vi": "Hệ Thống Tường Trần Cách Âm & Chống Cháy",
+        "desc_en": "Multi-layer GIB Noiseline and Fyreline installations with resilient channels, achieving STC 55+ ratings for intertenancy walls and ceilings.",
+        "desc_vi": "Thi công tường trần GIB Noiseline và Fyreline nhiều lớp, lắp đặt thanh giảm chấn đạt chỉ số cách âm STC 55+ cho vách ngăn giữa các căn hộ."
+      },
+      {
+        "level": "Specialty",
+        "title_en": "Seamless Waterproof Microcement",
+        "title_vi": "Trát Vách Hiệu Ứng Vi Xi Măng Microcement",
+        "desc_en": "Hand-trowelled architectural microcement creating continuous organic stone textures without grout lines in wet areas and feature walls.",
+        "desc_vi": "Thi công bay thủ công tạo bề mặt vân mây xi măng nguyên khối không mối nối, kháng nước 100% cho vách tắm và tường trang trí phòng khách."
+      }
+    ],
+    "pricing": [
+      {
+        "name_en": "GIB Board Stopping Level 4 — Standard Paint-Ready",
+        "name_vi": "Bả bột xử lý mối nối GIB chuẩn Level 4",
+        "desc_en": "Paper taping, 3-stage joint compound application, feathering edges, and dustless vacuum sanding ready for flat or low-sheen paint.",
+        "desc_vi": "Dán băng giấy xử lý mối nối GIB, trét bả bột 3 lớp tỉ mỉ, xả nhám bằng máy hút bụi chuyên dụng chuẩn bị cho sơn phẳng.",
+        "range": "$35 – $48",
+        "unit_en": "per m²",
+        "unit_vi": "m² bề mặt",
+        "popular": false
+      },
+      {
+        "name_en": "Level 5 Full Skim Coat — Mirror-Flat Finish",
+        "name_vi": "Bả skim coat Level 5 phẳng mịn tuyệt đối",
+        "desc_en": "Complete skim coat over entire board surface, critical raking light inspection, and multi-pass dustless machine sanding for flawless gloss paint finishes.",
+        "desc_vi": "Phủ lớp bả mỏng toàn bộ bề mặt tường trần, soi đèn rọi xiên kiểm tra từng chi tiết và xả nhám máy hút bụi nhiều lần cho sơn bóng hoàn hảo.",
+        "range": "$48 – $65",
+        "unit_en": "per m²",
+        "unit_vi": "m² bề mặt",
+        "popular": true
+      },
+      {
+        "name_en": "Acoustic / Fire-Rated GIB Lining System",
+        "name_vi": "Thi công tường trần GIB cách âm & chống cháy",
+        "desc_en": "Supply and installation of multi-layer GIB Noiseline or Fyreline plasterboard, resilient channels, acoustic sealant, and Level 4 stopping.",
+        "desc_vi": "Cung cấp và thi công tường trần thạch cao GIB Noiseline hoặc Fyreline nhiều lớp, thanh giảm chấn, keo cách âm và bả mối nối chuẩn Level 4.",
+        "range": "$75 – $120",
+        "unit_en": "per m²",
+        "unit_vi": "m² tường trần",
+        "popular": false
+      },
+      {
+        "name_en": "Seamless Microcement Feature Wall / Wet Area",
+        "name_vi": "Trát vách microcement chống nước nghệ thuật",
+        "desc_en": "Hand-trowelled microcement plaster layers, custom cloud texturing, polyurethane sealer coat. Suitable for showers, splashbacks, and feature walls.",
+        "desc_vi": "Trát tay thủ công tạo vân mây bê tông hiện đại, phủ 2 lớp keo bóng polyurethane bảo vệ kháng nước và chống trầy cho phòng tắm hoặc vách TV.",
+        "range": "$160 – $280",
+        "unit_en": "per m²",
+        "unit_vi": "m² vách",
+        "popular": false
+      }
+    ]
+  },
   "hiring": {
     "title_en": "Equipment & Tool Hire",
     "title_vi": "Cho Thuê Máy Móc & Thiết Bị",

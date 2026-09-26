@@ -26,6 +26,7 @@ export function generateStaticParams() {
     "flooring",
     "doors",
     "painting",
+    "plastering",
     "hiring",
     "maintenance",
   ];
@@ -98,6 +99,7 @@ const TEMPLATE_MAP: Record<string, React.ComponentType<any>> = {
   doors: JoineryServiceTemplate,
   flooring: SurfaceFinishingServiceTemplate,
   painting: SurfaceFinishingServiceTemplate,
+  plastering: SurfaceFinishingServiceTemplate,
   hiring: EquipmentHireServiceTemplate,
   maintenance: PropertyMaintenanceServiceTemplate,
 };
