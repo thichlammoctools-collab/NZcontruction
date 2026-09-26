@@ -8,7 +8,10 @@
     "model": "gemini-1.5-flash",
     "temperature": 0.3,
     "maxTokens": 600,
-    "streamResponse": false
+    "streamResponse": false,
+    "apiKey": "",
+    "geminiApiKey": "",
+    "openaiApiKey": ""
   },
   "persona": {
     "role": "Trợ lý kỹ thuật & tư vấn của Kỹ sư Nguyễn Sơn (LBP #BP128842) - NS Building Ltd",

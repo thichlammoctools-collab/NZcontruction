@@ -21,9 +21,17 @@ async function saveConfig(data: any) {
 }
 
 // Call Google Gemini REST API if key is present
-async function callGemini(apiKey: string, modelName: string, systemPrompt: string, userMessage: string, knowledgeText: string) {
+async function callGemini(
+  apiKey: string,
+  modelName: string,
+  systemPrompt: string,
+  userMessage: string,
+  knowledgeText: string,
+  temperature = 0.3,
+  maxTokens = 600
+) {
   const model = modelName || "gemini-1.5-flash";
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
   const prompt = `System Instructions:\n${systemPrompt}\n\nCompany Knowledge Base & Context:\n${knowledgeText}\n\nClient inquiry: ${userMessage.slice(0, 2000)}\n\nRespond as NS Building AI Assistant:`;
 
@@ -36,8 +44,8 @@ async function callGemini(apiKey: string, modelName: string, systemPrompt: strin
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
-        temperature: 0.3,
-        maxOutputTokens: 600,
+        temperature: temperature ?? 0.3,
+        maxOutputTokens: maxTokens ?? 600,
       },
     }),
   });
@@ -48,6 +56,51 @@ async function callGemini(apiKey: string, modelName: string, systemPrompt: strin
 
   const data = await res.json();
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  return text?.trim();
+}
+
+// Call OpenAI REST API if key is present
+async function callOpenAI(
+  apiKey: string,
+  modelName: string,
+  systemPrompt: string,
+  userMessage: string,
+  knowledgeText: string,
+  temperature = 0.3,
+  maxTokens = 600
+) {
+  const model = modelName || "gpt-4o-mini";
+  const url = "https://api.openai.com/v1/chat/completions";
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: model,
+      temperature: temperature ?? 0.3,
+      max_tokens: maxTokens ?? 600,
+      messages: [
+        {
+          role: "system",
+          content: `${systemPrompt}\n\nCompany Knowledge Base & Context:\n${knowledgeText}`,
+        },
+        {
+          role: "user",
+          content: userMessage.slice(0, 2000),
+        },
+      ],
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`OpenAI API error status: ${res.status}`);
+  }
+
+  const data = await res.json();
+  const text = data.choices?.[0]?.message?.content;
   return text?.trim();
 }
 
@@ -125,11 +178,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ reply, leadCaptured: true });
     }
 
-    // 2. Try Gemini API if key is present (server env only — never from CMS config)
-    const apiKey = process.env.GEMINI_API_KEY;
-    const provider = config?.general?.provider;
+    // 2. Try Gemini / OpenAI API if key is present
+    const provider = config?.general?.provider || "gemini";
+    const geminiKey =
+      config?.general?.geminiApiKey ||
+      (provider === "gemini" ? config?.general?.apiKey : "") ||
+      process.env.GEMINI_API_KEY;
 
-    if (provider === "gemini" && apiKey) {
+    const openaiKey =
+      config?.general?.openaiApiKey ||
+      (provider === "openai" ? config?.general?.apiKey : "") ||
+      process.env.OPENAI_API_KEY;
+
+    const temperature = typeof config?.general?.temperature === "number" ? config.general.temperature : 0.3;
+    const maxTokens = typeof config?.general?.maxTokens === "number" ? config.general.maxTokens : 600;
+
+    if (provider === "gemini" && geminiKey) {
       try {
         const systemPrompt = isVi ? config?.persona?.systemPrompt_vi : config?.persona?.systemPrompt_en;
         const knowledgeText = JSON.stringify({
@@ -139,11 +203,13 @@ export async function POST(req: Request) {
         });
 
         const geminiReply = await callGemini(
-          apiKey,
+          geminiKey,
           config?.general?.model,
           systemPrompt || "",
           rawText,
-          knowledgeText
+          knowledgeText,
+          temperature,
+          maxTokens
         );
 
         if (geminiReply) {
@@ -151,6 +217,31 @@ export async function POST(req: Request) {
         }
       } catch (geminiError) {
         console.warn("Gemini API call failed, falling back to local knowledge engine:", geminiError);
+      }
+    } else if (provider === "openai" && openaiKey) {
+      try {
+        const systemPrompt = isVi ? config?.persona?.systemPrompt_vi : config?.persona?.systemPrompt_en;
+        const knowledgeText = JSON.stringify({
+          pricingGuide: config?.knowledgeBase?.pricingGuide,
+          councilCompliance: config?.knowledgeBase?.councilAndCompliance,
+          trainingFaqs: (config?.trainingFaqs || []).filter((f: any) => f.enabled !== false),
+        });
+
+        const openaiReply = await callOpenAI(
+          openaiKey,
+          config?.general?.model,
+          systemPrompt || "",
+          rawText,
+          knowledgeText,
+          temperature,
+          maxTokens
+        );
+
+        if (openaiReply) {
+          return NextResponse.json({ reply: openaiReply, leadCaptured: false });
+        }
+      } catch (openaiError) {
+        console.warn("OpenAI API call failed, falling back to local knowledge engine:", openaiError);
       }
     }
 

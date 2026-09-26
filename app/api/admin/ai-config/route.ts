@@ -11,15 +11,7 @@ async function readConfig() {
 }
 
 async function writeConfig(data: any) {
-  if (data?.general) data.general.apiKey = "";
   await writeJsonAtomic(aiConfigFilePath, data);
-}
-
-// The API key is server-only (GEMINI_API_KEY env). Never persist or return it.
-function sanitize(config: any) {
-  if (!config?.general) return config;
-  const { apiKey, ...general } = config.general;
-  return { ...config, general };
 }
 
 export async function GET() {
@@ -32,6 +24,16 @@ export async function GET() {
     const faqs = config.trainingFaqs || [];
     const leads = config.capturedLeads || [];
 
+    // If apiKey is not explicitly set in config, but env exists, provide fallback info
+    const serverGeminiKey = process.env.GEMINI_API_KEY || "";
+    const serverOpenaiKey = process.env.OPENAI_API_KEY || "";
+
+    const activeApiKey =
+      config.general?.apiKey ||
+      (config.general?.provider === "openai"
+        ? (config.general?.openaiApiKey || serverOpenaiKey)
+        : (config.general?.geminiApiKey || serverGeminiKey));
+
     const stats = {
       totalFaqs: faqs.length,
       activeFaqs: faqs.filter((f: any) => f.enabled !== false).length,
@@ -40,10 +42,23 @@ export async function GET() {
       activeModel: config.general?.model || "gemini-1.5-flash",
       provider: config.general?.provider || "gemini",
       isEnabled: config.general?.enabled !== false,
-      hasServerApiKey: !!process.env.GEMINI_API_KEY,
+      hasServerApiKey: !!serverGeminiKey || !!serverOpenaiKey || !!config.general?.apiKey,
+      hasEnvGeminiKey: !!serverGeminiKey,
+      hasEnvOpenaiKey: !!serverOpenaiKey,
     };
 
-    return NextResponse.json({ config: sanitize(config), stats });
+    // Return config with apiKey for admin editing
+    const safeConfig = {
+      ...config,
+      general: {
+        ...config.general,
+        apiKey: activeApiKey || "",
+        geminiApiKey: config.general?.geminiApiKey || serverGeminiKey || "",
+        openaiApiKey: config.general?.openaiApiKey || serverOpenaiKey || "",
+      },
+    };
+
+    return NextResponse.json({ config: safeConfig, stats });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch AI configuration" }, { status: 500 });
   }
@@ -56,7 +71,14 @@ export async function PUT(req: Request) {
 
     const updated = {
       ...current,
-      ...(body.general ? { general: { ...current.general, ...body.general, apiKey: "" } } : {}),
+      ...(body.general
+        ? {
+            general: {
+              ...current.general,
+              ...body.general,
+            },
+          }
+        : {}),
       ...(body.persona ? { persona: { ...current.persona, ...body.persona } } : {}),
       ...(body.knowledgeBase ? { knowledgeBase: { ...current.knowledgeBase, ...body.knowledgeBase } } : {}),
       ...(body.trainingFaqs ? { trainingFaqs: body.trainingFaqs } : {}),
@@ -69,7 +91,7 @@ export async function PUT(req: Request) {
     return NextResponse.json({
       success: true,
       message: "Đã lưu thành công cấu hình và dữ liệu huấn luyện AI!",
-      config: sanitize(updated),
+      config: updated,
     });
   } catch (error) {
     return NextResponse.json({ error: "Failed to update AI configuration" }, { status: 500 });
@@ -81,6 +103,178 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { action } = body;
     const config = (await readConfig()) || {};
+
+    // 0. Test AI Connection
+    if (action === "test_connection") {
+      const { provider = config?.general?.provider || "gemini", model, apiKey: inputKey } = body;
+
+      if (provider === "local") {
+        return NextResponse.json({
+          success: true,
+          status: "connected",
+          latencyMs: 0,
+          provider: "local",
+          model: "local-rules",
+          message: "Bộ tri thức chuyên gia cục bộ hoạt động tốt (100% Offline, không phụ thuộc API bên ngoài).",
+        });
+      }
+
+      if (provider === "gemini") {
+        const keyToUse =
+          inputKey?.trim() ||
+          config?.general?.geminiApiKey ||
+          config?.general?.apiKey ||
+          process.env.GEMINI_API_KEY ||
+          "";
+
+        if (!keyToUse) {
+          return NextResponse.json({
+            success: false,
+            status: "missing_key",
+            latencyMs: 0,
+            provider: "gemini",
+            message: "Chưa cấu hình API Key Google Gemini. Vui lòng nhập API Key để kết nối.",
+          });
+        }
+
+        const testModel = model || config?.general?.model || "gemini-1.5-flash";
+        const start = Date.now();
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(testModel)}:generateContent?key=${encodeURIComponent(keyToUse)}`;
+          const res = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-goog-api-key": keyToUse,
+            },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: "ping" }] }],
+              generationConfig: {
+                maxOutputTokens: 5,
+                temperature: 0.1,
+              },
+            }),
+          });
+          const latencyMs = Date.now() - start;
+
+          if (res.ok) {
+            return NextResponse.json({
+              success: true,
+              status: "connected",
+              latencyMs,
+              provider: "gemini",
+              model: testModel,
+              message: `Kết nối thành công tới Google Gemini (${testModel})! Độ trễ phản hồi: ${latencyMs}ms.`,
+            });
+          } else {
+            const errJson = await res.json().catch(() => null);
+            let errMsg = errJson?.error?.message || `Lỗi HTTP ${res.status}: ${res.statusText}`;
+            if (res.status === 400 && errMsg.toLowerCase().includes("api key not valid")) {
+              errMsg = "API Key không hợp lệ. Vui lòng kiểm tra lại khóa từ Google AI Studio.";
+            } else if (res.status === 404) {
+              errMsg = `Mô hình "${testModel}" không tồn tại hoặc tài khoản chưa được cấp quyền sử dụng.`;
+            } else if (res.status === 429) {
+              errMsg = "Vượt quá hạn mức request (Rate Limit / Quota) của Google AI Studio.";
+            }
+            return NextResponse.json({
+              success: false,
+              status: "error",
+              latencyMs,
+              provider: "gemini",
+              model: testModel,
+              message: errMsg,
+            });
+          }
+        } catch (err: any) {
+          const latencyMs = Date.now() - start;
+          return NextResponse.json({
+            success: false,
+            status: "error",
+            latencyMs,
+            provider: "gemini",
+            model: testModel,
+            message: `Lỗi mạng khi kết nối Google: ${err.message || "Không thể gọi API"}`,
+          });
+        }
+      }
+
+      if (provider === "openai") {
+        const keyToUse =
+          inputKey?.trim() ||
+          config?.general?.openaiApiKey ||
+          config?.general?.apiKey ||
+          process.env.OPENAI_API_KEY ||
+          "";
+
+        if (!keyToUse) {
+          return NextResponse.json({
+            success: false,
+            status: "missing_key",
+            latencyMs: 0,
+            provider: "openai",
+            message: "Chưa cấu hình API Key OpenAI. Vui lòng nhập API Key để kết nối.",
+          });
+        }
+
+        const testModel = model || config?.general?.model || "gpt-4o-mini";
+        const start = Date.now();
+        try {
+          const res = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${keyToUse}`,
+            },
+            body: JSON.stringify({
+              model: testModel,
+              messages: [{ role: "user", content: "ping" }],
+              max_tokens: 5,
+              temperature: 0.1,
+            }),
+          });
+          const latencyMs = Date.now() - start;
+
+          if (res.ok) {
+            return NextResponse.json({
+              success: true,
+              status: "connected",
+              latencyMs,
+              provider: "openai",
+              model: testModel,
+              message: `Kết nối thành công tới OpenAI (${testModel})! Độ trễ phản hồi: ${latencyMs}ms.`,
+            });
+          } else {
+            const errJson = await res.json().catch(() => null);
+            let errMsg = errJson?.error?.message || `Lỗi HTTP ${res.status}: ${res.statusText}`;
+            if (res.status === 401) {
+              errMsg = "API Key OpenAI không hợp lệ hoặc đã bị thu hồi.";
+            } else if (res.status === 429) {
+              errMsg = "Hết hạn mức hoặc số dư tài khoản OpenAI không đủ (Rate limit / Insufficient quota).";
+            }
+            return NextResponse.json({
+              success: false,
+              status: "error",
+              latencyMs,
+              provider: "openai",
+              model: testModel,
+              message: errMsg,
+            });
+          }
+        } catch (err: any) {
+          const latencyMs = Date.now() - start;
+          return NextResponse.json({
+            success: false,
+            status: "error",
+            latencyMs,
+            provider: "openai",
+            model: testModel,
+            message: `Lỗi mạng khi kết nối OpenAI: ${err.message || "Không thể gọi API"}`,
+          });
+        }
+      }
+
+      return NextResponse.json({ error: "Nhà cung cấp không hợp lệ" }, { status: 400 });
+    }
 
     // 1. Interactive sandbox test
     if (action === "test_chat") {

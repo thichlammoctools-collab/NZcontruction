@@ -98,17 +98,13 @@ export default function ImageLightbox({
 
   const currentItem = images[currentIndex];
   const title =
-    typeof currentItem?.title === "object"
-      ? isVi
-        ? currentItem.title.vi
-        : currentItem.title.en
-      : currentItem?.title || "";
+    currentItem?.title && typeof currentItem.title === "object"
+      ? (isVi ? currentItem.title.vi : currentItem.title.en)
+      : (typeof currentItem?.title === "string" ? currentItem.title : "");
   const desc =
-    typeof currentItem?.desc === "object"
-      ? isVi
-        ? currentItem.desc.vi
-        : currentItem.desc.en
-      : currentItem?.desc || "";
+    currentItem?.desc && typeof currentItem.desc === "object"
+      ? (isVi ? currentItem.desc.vi : currentItem.desc.en)
+      : (typeof currentItem?.desc === "string" ? currentItem.desc : "");
 
   return (
     <div
@@ -250,7 +246,7 @@ export default function ImageLightbox({
               >
                 <img
                   src={img.image}
-                  alt={typeof img.title === "object" ? (isVi ? img.title.vi : img.title.en) : img.title || ""}
+                  alt={img?.title && typeof img.title === "object" ? (isVi ? img.title.vi : img.title.en) : (typeof img?.title === "string" ? img.title : "")}
                   className="w-full h-full object-cover"
                 />
               </button>

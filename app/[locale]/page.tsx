@@ -72,11 +72,11 @@ export default async function HomePage({ params }: PageProps) {
   }
 
   const { dict, siteSettings } = await getPageData(locale);
-  const f1 = dict.featured_flagships?.feature_01 || {};
-  const f2 = dict.featured_flagships?.feature_02 || {};
-  const pillars = dict.pillars || { items: [] };
-  const areas = dict.service_areas || { items: [] };
-  const qc = dict.quick_contact || {};
+  const f1 = dict?.featured_flagships?.feature_01 || {};
+  const f2 = dict?.featured_flagships?.feature_02 || {};
+  const pillars = dict?.pillars || { items: [] };
+  const areas = dict?.service_areas || { items: [], regions: [] };
+  const qc = dict?.quick_contact || {};
 
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface antialiased">
@@ -177,30 +177,30 @@ export default async function HomePage({ params }: PageProps) {
               <div className="inline-flex items-center gap-2 mb-2">
                 <span className="h-0.5 w-5 bg-secondary"></span>
                 <span className="text-xs uppercase tracking-widest text-secondary font-bold">
-                  {dict.services.badge}
+                  {dict?.services?.badge || (locale === "vi" ? "Năng Lực & Tay Nghề" : "Capabilities & Trades")}
                 </span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
-                {dict.services.title}
+                {dict?.services?.title || (locale === "vi" ? "Dịch Vụ Của Chúng Tôi" : "What We Do")}
               </h2>
             </div>
             <p className="text-sm sm:text-base text-on-surface-variant max-w-lg leading-relaxed">
-              {dict.services.subtitle}
+              {dict?.services?.subtitle || ""}
             </p>
           </div>
 
           {/* 8 Distinct Service Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Object.entries(dict.services.items).map(([key, item]: [string, any]) => (
+            {Object.entries(dict?.services?.items || {}).map(([key, item]: [string, any]) => (
               <ServiceCard
                 key={key}
                 id={key}
-                tag={item.tag}
-                title={item.title}
-                desc={item.desc}
-                iconName={item.icon}
+                tag={item?.tag || ""}
+                title={item?.title || ""}
+                desc={item?.desc || ""}
+                iconName={item?.icon || "construction"}
                 locale={locale as "en" | "vi"}
-                viewServiceText={dict.services.view_service}
+                viewServiceText={dict?.services?.view_service || (locale === "vi" ? "Chi Tiết Dịch Vụ" : "View Service")}
               />
             ))}
           </div>
@@ -219,13 +219,13 @@ export default async function HomePage({ params }: PageProps) {
                   </span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-primary tracking-tight">
-                  {f1.title}
+                  {f1.title || ""}
                 </h2>
                 <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed">
-                  {f1.desc}
+                  {f1.desc || ""}
                 </p>
                 <ul className="space-y-3 text-xs sm:text-sm text-on-surface">
-                  {f1.bullets.map((bullet: string, i: number) => (
+                  {(Array.isArray(f1.bullets) ? f1.bullets : []).map((bullet: string, i: number) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">
                         check_circle
@@ -239,7 +239,7 @@ export default async function HomePage({ params }: PageProps) {
                     href="#quote-section"
                     className="inline-flex items-center gap-2 bg-primary text-on-primary font-bold text-xs uppercase sm:text-sm tracking-wide px-7 py-3 rounded-lg hover:bg-slate-800 transition-all shadow-sm"
                   >
-                    <span>{f1.cta}</span>
+                    <span>{f1.cta || (locale === "vi" ? "Yêu Cầu Báo Giá" : "Request a Quote")}</span>
                     <span className="material-symbols-outlined text-[18px]">east</span>
                   </a>
                 </div>
@@ -248,8 +248,8 @@ export default async function HomePage({ params }: PageProps) {
                 <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-surface-dim border border-border-light relative">
                   <Image
                     className="object-cover"
-                    alt={f1.title}
-                    src={f1.image}
+                    alt={f1.title || "NS Building"}
+                    src={f1.image || "/uploads/thiet-ke-chua-co-ten-1790236696813-7me02n.png"}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
@@ -263,8 +263,8 @@ export default async function HomePage({ params }: PageProps) {
                 <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-surface-dim border border-border-light relative">
                   <Image
                     className="object-cover"
-                    alt={f2.title}
-                    src={f2.image}
+                    alt={f2.title || "NS Building"}
+                    src={f2.image || "/uploads/thiet-ke-chua-co-ten-1790236683897-e3i55c.png"}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
@@ -274,17 +274,17 @@ export default async function HomePage({ params }: PageProps) {
                 <div className="inline-flex items-center gap-2">
                   <span className="h-0.5 w-6 bg-secondary"></span>
                   <span className="text-xs uppercase tracking-widest text-secondary font-bold">
-                    {f2.tag}
+                    {f2.tag || ""}
                   </span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-primary tracking-tight">
-                  {f2.title}
+                  {f2.title || ""}
                 </h2>
                 <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed">
-                  {f2.desc}
+                  {f2.desc || ""}
                 </p>
                 <ul className="space-y-3 text-xs sm:text-sm text-on-surface">
-                  {f2.bullets.map((bullet: string, i: number) => (
+                  {(Array.isArray(f2.bullets) ? f2.bullets : []).map((bullet: string, i: number) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">
                         check_circle
@@ -298,7 +298,7 @@ export default async function HomePage({ params }: PageProps) {
                     href="#quote-section"
                     className="inline-flex items-center gap-2 bg-primary text-on-primary font-bold text-xs uppercase sm:text-sm tracking-wide px-7 py-3 rounded-lg hover:bg-slate-800 transition-all shadow-sm"
                   >
-                    <span>{f2.cta}</span>
+                    <span>{f2.cta || (locale === "vi" ? "Yêu Cầu Báo Giá" : "Request a Quote")}</span>
                     <span className="material-symbols-outlined text-[18px]">east</span>
                   </a>
                 </div>
@@ -308,7 +308,7 @@ export default async function HomePage({ params }: PageProps) {
         </section>
 
           {/* 5. OUR WORK: PORTFOLIO GALLERY WITH FILTER CONTROLS */}
-          <PortfolioSection portfolioDict={dict.portfolio} locale={locale as "en" | "vi"} />
+          <PortfolioSection portfolioDict={dict?.portfolio} locale={locale as "en" | "vi"} />
 
         {/* 6. BEFORE & AFTER SHOWCASE (INTERACTIVE SPLIT) */}
         {siteSettings?.toggles?.showBeforeAfter !== false && (
@@ -318,27 +318,27 @@ export default async function HomePage({ params }: PageProps) {
                 <div className="inline-flex items-center justify-center gap-2 mb-2">
                   <span className="h-0.5 w-6 bg-secondary"></span>
                   <span className="text-xs uppercase tracking-widest text-secondary font-bold">
-                    {dict.before_after.badge}
+                    {dict?.before_after?.badge || ""}
                   </span>
                   <span className="h-0.5 w-6 bg-secondary"></span>
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
-                  {dict.before_after.title}
+                  {dict?.before_after?.title || (locale === "vi" ? "Thấy Rõ Sự Khác Biệt" : "See The Difference")}
                 </h2>
                 <p className="text-sm sm:text-base text-on-surface-variant mt-2">
-                  {dict.before_after.subtitle}
+                  {dict?.before_after?.subtitle || ""}
                 </p>
               </div>
 
               {/* Interactive Split Slider Component */}
               <BeforeAfterSlider
-                beforeImage={dict.before_after.before_img}
-                afterImage={dict.before_after.after_img}
-                beforeLabel={dict.before_after.before_label}
-                afterLabel={dict.before_after.after_label}
-                projectName={dict.before_after.project_name}
-                duration={dict.before_after.duration}
-                dragHint={dict.before_after.drag_hint}
+                beforeImage={dict?.before_after?.before_img || ""}
+                afterImage={dict?.before_after?.after_img || ""}
+                beforeLabel={dict?.before_after?.before_label || "BEFORE"}
+                afterLabel={dict?.before_after?.after_label || "AFTER"}
+                projectName={dict?.before_after?.project_name || "NS Building"}
+                duration={dict?.before_after?.duration || ""}
+                dragHint={dict?.before_after?.drag_hint || ""}
               />
             </div>
           </section>
@@ -350,36 +350,36 @@ export default async function HomePage({ params }: PageProps) {
             <div className="inline-flex items-center justify-center gap-2 mb-2">
               <span className="h-0.5 w-6 bg-secondary"></span>
               <span className="text-xs uppercase tracking-widest text-secondary font-bold">
-                {pillars.badge}
+                {pillars?.badge || ""}
               </span>
               <span className="h-0.5 w-6 bg-secondary"></span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
-              {pillars.title}
+              {pillars?.title || (locale === "vi" ? "Tại Sao Gia Chủ Tin Tưởng NS Building" : "Why Homeowners Trust NS Building")}
             </h2>
             <p className="text-sm sm:text-base text-on-surface-variant mt-2">
-              {pillars.subtitle}
+              {pillars?.subtitle || ""}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {pillars.items.map((p: any, i: number) => (
+            {(Array.isArray(pillars.items) ? pillars.items : []).map((p: any, i: number) => (
               <div
                 key={i}
                 className="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-border-light flex flex-col justify-between"
               >
                 <div>
                   <div className="w-12 h-12 rounded-lg bg-surface-container-high text-primary flex items-center justify-center mb-6">
-                    <span className="material-symbols-outlined text-[28px]">{p.icon}</span>
+                    <span className="material-symbols-outlined text-[28px]">{p?.icon || "domain"}</span>
                   </div>
-                  <h3 className="text-lg font-bold text-primary mb-3">{p.title}</h3>
+                  <h3 className="text-lg font-bold text-primary mb-3">{p?.title || ""}</h3>
                   <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                    {p.desc}
+                    {p?.desc || ""}
                   </p>
                 </div>
                 <div className="mt-6 pt-4 flex items-center gap-2 text-secondary text-xs font-bold border-t border-slate-100">
-                  <span className="material-symbols-outlined text-[18px]">{p.badge_icon}</span>
-                  <span>{p.badge_text}</span>
+                  <span className="material-symbols-outlined text-[18px]">{p?.badge_icon || "verified"}</span>
+                  <span>{p?.badge_text || ""}</span>
                 </div>
               </div>
             ))}
@@ -397,19 +397,19 @@ export default async function HomePage({ params }: PageProps) {
               <div className="inline-flex items-center gap-2">
                 <span className="h-0.5 w-6 bg-secondary"></span>
                 <span className="text-xs uppercase tracking-widest text-secondary font-bold">
-                  {areas.badge}
+                  {areas?.badge || ""}
                 </span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
-                {areas.title}
+                {areas?.title || (locale === "vi" ? "Khu Vực Phục Vụ" : "Service Areas")}
               </h2>
               <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed">
-                {areas.subtitle}
+                {areas?.subtitle || ""}
               </p>
 
               {/* Hub Areas Checklist */}
               <div className="grid grid-cols-2 gap-3 pt-2">
-                {areas.regions.map((reg: string, i: number) => (
+                {(Array.isArray(areas.regions) ? areas.regions : []).map((reg: string, i: number) => (
                   <div key={i} className="flex items-center gap-2 text-xs sm:text-sm text-on-surface font-semibold">
                     <span className="material-symbols-outlined text-secondary text-[18px]">
                       location_on
@@ -423,10 +423,10 @@ export default async function HomePage({ params }: PageProps) {
               <div className="p-4 bg-surface-container-low rounded-xl space-y-1.5 border border-border-light">
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-primary font-bold">
                   <span className="material-symbols-outlined text-secondary text-[18px]">schedule</span>
-                  <span>{areas.rapid_title}</span>
+                  <span>{areas?.rapid_title || ""}</span>
                 </div>
                 <p className="text-xs text-on-surface-variant leading-relaxed">
-                  {areas.rapid_desc}
+                  {areas?.rapid_desc || ""}
                 </p>
               </div>
             </div>

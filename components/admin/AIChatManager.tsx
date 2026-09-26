@@ -30,7 +30,11 @@ import {
   UserCheck,
   Tag,
   Clock,
-  Sparkle
+  Sparkle,
+  Key,
+  Eye,
+  EyeOff,
+  Activity
 } from "lucide-react";
 
 interface FAQItem {
@@ -73,6 +77,9 @@ interface AIChatConfig {
     temperature: number;
     maxTokens: number;
     streamResponse?: boolean;
+    apiKey?: string;
+    geminiApiKey?: string;
+    openaiApiKey?: string;
   };
   persona: {
     role: string;
@@ -120,7 +127,94 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [stats, setStats] = useState<{ hasServerApiKey?: boolean } | null>(null);
+  const [stats, setStats] = useState<{
+    hasServerApiKey?: boolean;
+    hasEnvGeminiKey?: boolean;
+    hasEnvOpenaiKey?: boolean;
+  } | null>(null);
+
+  // Connection status & API Key states
+  const [connectionStatus, setConnectionStatus] = useState<{
+    status: "idle" | "checking" | "connected" | "error" | "missing_key";
+    latencyMs?: number;
+    message?: string;
+    lastChecked?: string;
+  }>({
+    status: "idle",
+  });
+  const [showApiKey, setShowApiKey] = useState(false);
+
+  // Check connection to AI model
+  const checkConnection = async (targetConfig?: AIChatConfig | null) => {
+    const cur = targetConfig || config;
+    if (!cur) return;
+
+    const provider = cur.general.provider;
+    const model = cur.general.model;
+    const activeKey =
+      cur.general.apiKey ||
+      (provider === "gemini" ? cur.general.geminiApiKey : cur.general.openaiApiKey) ||
+      "";
+
+    if (provider === "local") {
+      setConnectionStatus({
+        status: "connected",
+        latencyMs: 0,
+        message: "Bộ tri thức chuyên gia cục bộ hoạt động tốt (100% Offline, không phụ thuộc API bên ngoài).",
+        lastChecked: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+      });
+      return;
+    }
+
+    if (!activeKey) {
+      setConnectionStatus({
+        status: "missing_key",
+        message: `Chưa cấu hình API Key ${provider === "gemini" ? "Google Gemini" : "OpenAI"}. Vui lòng nhập khóa bên dưới.`,
+        lastChecked: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+      });
+      return;
+    }
+
+    setConnectionStatus({
+      status: "checking",
+      message: `Đang kết nối thử tới ${provider === "gemini" ? "Google Gemini" : "OpenAI"} (${model})...`,
+    });
+
+    try {
+      const res = await fetch("/api/admin/ai-config", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "test_connection",
+          provider,
+          model,
+          apiKey: activeKey,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setConnectionStatus({
+          status: data.status,
+          latencyMs: data.latencyMs,
+          message: data.message,
+          lastChecked: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+        });
+      } else {
+        setConnectionStatus({
+          status: "error",
+          message: "Lỗi kết nối tới máy chủ khi kiểm tra API.",
+          lastChecked: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+        });
+      }
+    } catch (err: any) {
+      setConnectionStatus({
+        status: "error",
+        message: err.message || "Lỗi mạng khi kiểm tra kết nối.",
+        lastChecked: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+      });
+    }
+  };
 
   // FAQ Modal states
   const [faqModalOpen, setFaqModalOpen] = useState(false);
@@ -158,6 +252,9 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
         const data = await res.json();
         setConfig(data.config);
         setStats(data.stats || null);
+        if (data.config) {
+          checkConnection(data.config);
+        }
       }
     } catch (err) {
       console.error("Failed to load AI config:", err);
@@ -440,6 +537,30 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
                   />
                   {config.general.enabled ? "Đang Hoạt Động Trên Web" : "Đã Tắt Chatbot"}
                 </span>
+                <span
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                    config.general.provider === "local"
+                      ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
+                      : connectionStatus.status === "connected"
+                      ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
+                      : connectionStatus.status === "error"
+                      ? "bg-red-500/10 text-red-400 border border-red-500/30"
+                      : connectionStatus.status === "checking"
+                      ? "bg-amber-400/10 text-amber-300 border border-amber-400/30 animate-pulse"
+                      : "bg-slate-800 text-slate-400 border border-slate-700"
+                  }`}
+                >
+                  <Activity className="w-3.5 h-3.5" />
+                  {config.general.provider === "local"
+                    ? "AI Cục Bộ (Sẵn Sàng)"
+                    : connectionStatus.status === "connected"
+                    ? `Kết Nối AI: Online ${connectionStatus.latencyMs !== undefined ? `(${connectionStatus.latencyMs}ms)` : ""}`
+                    : connectionStatus.status === "checking"
+                    ? "Đang Test Kết Nối..."
+                    : connectionStatus.status === "error"
+                    ? "Lỗi Kết Nối AI"
+                    : "Chưa Cấu Hình Token"}
+                </span>
               </div>
               <p className="text-xs sm:text-sm text-slate-400 mt-1">
                 Tùy chỉnh tính cách, nạp tri thức xây dựng New Zealand (LBP #BP128842), huấn luyện Q&A và thu thập khách hàng tiềm năng.
@@ -484,9 +605,37 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
         {/* Quick Stats Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-800 text-xs">
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-            <div className="text-slate-400">Mô hình AI</div>
+            <div className="text-slate-400 flex items-center justify-between">
+              <span>Mô hình AI & Trạng Thái</span>
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  config.general.provider === "local" || connectionStatus.status === "connected"
+                    ? "bg-emerald-400 animate-pulse"
+                    : connectionStatus.status === "error"
+                    ? "bg-red-400"
+                    : connectionStatus.status === "checking"
+                    ? "bg-amber-400 animate-ping"
+                    : "bg-slate-500"
+                }`}
+              />
+            </div>
             <div className="font-bold text-amber-400 text-sm mt-0.5 truncate uppercase">
               {config.general.provider}: {config.general.model}
+            </div>
+            <div className="text-[10px] mt-1 flex items-center gap-1 font-medium">
+              {config.general.provider === "local" ? (
+                <span className="text-emerald-400 font-semibold">✓ Cục bộ (0ms - 100% Offline)</span>
+              ) : connectionStatus.status === "connected" ? (
+                <span className="text-emerald-400 font-semibold">
+                  ✓ Online ({connectionStatus.latencyMs}ms)
+                </span>
+              ) : connectionStatus.status === "error" ? (
+                <span className="text-red-400 font-semibold">✗ Lỗi kết nối API</span>
+              ) : connectionStatus.status === "checking" ? (
+                <span className="text-amber-400">Đang test kết nối...</span>
+              ) : (
+                <span className="text-slate-500">Chưa cấu hình Token</span>
+              )}
             </div>
           </div>
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
@@ -679,12 +828,19 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               {/* Provider 1: Gemini */}
               <div
-                onClick={() =>
-                  setConfig({
+                onClick={() => {
+                  const updated = {
                     ...config,
-                    general: { ...config.general, provider: "gemini", model: "gemini-1.5-flash" },
-                  })
-                }
+                    general: {
+                      ...config.general,
+                      provider: "gemini" as const,
+                      model: config.general.model.startsWith("gemini") ? config.general.model : "gemini-1.5-flash",
+                      apiKey: config.general.geminiApiKey || config.general.apiKey || "",
+                    },
+                  };
+                  setConfig(updated);
+                  checkConnection(updated);
+                }}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${
                   config.general.provider === "gemini"
                     ? "bg-amber-400/10 border-amber-400 text-white shadow-lg shadow-amber-400/10"
@@ -707,12 +863,18 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
 
               {/* Provider 2: Local Knowledge Engine */}
               <div
-                onClick={() =>
-                  setConfig({
+                onClick={() => {
+                  const updated = {
                     ...config,
-                    general: { ...config.general, provider: "local", model: "local-rules" },
-                  })
-                }
+                    general: {
+                      ...config.general,
+                      provider: "local" as const,
+                      model: "local-rules",
+                    },
+                  };
+                  setConfig(updated);
+                  checkConnection(updated);
+                }}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${
                   config.general.provider === "local"
                     ? "bg-emerald-400/10 border-emerald-400 text-white shadow-lg shadow-emerald-400/10"
@@ -735,12 +897,19 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
 
               {/* Provider 3: OpenAI */}
               <div
-                onClick={() =>
-                  setConfig({
+                onClick={() => {
+                  const updated = {
                     ...config,
-                    general: { ...config.general, provider: "openai", model: "gpt-4o-mini" },
-                  })
-                }
+                    general: {
+                      ...config.general,
+                      provider: "openai" as const,
+                      model: config.general.model.startsWith("gpt") ? config.general.model : "gpt-4o-mini",
+                      apiKey: config.general.openaiApiKey || "",
+                    },
+                  };
+                  setConfig(updated);
+                  checkConnection(updated);
+                }}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${
                   config.general.provider === "openai"
                     ? "bg-blue-400/10 border-blue-400 text-white shadow-lg shadow-blue-400/10"
@@ -769,12 +938,15 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
                 </label>
                 <select
                   value={config.general.model}
-                  onChange={(e) =>
-                    setConfig({
+                  onChange={(e) => {
+                    const newModel = e.target.value;
+                    const updated = {
                       ...config,
-                      general: { ...config.general, model: e.target.value },
-                    })
-                  }
+                      general: { ...config.general, model: newModel },
+                    };
+                    setConfig(updated);
+                    checkConnection(updated);
+                  }}
                   className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400"
                 >
                   {config.general.provider === "gemini" && (
@@ -797,22 +969,182 @@ export default function AIChatManager({ onRefresh }: AIChatManagerProps) {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
-                  <span>API Key ({config.general.provider === "gemini" ? "Google AI Studio" : "OpenAI"})</span>
-                  <span className="text-[10px] text-slate-400">
-                    {config.general.provider === "local" ? "Không yêu cầu" : "Cấu hình server-only qua biến môi trường"}
-                  </span>
-                </label>
-                <div className="relative rounded-xl border border-slate-800 bg-slate-950/60 px-3.5 py-2.5">
-                  <p className="text-xs font-mono text-slate-400">
-                    {stats?.hasServerApiKey
-                      ? "✓ GEMINI_API_KEY đã được cấu hình trên máy chủ"
-                      : "Chưa cấu hình GEMINI_API_KEY — bot sẽ dùng bộ tri thức cục bộ"}
-                  </p>
-                  <p className="text-[10px] text-slate-500 mt-1">
-                    Vì lý do bảo mật, API key chỉ được đặt trong biến môi trường server (GEMINI_API_KEY), không lưu trong CMS.
-                  </p>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                    <Key className="w-3.5 h-3.5 text-amber-400" />
+                    <span>
+                      {config.general.provider === "gemini"
+                        ? "API Token / Key (Google AI Studio)"
+                        : config.general.provider === "openai"
+                        ? "API Token / Key (OpenAI API)"
+                        : "Khóa API (Chế độ Cục Bộ)"}
+                    </span>
+                  </label>
+
+                  {/* Header Status pill */}
+                  {config.general.provider === "local" ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      Offline (0đ)
+                    </span>
+                  ) : connectionStatus.status === "checking" ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-400/10 text-amber-300 border border-amber-400/30">
+                      <RefreshCw className="w-2.5 h-2.5 animate-spin" />
+                      Đang kiểm tra...
+                    </span>
+                  ) : connectionStatus.status === "connected" ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Đã kết nối {connectionStatus.latencyMs !== undefined ? `(${connectionStatus.latencyMs}ms)` : ""}
+                    </span>
+                  ) : connectionStatus.status === "error" ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/10 text-red-400 border border-red-500/30">
+                      <AlertCircle className="w-2.5 h-2.5" />
+                      Lỗi kết nối
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] text-slate-400 bg-slate-800 border border-slate-700">
+                      Chưa kiểm tra
+                    </span>
+                  )}
                 </div>
+
+                {config.general.provider === "local" ? (
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3.5 text-xs text-slate-400 space-y-1.5">
+                    <p className="flex items-center gap-2 text-emerald-400 font-semibold">
+                      <CheckCircle className="w-4 h-4 shrink-0" />
+                      <span>Bộ tri thức chuyên gia cục bộ đang hoạt động độc lập</span>
+                    </p>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                      Chế độ này không cần API Token bên thứ 3 và hoàn toàn miễn phí. AI sẽ phản hồi dựa 100% trên bộ tri thức xây dựng và câu hỏi huấn luyện tại mục 3 (Kho Tri Thức).
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {/* Input field with show/hide and test button */}
+                    <div className="relative flex items-center">
+                      <input
+                        type={showApiKey ? "text" : "password"}
+                        value={config.general.apiKey || ""}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          const isGemini = config.general.provider === "gemini";
+                          setConfig({
+                            ...config,
+                            general: {
+                              ...config.general,
+                              apiKey: val,
+                              geminiApiKey: isGemini ? val : config.general.geminiApiKey,
+                              openaiApiKey: !isGemini ? val : config.general.openaiApiKey,
+                            },
+                          });
+                        }}
+                        placeholder={
+                          config.general.provider === "gemini"
+                            ? "Dán Google AI Studio API Key (ví dụ: AIzaSy...)"
+                            : "Dán OpenAI API Key (ví dụ: sk-...)"
+                        }
+                        className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-3.5 pr-28 py-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-amber-400 font-mono tracking-wider"
+                      />
+
+                      <div className="absolute right-1.5 flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setShowApiKey(!showApiKey)}
+                          className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 rounded-lg transition-colors"
+                          title={showApiKey ? "Ẩn Token" : "Hiện Token"}
+                        >
+                          {showApiKey ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => checkConnection()}
+                          disabled={connectionStatus.status === "checking"}
+                          className="px-2.5 py-1.5 bg-amber-400/10 hover:bg-amber-400/20 text-amber-400 border border-amber-400/30 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all disabled:opacity-50"
+                          title="Kiểm tra kết nối tới mô hình AI ngay"
+                        >
+                          <RefreshCw className={`w-3 h-3 ${connectionStatus.status === "checking" ? "animate-spin" : ""}`} />
+                          <span>Kiểm Tra</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Helper Links & Info */}
+                    <div className="flex items-center justify-between text-[11px] px-1 flex-wrap gap-2">
+                      <a
+                        href={
+                          config.general.provider === "gemini"
+                            ? "https://aistudio.google.com/app/apikey"
+                            : "https://platform.openai.com/api-keys"
+                        }
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-amber-400/90 hover:text-amber-300 flex items-center gap-1 underline underline-offset-2 transition-colors"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span>
+                          {config.general.provider === "gemini"
+                            ? "Lấy Google Gemini API Key miễn phí tại Google AI Studio ↗"
+                            : "Lấy OpenAI API Key tại platform.openai.com ↗"}
+                        </span>
+                      </a>
+
+                      {stats?.hasEnvGeminiKey && config.general.provider === "gemini" && (
+                        <span className="text-slate-500 text-[10px]">
+                          (Có biến server GEMINI_API_KEY)
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Connection Status Box */}
+                    <div
+                      className={`p-3 rounded-xl border text-xs transition-all ${
+                        connectionStatus.status === "connected"
+                          ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
+                          : connectionStatus.status === "error"
+                          ? "bg-red-500/10 border-red-500/30 text-red-300"
+                          : connectionStatus.status === "checking"
+                          ? "bg-amber-400/10 border-amber-400/30 text-amber-300"
+                          : "bg-slate-950/60 border-slate-800 text-slate-400"
+                      }`}
+                    >
+                      <div className="flex items-start gap-2.5">
+                        {connectionStatus.status === "connected" ? (
+                          <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                        ) : connectionStatus.status === "error" ? (
+                          <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                        ) : connectionStatus.status === "checking" ? (
+                          <RefreshCw className="w-4 h-4 text-amber-400 shrink-0 mt-0.5 animate-spin" />
+                        ) : (
+                          <Activity className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="font-bold flex items-center justify-between gap-2">
+                            <span>
+                              {connectionStatus.status === "connected"
+                                ? "Trạng thái: Kết nối AI hoạt động tốt"
+                                : connectionStatus.status === "error"
+                                ? "Trạng thái: Lỗi kết nối AI"
+                                : connectionStatus.status === "checking"
+                                ? "Trạng thái: Đang kiểm tra kết nối..."
+                                : "Trạng thái: Chưa cấu hình hoặc chưa kiểm tra"}
+                            </span>
+                            {connectionStatus.lastChecked && (
+                              <span className="text-[10px] font-normal text-slate-400">
+                                Lúc: {connectionStatus.lastChecked}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[11px] mt-0.5 leading-relaxed opacity-90 break-words">
+                            {connectionStatus.message ||
+                              "Nhập API Key và nhấn 'Kiểm Tra' hoặc 'Lưu Toàn Bộ' để kiểm tra kết nối tới mô hình AI."}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
