@@ -261,7 +261,9 @@ export default function LeadsManager({
     return (
       <div
         key={`${lead.source}-${lead.id}`}
-        className="bg-slate-800/90 rounded-2xl border border-slate-700 p-5 hover:border-slate-600 transition-all shadow-lg flex flex-col gap-3"
+        onClick={() => setViewingLead(lead)}
+        className="bg-slate-800/90 rounded-2xl border border-slate-700 p-5 hover:border-amber-400/50 hover:bg-slate-800 transition-all shadow-lg flex flex-col gap-3 cursor-pointer group"
+        title="Click để xem chi tiết"
       >
         <div className="flex items-center justify-between gap-2">
           <span
@@ -291,7 +293,7 @@ export default function LeadsManager({
         </div>
 
         <div>
-          <h3 className="text-sm font-bold text-white leading-tight">
+          <h3 className="text-sm font-bold text-white group-hover:text-amber-400 transition-colors leading-tight">
             {lead.name || lead.customerName || "Khách hàng"}
           </h3>
           <div className="flex items-center gap-3 mt-1 text-xs text-slate-300">
@@ -330,13 +332,14 @@ export default function LeadsManager({
                     href={fileUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="relative group w-14 h-14 rounded-lg overflow-hidden border border-slate-700 bg-slate-950 block shrink-0 hover:border-amber-400 transition-colors"
+                    onClick={(e) => e.stopPropagation()}
+                    className="relative group/img w-14 h-14 rounded-lg overflow-hidden border border-slate-700 bg-slate-950 block shrink-0 hover:border-amber-400 transition-colors"
                     title={fileName}
                   >
                     <img
                       src={fileUrl}
                       alt={fileName}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      className="w-full h-full object-cover group-hover/img:scale-105 transition-transform"
                     />
                   </a>
                 ) : (
@@ -345,6 +348,7 @@ export default function LeadsManager({
                     href={fileUrl}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="inline-flex items-center gap-1.5 text-xs bg-slate-950 border border-slate-700 hover:border-amber-400 text-slate-300 hover:text-white px-2.5 py-1.5 rounded-lg transition-colors"
                   >
                     <FileText className="w-3.5 h-3.5 text-red-400 shrink-0" />
@@ -367,7 +371,7 @@ export default function LeadsManager({
           <span className="text-[10px] text-slate-500">
             {formatLeadDate(lead.createdAt)}
           </span>
-          <div className="relative">
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
             <button
               type="button"
               onClick={(e) => {
@@ -611,7 +615,9 @@ export default function LeadsManager({
                   return (
                     <tr
                       key={`${lead.source}-${lead.id}`}
-                      className="hover:bg-slate-700/40 transition-colors group"
+                      onClick={() => setViewingLead(lead)}
+                      className="hover:bg-slate-700/50 transition-colors group cursor-pointer"
+                      title="Click để xem chi tiết"
                     >
                       {/* Customer Name & Suburb */}
                       <td className="py-3.5 px-4 align-top">
@@ -632,6 +638,7 @@ export default function LeadsManager({
                           {phone && (
                             <a
                               href={`tel:${phone}`}
+                              onClick={(e) => e.stopPropagation()}
                               className="flex items-center gap-1.5 text-slate-300 hover:text-amber-400 transition-colors font-mono"
                             >
                               <Phone className="w-3 h-3 text-amber-400 shrink-0" />
@@ -641,6 +648,7 @@ export default function LeadsManager({
                           {email && (
                             <a
                               href={`mailto:${email}`}
+                              onClick={(e) => e.stopPropagation()}
                               className="flex items-center gap-1.5 text-slate-400 hover:text-amber-400 transition-colors truncate max-w-[180px]"
                             >
                               <Mail className="w-3 h-3 text-slate-500 shrink-0" />
@@ -722,7 +730,10 @@ export default function LeadsManager({
                       </td>
 
                       {/* Actions */}
-                      <td className="py-3.5 px-4 align-top text-right whitespace-nowrap">
+                      <td
+                        className="py-3.5 px-4 align-top text-right whitespace-nowrap"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <div className="relative inline-block text-left">
                           <button
                             type="button"

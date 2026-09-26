@@ -34,50 +34,56 @@
     "items": {
       "renovations": {
         "title": "Full Home Renovations",
-        "tag": "Services",
-        "desc": "End-to-end residential renovation management from initial architectural planning through council consent support, demolition, structural steel framing...",
-        "icon": "construction"
+        "tag": "Full Renovations",
+        "desc": "End-to-end residential renovation management from architectural planning through council consent, demolition, and structural steel framing.",
+        "icon": "home_repair_service"
       },
       "bathrooms": {
         "title": "Luxury Bathroom Renovations",
-        "tag": "Services",
-        "desc": "Transform outdated bathrooms into serene, architecturally refined sanctuaries. Specializing in council-compliant certified waterproofing membranes, fl...",
-        "icon": "construction"
+        "tag": "Wet Areas",
+        "desc": "Transform outdated bathrooms into serene architectural sanctuaries with NZ Code-compliant waterproofing and floor-to-ceiling tiling.",
+        "icon": "bathtub"
       },
       "cabinets": {
-        "title": "Cabinets & Joinery",
-        "tag": "Millwork",
-        "desc": "Bespoke kitchen cabinetry, walk-in robes, and architectural storage built to millimeter tolerances.",
+        "title": "Custom Cabinets & Joinery",
+        "tag": "Custom Joinery",
+        "desc": "Architectural custom cabinetry, walk-in robes, designer kitchen islands, and precision interior fittings.",
         "icon": "countertops"
       },
       "flooring": {
         "title": "Flooring Solutions",
-        "tag": "Surfaces",
-        "desc": "Native timber restorations, engineered oak herringbone, stone tiling, and premium acoustic vinyl planking.",
+        "tag": "Flooring Surfaces",
+        "desc": "Engineered European oak herringbone, native timber restoration, floor leveling, and acoustic underlays.",
         "icon": "texture"
       },
       "doors": {
-        "title": "Doors & Openings",
-        "tag": "Carpentry",
-        "desc": "Interior cavity sliders, acoustic solid core doors, architectural bifolds, and high-performance joinery fittings.",
+        "title": "Doors & Architectural Joinery",
+        "tag": "Openings & Joinery",
+        "desc": "Cavity sliders, acoustic solid-core timber doors, bi-fold patio connections, and architectural hardware fitting.",
         "icon": "door_front"
       },
       "painting": {
-        "title": "Interior & Exterior Painting",
-        "tag": "Finishes",
-        "desc": "Flawless surface preparation, high-durability weather-tight exterior coatings, and airless spray finishes.",
+        "title": "Painting & Plastering",
+        "tag": "Finishing Trades",
+        "desc": "Flawless wall prep, weather-shield exterior coatings, airless spray finishes, and architectural color consultations.",
         "icon": "format_paint"
       },
       "plastering": {
         "title": "Plastering & Gib Stopping",
-        "tag": "Lining",
-        "desc": "Level 5 skim coats, seamless plasterboard stopping, acoustic firewall installations, and surface leveling.",
+        "tag": "Drywall & Ceilings",
+        "desc": "Level 4 and Level 5 full skim coat plastering, acoustic drywall stopping, and seamless joint taping.",
         "icon": "square_foot"
       },
+      "maintenance": {
+        "title": "Property Repairs & Maintenance",
+        "tag": "Repairs & Maintenance",
+        "desc": "Responsive rotten timber remediation, cladding leak repairs, sticking door realignments, and pre-sale property tidy-ups.",
+        "icon": "handyman"
+      },
       "equipment": {
-        "title": "Equipment & Trade Hire",
-        "tag": "Commercial",
-        "desc": "Specialist builders plant, scaffolding, concrete preparation tools, and certified carpenters on flexible terms.",
+        "title": "Equipment & Tool Hire",
+        "tag": "Commercial & Hire",
+        "desc": "Commercial machinery hire, mobile scaffolding towers, dustless floor sanders, and specialist renovation tools.",
         "icon": "construction"
       }
     }

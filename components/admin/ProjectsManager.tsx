@@ -14,18 +14,14 @@ import {
   Layers,
   Calendar,
   MapPin,
-  Image as ImageIcon,
   AlertTriangle,
-  SlidersHorizontal,
   Eye,
 } from "lucide-react";
 import BeforeAfterSlider from "../BeforeAfterSlider";
-import ImageUpload from "./ImageUpload";
 
 interface ProjectsManagerProps {
   projects: any[];
   onRefresh: () => void;
-  openCreateModalDirectly?: boolean;
 }
 
 const CATEGORIES = [
@@ -46,99 +42,17 @@ export default function ProjectsManager({
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<"create" | "edit">("create");
   const [sliderPreviewProject, setSliderPreviewProject] = useState<any | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const [saving, setSaving] = useState(false);
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
 
-  const defaultFormState = {
-    id: "",
-    title_en: "",
-    title_vi: "",
-    suburb: "Auckland, New Zealand",
-    category: "renovations",
-    completed_year: new Date().getFullYear().toString(),
-    before_image: "",
-    after_image: "",
-    description_en: "",
-    description_vi: "",
-  };
-
-  const [formData, setFormData] = useState(defaultFormState);
-
-  const handleOpenCreate = () => {
-    setModalMode("create");
-    setFormData(defaultFormState);
-    setModalOpen(true);
-  };
-
-  const handleOpenEdit = (project: any) => {
-    setModalMode("edit");
-    setFormData({
-      id: project.id,
-      title_en: project.title_en || "",
-      title_vi: project.title_vi || "",
-      suburb: project.suburb || "",
-      category: project.category || "renovations",
-      completed_year: project.completed_year || "2026",
-      before_image: project.before_image || "",
-      after_image: project.after_image || "",
-      description_en: project.description_en || "",
-      description_vi: project.description_vi || "",
-    });
-    setModalOpen(true);
-  };
-
-  const handleSaveProject = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.before_image || !formData.after_image) {
-      setNotification({
-        type: "error",
-        text: "Vui lòng tải lên hoặc cung cấp đầy đủ cả ảnh Trước và ảnh Sau cho dự án.",
-      });
-      return;
-    }
-
-    setSaving(true);
-    setNotification(null);
-
-    try {
-      const method = modalMode === "create" ? "POST" : "PUT";
-      const res = await fetch("/api/admin/projects", {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const resData = await res.json();
-      if (!res.ok) {
-        throw new Error(resData.error || "Không thể lưu thông tin công trình");
-      }
-
-      setNotification({
-        type: "success",
-        text: `Đã ${modalMode === "create" ? "thêm mới" : "cập nhật"} dự án thành công!`,
-      });
-      setModalOpen(false);
-      onRefresh();
-      setTimeout(() => setNotification(null), 4000);
-    } catch (err: any) {
-      setNotification({
-        type: "error",
-        text: err.message || "Đã xảy ra lỗi khi lưu dự án",
-      });
-    } finally {
-      setSaving(false);
-    }
-  };
-
   const handleDeleteProject = async (id: string) => {
+    setIsDeleting(true);
     try {
       const res = await fetch(`/api/admin/projects?id=${encodeURIComponent(id)}`, {
         method: "DELETE",
@@ -158,6 +72,8 @@ export default function ProjectsManager({
         type: "error",
         text: err.message || "Lỗi khi xóa công trình",
       });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -170,7 +86,8 @@ export default function ProjectsManager({
       !search ||
       p.title_en?.toLowerCase().includes(q) ||
       p.title_vi?.toLowerCase().includes(q) ||
-      p.suburb?.toLowerCase().includes(q);
+      p.suburb?.toLowerCase().includes(q) ||
+      p.id?.toLowerCase().includes(q);
     return matchesCategory && matchesSearch;
   });
 
@@ -202,8 +119,8 @@ export default function ProjectsManager({
             Quản Lý &amp; Cập Nhật Hình Ảnh Before &amp; After (Trước &amp; Sau Thi Công)
           </h4>
           <p className="text-slate-300 text-xs leading-relaxed">
-            Mỗi công trình hiển thị trên website đều gồm bộ đôi <strong>Ảnh Trước (Before)</strong> và <strong>Ảnh Sau (After)</strong> để tạo thanh trượt so sánh trực quan. 
-            Để thay ảnh hoặc thêm dự án mới: bấm nút <strong className="text-amber-400">"Sửa &amp; Đổi Ảnh Before/After"</strong> trên từng thẻ công trình bên dưới, hoặc bấm <strong className="text-amber-400">"Thêm Dự Án Mới"</strong>.
+            Mỗi công trình hiển thị trên website đều gồm bộ đôi <strong>Ảnh Trước (Before)</strong> và <strong>Ảnh Sau (After)</strong>. 
+            Bấm vào nút <strong className="text-amber-400">"Sửa (Trang riêng)"</strong> để chuyển tới trang quản lý riêng biệt với đường link SLUG độc lập.
           </p>
         </div>
       </div>
@@ -215,7 +132,7 @@ export default function ProjectsManager({
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Tìm theo tên công trình, khu vực Suburb..."
+              placeholder="Tìm theo tên công trình, khu vực Suburb, slug..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
@@ -226,13 +143,13 @@ export default function ProjectsManager({
             <span className="text-xs text-slate-400 hidden md:inline">
               Hiển thị: <strong className="text-white">{filteredProjects.length}</strong> / {projects.length} dự án
             </span>
-            <button
-              onClick={handleOpenCreate}
+            <Link
+              href="/admin/projects/new"
               className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-amber-400/20 shrink-0"
             >
               <Plus className="w-4 h-4" />
               <span>Thêm Dự Án Mới</span>
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -259,14 +176,14 @@ export default function ProjectsManager({
         {filteredProjects.map((project) => (
           <div
             key={project.id}
-            className="bg-slate-800/90 rounded-2xl border border-slate-700 overflow-hidden flex flex-col justify-between hover:border-slate-600 transition-all shadow-lg group"
+            className="bg-slate-800/90 rounded-2xl border border-slate-700 overflow-hidden flex flex-col justify-between hover:border-amber-400/50 transition-all shadow-lg group"
           >
             <div>
               {/* Dual Thumbnail: Before & After */}
-              <div
-                onClick={() => handleOpenEdit(project)}
+              <Link
+                href={`/admin/projects/${project.id}`}
                 className="relative aspect-[16/10] w-full bg-slate-950 flex overflow-hidden cursor-pointer group/thumb"
-                title="Bấm để sửa thông tin và đổi ảnh Before/After"
+                title="Bấm để mở trang riêng sửa thông tin và đổi ảnh Before/After"
               >
                 {/* Before Thumbnail */}
                 <div className="w-1/2 h-full relative border-r border-slate-900">
@@ -301,16 +218,16 @@ export default function ProjectsManager({
                 <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center gap-2">
                   <span className="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 text-xs font-bold flex items-center gap-1.5 shadow-lg">
                     <Edit2 className="w-3.5 h-3.5" />
-                    <span>Đổi ảnh Trước / Sau</span>
+                    <span>Mở trang sửa</span>
                   </span>
                 </div>
 
-                <div className="absolute top-2.5 left-2.5 z-10">
-                  <span className="px-2 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-amber-400 border border-amber-400/30">
-                    {project.category}
+                <div className="absolute top-2.5 left-2.5 z-10 flex items-center gap-1.5">
+                  <span className="px-2 py-0.5 rounded-md bg-slate-950/85 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-amber-400 border border-amber-400/30">
+                    /{project.id}
                   </span>
                 </div>
-              </div>
+              </Link>
 
               {/* Project Info */}
               <div className="p-5 space-y-2.5">
@@ -322,9 +239,11 @@ export default function ProjectsManager({
                   <span className="font-mono">{project.completed_year || "2026"}</span>
                 </div>
 
-                <h3 className="text-base font-bold text-white leading-tight">
-                  {project.title_vi || project.title_en}
-                </h3>
+                <Link href={`/admin/projects/${project.id}`} className="hover:text-amber-400 transition-colors block">
+                  <h3 className="text-base font-bold text-white leading-tight">
+                    {project.title_vi || project.title_en}
+                  </h3>
+                </Link>
                 <p className="text-xs text-amber-400/80 italic font-medium">
                   {project.title_en}
                 </p>
@@ -337,24 +256,35 @@ export default function ProjectsManager({
 
             {/* Bottom Actions */}
             <div className="p-4 bg-slate-900/60 border-t border-slate-700/60 flex items-center justify-between gap-2">
-              <button
-                type="button"
-                onClick={() => setSliderPreviewProject(project)}
-                className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1.5 transition-colors"
-              >
-                <Eye className="w-3.5 h-3.5" />
-                <span>Xem Trượt</span>
-              </button>
-
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => handleOpenEdit(project)}
-                  className="px-3.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
-                  title="Chỉnh sửa thông tin & thay đổi ảnh Before / After"
+                  type="button"
+                  onClick={() => setSliderPreviewProject(project)}
+                  className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1.5 transition-colors"
                 >
-                  <Edit2 className="w-3.5 h-3.5" />
-                  <span>Sửa &amp; Đổi Ảnh</span>
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Xem Trượt</span>
                 </button>
+                <span className="text-slate-600">&bull;</span>
+                <Link
+                  href={`/vi/projects/${project.id}`}
+                  target="_blank"
+                  className="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+                  title="Xem Live trên website"
+                >
+                  <ExternalLink className="w-3 h-3 text-amber-400" />
+                  <span>Live</span>
+                </Link>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Link
+                  href={`/admin/projects/${project.id}`}
+                  className="px-3 py-1.5 rounded-lg bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 hover:text-amber-200 text-xs font-semibold transition-colors flex items-center gap-1.5 border border-amber-400/30"
+                >
+                  <Edit2 className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Sửa (Trang riêng)</span>
+                </Link>
                 <button
                   onClick={() => setDeleteConfirmId(project.id)}
                   className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs transition-colors border border-red-500/20"
@@ -400,7 +330,14 @@ export default function ProjectsManager({
               />
             </div>
 
-            <div className="flex justify-end pt-2">
+            <div className="flex items-center justify-between pt-2">
+              <Link
+                href={`/admin/projects/${sliderPreviewProject.id}`}
+                className="px-4 py-2 rounded-xl bg-amber-400 text-slate-950 text-xs font-bold hover:bg-amber-300 transition-colors flex items-center gap-1.5"
+              >
+                <Edit2 className="w-3.5 h-3.5" />
+                <span>Mở trang sửa dự án này</span>
+              </Link>
               <button
                 onClick={() => setSliderPreviewProject(null)}
                 className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold"
@@ -428,326 +365,21 @@ export default function ProjectsManager({
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="button"
+                disabled={isDeleting}
                 onClick={() => setDeleteConfirmId(null)}
-                className="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold transition-colors"
+                className="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 disabled:opacity-50 text-white text-xs font-bold transition-colors"
               >
                 Hủy Bỏ
               </button>
               <button
                 type="button"
+                disabled={isDeleting}
                 onClick={() => handleDeleteProject(deleteConfirmId)}
-                className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-colors shadow-lg shadow-red-600/30"
+                className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-xs font-bold transition-colors shadow-lg shadow-red-600/30 flex items-center gap-2"
               >
-                Đồng Ý Xóa
+                {isDeleting ? "Đang Xóa..." : "Đồng Ý Xóa"}
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Add / Edit Project Modal */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-3xl shadow-2xl overflow-hidden my-8">
-            <div className="p-6 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
-                  {modalMode === "create" ? "Thêm Mới" : "Cập Nhật"} &bull; Projects CMS
-                </span>
-                <h2 className="text-lg font-bold text-white">
-                  {modalMode === "create"
-                    ? "Thêm Công Trình Mới (Before & After)"
-                    : `Chỉnh Sửa Công Trình: ${formData.title_vi || formData.id}`}
-                </h2>
-              </div>
-              <button
-                onClick={() => setModalOpen(false)}
-                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSaveProject} className="p-6 space-y-6 text-xs max-h-[75vh] overflow-y-auto">
-              {/* Quick Jump Buttons */}
-              <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
-                <span className="text-[11px] text-slate-400 font-medium mr-1">Chuyển nhanh:</span>
-                <a
-                  href="#modal-section-images"
-                  className="px-3 py-1 rounded-lg bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 font-bold border border-amber-400/30 flex items-center gap-1.5 transition-colors"
-                >
-                  <ImageIcon className="w-3.5 h-3.5" />
-                  <span>1. Ảnh Before / After</span>
-                </a>
-                <a
-                  href="#modal-section-info"
-                  className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium border border-slate-700 transition-colors"
-                >
-                  2. Thông Tin Dự Án
-                </a>
-                <a
-                  href="#modal-section-desc"
-                  className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium border border-slate-700 transition-colors"
-                >
-                  3. Mô Tả Chi Tiết
-                </a>
-              </div>
-
-              {/* Section 1: BEFORE & AFTER IMAGES (MOST IMPORTANT) */}
-              <div id="modal-section-images" className="p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-amber-500/10 to-amber-500/5 border border-amber-500/30 space-y-4 shadow-inner">
-                <div className="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-amber-500/20">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-black text-xs">
-                      1
-                    </div>
-                    <div>
-                      <h3 className="font-extrabold text-amber-300 text-sm flex items-center gap-1.5">
-                        <ImageIcon className="w-4 h-4 text-amber-400" />
-                        <span>Hình Ảnh So Sánh Trước &amp; Sau (Before / After Images)</span>
-                        <span className="text-red-400">*</span>
-                      </h3>
-                      <p className="text-[11px] text-slate-400">
-                        Bắt buộc 2 ảnh để kích hoạt thanh kéo tương tác so sánh hiện trạng và công trình hoàn thiện
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-full border border-amber-400/30">
-                    Hỗ trợ Upload file ảnh &amp; Link URL
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
-                  {/* Before Image Input */}
-                  <div className="p-3.5 bg-slate-900/80 rounded-xl border border-slate-700/80 space-y-2">
-                    <div className="flex items-center justify-between pb-1">
-                      <span className="px-2 py-0.5 rounded bg-black/80 text-[10px] font-bold uppercase tracking-wider text-slate-300 border border-slate-700">
-                        ẢNH TRƯỚC (BEFORE)
-                      </span>
-                      <span className="text-[10px] text-slate-400">Hiện trạng cũ</span>
-                    </div>
-                    <ImageUpload
-                      label="Ảnh Trước Khi Sửa (Before Image)"
-                      required
-                      value={formData.before_image}
-                      onChange={(url) =>
-                        setFormData({ ...formData, before_image: url })
-                      }
-                      aspectRatio="video"
-                      helperText="Tải ảnh hiện trạng công trình trước khi thi công hoặc dán link URL"
-                    />
-                  </div>
-
-                  {/* After Image Input */}
-                  <div className="p-3.5 bg-slate-900/80 rounded-xl border border-amber-500/40 space-y-2">
-                    <div className="flex items-center justify-between pb-1">
-                      <span className="px-2 py-0.5 rounded bg-amber-400 text-[10px] font-black uppercase tracking-wider text-slate-950">
-                        ẢNH SAU (AFTER)
-                      </span>
-                      <span className="text-[10px] text-amber-300 font-semibold">Sau hoàn thiện</span>
-                    </div>
-                    <ImageUpload
-                      label="Ảnh Sau Khi Hoàn Thiện (After Image)"
-                      required
-                      value={formData.after_image}
-                      onChange={(url) =>
-                        setFormData({ ...formData, after_image: url })
-                      }
-                      aspectRatio="video"
-                      helperText="Tải ảnh công trình sau khi hoàn thiện hoặc dán link URL"
-                    />
-                  </div>
-                </div>
-
-                {/* Instant Dual Preview */}
-                {formData.before_image && formData.after_image && (
-                  <div className="pt-3 border-t border-amber-500/20">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>Xem trước thanh trượt tương tác thực tế:</span>
-                      </span>
-                      <span className="text-[11px] text-slate-400 italic">
-                        Kéo nút tròn ở giữa để so sánh
-                      </span>
-                    </div>
-                    <div className="max-w-2xl mx-auto rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 p-2 shadow-2xl">
-                      <BeforeAfterSlider
-                        beforeImage={formData.before_image}
-                        afterImage={formData.after_image}
-                        beforeLabel="TRƯỚC"
-                        afterLabel="SAU"
-                        projectName={formData.title_vi || formData.title_en}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Section 2: PROJECT INFO */}
-              <div id="modal-section-info" className="space-y-4 pt-2">
-                <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
-                  <div className="w-7 h-7 rounded-lg bg-slate-800 text-white flex items-center justify-center font-black text-xs">
-                    2
-                  </div>
-                  <h3 className="font-bold text-white text-sm">
-                    Thông Tin Định Danh Công Trình
-                  </h3>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block font-bold text-slate-300 mb-1">
-                      Tên dự án (Tiếng Việt) *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="ví dụ: Cải tạo biệt thự Remuera"
-                      value={formData.title_vi}
-                      onChange={(e) =>
-                        setFormData({ ...formData, title_vi: e.target.value })
-                      }
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block font-bold text-slate-300 mb-1">
-                      Tên dự án (Tiếng Anh) *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Remuera Architectural Modernisation"
-                      value={formData.title_en}
-                      onChange={(e) =>
-                        setFormData({ ...formData, title_en: e.target.value })
-                      }
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block font-bold text-slate-300 mb-1">
-                      Khu vực tại New Zealand (Suburb) *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="ví dụ: Remuera, Auckland"
-                      value={formData.suburb}
-                      onChange={(e) =>
-                        setFormData({ ...formData, suburb: e.target.value })
-                      }
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block font-bold text-slate-300 mb-1">
-                      Danh mục công trình
-                    </label>
-                    <select
-                      value={formData.category}
-                      onChange={(e) =>
-                        setFormData({ ...formData, category: e.target.value })
-                      }
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
-                    >
-                      <option value="renovations">Cải tạo trọn gói (Renovations)</option>
-                      <option value="bathrooms">Phòng tắm (Bathrooms)</option>
-                      <option value="cabinets">Tủ bếp (Cabinets)</option>
-                      <option value="flooring">Sàn nhà (Flooring)</option>
-                      <option value="doors">Cửa &amp; Mộc (Doors)</option>
-                      <option value="painting">Sơn bả (Painting)</option>
-                      <option value="hiring">Cho thuê thiết bị (Hiring)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block font-bold text-slate-300 mb-1">
-                      Năm hoàn thành
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="2026"
-                      value={formData.completed_year}
-                      onChange={(e) =>
-                        setFormData({ ...formData, completed_year: e.target.value })
-                      }
-                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Section 3: SCOPE & DESCRIPTION */}
-              <div id="modal-section-desc" className="space-y-4 pt-2">
-                <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
-                  <div className="w-7 h-7 rounded-lg bg-slate-800 text-white flex items-center justify-center font-black text-xs">
-                    3
-                  </div>
-                  <h3 className="font-bold text-white text-sm">
-                    Mô Tả Hạng Mục &amp; Phạm Vi Công Việc Thi Công
-                  </h3>
-                </div>
-
-                <div>
-                  <label className="block font-bold text-slate-300 mb-1">
-                    Mô tả công việc thực hiện (Tiếng Việt)
-                  </label>
-                  <textarea
-                    rows={2}
-                    placeholder="Mô tả các hạng mục kết cấu, vật tư đã hoàn thiện..."
-                    value={formData.description_vi}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description_vi: e.target.value })
-                    }
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white leading-relaxed"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-bold text-slate-300 mb-1">
-                    Mô tả công việc thực hiện (Tiếng Anh)
-                  </label>
-                  <textarea
-                    rows={2}
-                    placeholder="Description of renovation work done..."
-                    value={formData.description_en}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description_en: e.target.value })
-                    }
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white leading-relaxed"
-                  />
-                </div>
-              </div>
-
-              {/* Submit Buttons */}
-              <div className="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors"
-                >
-                  Hủy Bỏ
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="px-6 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-amber-400/20 flex items-center gap-2"
-                >
-                  {saving ? (
-                    <span className="animate-spin inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full" />
-                  ) : (
-                    <CheckCircle2 className="w-4 h-4" />
-                  )}
-                  <span>{saving ? "Đang Lưu..." : "Lưu & Xuất Bản Dự Án"}</span>
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}

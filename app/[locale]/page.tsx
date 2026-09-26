@@ -51,11 +51,13 @@ export const dynamic = "force-dynamic";
 const dictViPath = path.join(process.cwd(), "content", "dictionaries", "vi.json");
 const dictEnPath = path.join(process.cwd(), "content", "dictionaries", "en.json");
 const siteSettingsPath = path.join(process.cwd(), "content", "site_settings.json");
+const servicesDetailPath = path.join(process.cwd(), "content", "services_detail.json");
 
 async function getPageData(locale: string) {
   const dict = await readJsonSafe<any>(locale === "vi" ? dictViPath : dictEnPath, {});
   const siteSettings = await readJsonSafe<any>(siteSettingsPath, {});
-  return { dict, siteSettings };
+  const servicesDetail = await readJsonSafe<Record<string, any>>(servicesDetailPath, {});
+  return { dict, siteSettings, servicesDetail };
 }
 
 interface PageProps {
@@ -71,7 +73,25 @@ export default async function HomePage({ params }: PageProps) {
     notFound();
   }
 
-  const { dict, siteSettings } = await getPageData(locale);
+  const { dict, siteSettings, servicesDetail } = await getPageData(locale);
+  const isVi = locale === "vi";
+
+  // Build dynamic services list prioritizing services_detail.json so Admin changes immediately reflect on Homepage
+  const serviceEntries = Object.keys(servicesDetail || {}).length > 0
+    ? Object.entries(servicesDetail)
+    : Object.entries(dict?.services?.items || {});
+
+  const servicesList = serviceEntries.map(([key, item]: [string, any]) => {
+    const dictItem = dict?.services?.items?.[key] || {};
+    return {
+      id: key,
+      tag: (isVi ? item?.tag_vi : item?.tag_en) || item?.tag || dictItem?.tag || (isVi ? "Dịch vụ" : "Service"),
+      title: (isVi ? item?.title_vi : item?.title_en) || item?.title || dictItem?.title || key,
+      desc: (isVi ? item?.desc_vi : item?.desc_en) || dictItem?.desc || (isVi ? item?.intro_vi : item?.intro_en) || "",
+      icon: item?.icon || dictItem?.icon || "construction",
+    };
+  });
+
   const f1 = dict?.featured_flagships?.feature_01 || {};
   const f2 = dict?.featured_flagships?.feature_02 || {};
   const pillars = dict?.pillars || { items: [] };
@@ -170,7 +190,7 @@ export default async function HomePage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* 3. WHAT WE DO: 8 SERVICES GRID */}
+        {/* 3. WHAT WE DO: SERVICES GRID */}
         <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 lg:py-24" id="services">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
@@ -189,16 +209,16 @@ export default async function HomePage({ params }: PageProps) {
             </p>
           </div>
 
-          {/* 8 Distinct Service Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Object.entries(dict?.services?.items || {}).map(([key, item]: [string, any]) => (
+          {/* Dynamic Service Cards Grid (Synchronized with Admin) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {servicesList.map((service) => (
               <ServiceCard
-                key={key}
-                id={key}
-                tag={item?.tag || ""}
-                title={item?.title || ""}
-                desc={item?.desc || ""}
-                iconName={item?.icon || "construction"}
+                key={service.id}
+                id={service.id}
+                tag={service.tag}
+                title={service.title}
+                desc={service.desc}
+                iconName={service.icon}
                 locale={locale as "en" | "vi"}
                 viewServiceText={dict?.services?.view_service || (locale === "vi" ? "Chi Tiết Dịch Vụ" : "View Service")}
               />

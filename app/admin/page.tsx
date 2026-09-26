@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamicImport from "next/dynamic";
 import AdminSidebar, { AdminTab } from "@/components/admin/AdminSidebar";
 import AdminHeader from "@/components/admin/AdminHeader";
@@ -15,10 +15,43 @@ const ProjectsManager = dynamicImport(() => import("@/components/admin/ProjectsM
 const PostsManager = dynamicImport(() => import("@/components/admin/PostsManager"), { ssr: false });
 const AIChatManager = dynamicImport(() => import("@/components/admin/AIChatManager"), { ssr: false });
 
-export default function AdminDashboardPage() {
+const VALID_TABS: AdminTab[] = [
+  "overview",
+  "interface",
+  "services",
+  "projects",
+  "posts",
+  "leads",
+  "ai-chat",
+];
+
+function AdminDashboardContent() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<AdminTab>("overview");
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab") as AdminTab | null;
+
+  const [activeTab, setActiveTabState] = useState<AdminTab>(() => {
+    if (tabParam && VALID_TABS.includes(tabParam)) {
+      return tabParam;
+    }
+    return "overview";
+  });
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Sync tab from URL if it changes
+  useEffect(() => {
+    if (tabParam && VALID_TABS.includes(tabParam)) {
+      setActiveTabState(tabParam);
+    }
+  }, [tabParam]);
+
+  const setActiveTab = (tab: AdminTab) => {
+    setActiveTabState(tab);
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", `/admin?tab=${tab}`);
+    }
+  };
 
   // Data states
   const [projects, setProjects] = useState<any[]>([]);
@@ -29,8 +62,6 @@ export default function AdminDashboardPage() {
 
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-  // Authentication is enforced server-side by middleware.ts (httpOnly session cookie).
 
   // Load all dashboard data
   const loadData = useCallback(async (isSilent = false) => {
@@ -98,9 +129,9 @@ export default function AdminDashboardPage() {
 
   const handleQuickAdd = (type: "project" | "service") => {
     if (type === "project") {
-      setActiveTab("projects");
+      router.push("/admin/projects/new");
     } else {
-      setActiveTab("services");
+      router.push("/admin/services/new");
     }
   };
 
@@ -169,8 +200,8 @@ export default function AdminDashboardPage() {
               leads={leads}
               siteSettings={interfaceData?.siteSettings || {}}
               setActiveTab={setActiveTab}
-              onOpenNewProject={() => setActiveTab("projects")}
-              onOpenNewService={() => setActiveTab("services")}
+              onOpenNewProject={() => router.push("/admin/projects/new")}
+              onOpenNewService={() => router.push("/admin/services/new")}
             />
           )}
 
@@ -217,5 +248,25 @@ export default function AdminDashboardPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+export default function AdminDashboardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-slate-300 space-y-4">
+          <div className="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 font-black text-2xl flex items-center justify-center animate-bounce shadow-xl shadow-amber-400/20">
+            NS
+          </div>
+          <div className="flex items-center gap-2 text-sm font-semibold">
+            <span className="animate-spin inline-block w-4 h-4 border-2 border-amber-400 border-t-transparent rounded-full" />
+            <span>Đang tải bảng điều khiển...</span>
+          </div>
+        </div>
+      }
+    >
+      <AdminDashboardContent />
+    </Suspense>
   );
 }

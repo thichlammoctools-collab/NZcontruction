@@ -33,11 +33,12 @@ async function syncDictionaries(serviceId: string, serviceData: any, isDelete = 
     if (viDict?.services?.items) {
       if (isDelete) {
         delete viDict.services.items[serviceId];
+        if (serviceId === "equipment") delete viDict.services.items["hiring"];
       } else {
         viDict.services.items[serviceId] = {
           title: serviceData.title_vi || serviceData.title_en || "Dịch vụ",
           tag: serviceData.tag_vi || serviceData.tag || "Thi công",
-          desc: serviceData.intro_vi ? serviceData.intro_vi.slice(0, 150) + "..." : "",
+          desc: serviceData.desc_vi || (serviceData.intro_vi ? serviceData.intro_vi.slice(0, 150) + "..." : ""),
           icon: serviceData.icon || "construction",
         };
       }
@@ -55,11 +56,12 @@ async function syncDictionaries(serviceId: string, serviceData: any, isDelete = 
     if (enDict?.services?.items) {
       if (isDelete) {
         delete enDict.services.items[serviceId];
+        if (serviceId === "equipment") delete enDict.services.items["hiring"];
       } else {
         enDict.services.items[serviceId] = {
           title: serviceData.title_en || "Service",
           tag: serviceData.tag_en || serviceData.tag || "Construction",
-          desc: serviceData.intro_en ? serviceData.intro_en.slice(0, 150) + "..." : "",
+          desc: serviceData.desc_en || (serviceData.intro_en ? serviceData.intro_en.slice(0, 150) + "..." : ""),
           icon: serviceData.icon || "construction",
         };
       }
@@ -77,13 +79,40 @@ async function syncDictionaries(serviceId: string, serviceData: any, isDelete = 
   }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
     const services = await readServicesDetail();
+
+    const viDict = await readJsonSafe<any>(dictViPath, {});
+    const enDict = await readJsonSafe<any>(dictEnPath, {});
+
+    if (id) {
+      const item = services[id];
+      if (!item) {
+        return NextResponse.json({ error: "Service not found" }, { status: 404 });
+      }
+      return NextResponse.json({
+        id,
+        ...item,
+        tag_vi: item.tag_vi || viDict?.services?.items?.[id]?.tag || "",
+        tag_en: item.tag_en || enDict?.services?.items?.[id]?.tag || "",
+        desc_vi: item.desc_vi || viDict?.services?.items?.[id]?.desc || "",
+        desc_en: item.desc_en || enDict?.services?.items?.[id]?.desc || "",
+        icon: item.icon || viDict?.services?.items?.[id]?.icon || "construction",
+      });
+    }
+
     // Convert object to array for easier consumption in frontend table/list
-    const list = Object.entries(services).map(([id, item]) => ({
-      id,
+    const list = Object.entries(services).map(([key, item]) => ({
+      id: key,
       ...item,
+      tag_vi: item.tag_vi || viDict?.services?.items?.[key]?.tag || "",
+      tag_en: item.tag_en || enDict?.services?.items?.[key]?.tag || "",
+      desc_vi: item.desc_vi || viDict?.services?.items?.[key]?.desc || "",
+      desc_en: item.desc_en || enDict?.services?.items?.[key]?.desc || "",
+      icon: item.icon || viDict?.services?.items?.[key]?.icon || "construction",
     }));
     return NextResponse.json(list);
   } catch (error) {
@@ -116,6 +145,11 @@ export async function POST(req: Request) {
       title_en: body.title_en || "",
       title_vi: body.title_vi || "",
       hero_image: body.hero_image || "",
+      tag_en: body.tag_en || "",
+      tag_vi: body.tag_vi || "",
+      desc_en: body.desc_en || "",
+      desc_vi: body.desc_vi || "",
+      icon: body.icon || "construction",
       intro_en: body.intro_en || "",
       intro_vi: body.intro_vi || "",
       features_en: Array.isArray(body.features_en) ? body.features_en : [],
@@ -126,7 +160,7 @@ export async function POST(req: Request) {
 
     services[serviceId] = newService;
     await writeServicesDetail(services);
-    await syncDictionaries(serviceId, { ...newService, tag_vi: body.tag_vi, tag_en: body.tag_en, icon: body.icon });
+    await syncDictionaries(serviceId, newService);
     revalidateContent();
 
     return NextResponse.json({
@@ -157,6 +191,11 @@ export async function PUT(req: Request) {
       title_en: body.title_en ?? services[serviceId].title_en,
       title_vi: body.title_vi ?? services[serviceId].title_vi,
       hero_image: body.hero_image ?? services[serviceId].hero_image,
+      tag_en: body.tag_en ?? services[serviceId].tag_en,
+      tag_vi: body.tag_vi ?? services[serviceId].tag_vi,
+      desc_en: body.desc_en ?? services[serviceId].desc_en,
+      desc_vi: body.desc_vi ?? services[serviceId].desc_vi,
+      icon: body.icon ?? services[serviceId].icon,
       intro_en: body.intro_en ?? services[serviceId].intro_en,
       intro_vi: body.intro_vi ?? services[serviceId].intro_vi,
       features_en: Array.isArray(body.features_en)
@@ -174,12 +213,7 @@ export async function PUT(req: Request) {
     };
 
     await writeServicesDetail(services);
-    await syncDictionaries(serviceId, {
-      ...services[serviceId],
-      tag_vi: body.tag_vi,
-      tag_en: body.tag_en,
-      icon: body.icon,
-    });
+    await syncDictionaries(serviceId, services[serviceId]);
     revalidateContent();
 
     return NextResponse.json({

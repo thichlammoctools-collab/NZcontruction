@@ -80,9 +80,26 @@ function revalidatePublicPages() {
 
 export const revalidate = 0;
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
     const projects = await readProjects();
+
+    if (id) {
+      const project = projects.find((p) => p.id === id);
+      if (!project) {
+        return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      }
+      return NextResponse.json(project, {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      });
+    }
+
     return NextResponse.json(projects, {
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",

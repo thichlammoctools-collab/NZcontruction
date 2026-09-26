@@ -88,7 +88,12 @@
         "unit_vi": "m² sàn",
         "popular": false
       }
-    ]
+    ],
+    "tag_vi": "Cải Tạo Toàn Diện",
+    "tag_en": "Full Renovations",
+    "desc_vi": "Tái cấu trúc không gian, cơi nới mở rộng và hiện đại hóa toàn diện ngôi nhà theo phong cách sống Kiwi.",
+    "desc_en": "End-to-end residential renovation management from architectural planning through council consent, demolition, and structural steel framing.",
+    "icon": "home_repair_service"
   },
   "bathrooms": {
     "title_en": "Luxury Bathroom Renovations",
@@ -178,7 +183,12 @@
         "popular": false
       }
     ],
-    "timeline_steps": []
+    "timeline_steps": [],
+    "tag_vi": "Khu Vực Ẩm Ướt",
+    "tag_en": "Wet Areas",
+    "desc_vi": "Thi công chống thấm chuẩn Council, ốp lát đá chuẩn xác, lắp đặt bồn tắm và thiết bị vệ sinh sang trọng.",
+    "desc_en": "Transform outdated bathrooms into serene architectural sanctuaries with NZ Code-compliant waterproofing and floor-to-ceiling tiling.",
+    "icon": "bathtub"
   },
   "cabinets": {
     "title_en": "Custom Cabinets & Joinery",
@@ -265,7 +275,12 @@
         "unit_vi": "Phòng giặt",
         "popular": false
       }
-    ]
+    ],
+    "tag_vi": "Nội Thất May Đo",
+    "tag_en": "Custom Joinery",
+    "desc_vi": "Thiết kế đóng tủ bếp hiện đại, tủ âm tường và hệ kệ lưu trữ kiến trúc chính xác đến từng milimét.",
+    "desc_en": "Architectural custom cabinetry, walk-in robes, designer kitchen islands, and precision interior fittings.",
+    "icon": "countertops"
   },
   "flooring": {
     "title_en": "Flooring Solutions",
@@ -368,7 +383,12 @@
         "unit_vi": "m² sàn",
         "popular": false
       }
-    ]
+    ],
+    "tag_vi": "Bề Mặt Sàn",
+    "tag_en": "Flooring Surfaces",
+    "desc_vi": "Phục hồi sàn gỗ tự nhiên, lát sàn gỗ sồi xương cá, gạch men cao cấp và sàn vinyl cách âm chất lượng cao.",
+    "desc_en": "Engineered European oak herringbone, native timber restoration, floor leveling, and acoustic underlays.",
+    "icon": "texture"
   },
   "doors": {
     "title_en": "Doors & Architectural Joinery",
@@ -455,7 +475,12 @@
         "unit_vi": "Mét dài",
         "popular": false
       }
-    ]
+    ],
+    "tag_vi": "Mộc Xây Dựng",
+    "tag_en": "Openings & Joinery",
+    "desc_vi": "Cửa lùa âm tường, cửa chống ồn đặc lõi, cửa xếp trượt bifold và phụ kiện mộc chất lượng cao.",
+    "desc_en": "Cavity sliders, acoustic solid-core timber doors, bi-fold patio connections, and architectural hardware fitting.",
+    "icon": "door_front"
   },
   "painting": {
     "title_en": "Painting & Plastering",
@@ -546,7 +571,12 @@
         "unit_vi": "Ngoại thất nhà",
         "popular": false
       }
-    ]
+    ],
+    "tag_vi": "Hoàn Thiện",
+    "tag_en": "Finishing Trades",
+    "desc_vi": "Bả matit Level 5 phẳng mịn, trát tường vi xi măng (microcement) và sơn ngoại thất chống thấm thời tiết.",
+    "desc_en": "Flawless wall prep, weather-shield exterior coatings, airless spray finishes, and architectural color consultations.",
+    "icon": "format_paint"
   },
   "plastering": {
     "title_en": "Plastering & Gib Stopping",
@@ -637,110 +667,12 @@
         "unit_vi": "m² vách",
         "popular": false
       }
-    ]
-  },
-  "hiring": {
-    "title_en": "Equipment & Tool Hire",
-    "title_vi": "Cho Thuê Máy Móc & Thiết Bị",
-    "hero_image": "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80",
-    "intro_en": "Professional-grade building machinery, scaffolding, mobile access towers, and specialist renovation tools available for short-term and long-term contractor hire.",
-    "intro_vi": "Cung cấp máy móc xây dựng chuyên nghiệp, giàn giáo nhôm di động, máy chà nhám, máy cắt gạch và trang thiết bị thi công hiện đại cho thuê ngắn hạn và dài hạn.",
-    "features_en": [
-      "Mobile aluminium scaffolding towers and work platforms",
-      "Dust-free heavy duty timber floor sanders & edgers",
-      "Wet stone and porcelain tile cutting machinery",
-      "Commercial dehumidifiers and air scrubbers for drying"
     ],
-    "features_vi": [
-      "Giàn giáo nhôm di động an toàn và sàn công tác",
-      "Máy chà sàn gỗ hút bụi công nghiệp không bụi bẩn",
-      "Máy cắt gạch men đá tảng lớn chính xác",
-      "Máy hút ẩm và máy lọc không khí chuyên dụng sấy khô công trình"
-    ],
-    "equipment_catalog": [
-      {
-        "name_en": "Mobile Aluminium Scaffolding Tower Kit (4.0m – 6.0m)",
-        "name_vi": "Bộ Giàn Giáo Nhôm Di Động Có Bánh Xe (4.0m – 6.0m)",
-        "specs_en": "Modular high-strength aluminium, trapdoor safety platform, 4 lockable swivel castors, stabilizing outriggers, 450kg load capacity.",
-        "specs_vi": "Hợp kim nhôm siêu nhẹ chịu lực, sàn thao tác có cửa lật an toàn, 4 bánh xe có phanh hãm, chân chống tăng cứng chống lật, tải trọng 450kg.",
-        "rate_day": "$45",
-        "rate_week": "$160",
-        "badge_en": "Site Essential",
-        "badge_vi": "Thiết Yếu Công Trình"
-      },
-      {
-        "name_en": "Heavy-Duty Dustless Floor Sander & Rotary Edger Combo",
-        "name_vi": "Combo Máy Chà Sàn Gỗ Hút Bụi & Máy Chà Góc Cạnh",
-        "specs_en": "200mm dynamic drum sander with continuous cyclonic dust containment bag + 180mm disc edger for corners and stairs.",
-        "specs_vi": "Máy chà tang trống 200mm công suất lớn kèm túi gom bụi ly tâm khép kín + máy chà đĩa 180mm vét sát chân tường và bậc cầu thang.",
-        "rate_day": "$180",
-        "rate_week": "$650",
-        "badge_en": "Zero Dust Mess",
-        "badge_vi": "Không Bụi Bẩn"
-      },
-      {
-        "name_en": "Sliding Rail Wet Porcelain & Stone Saw (1200mm)",
-        "name_vi": "Máy Cắt Gạch Đá Nước Bàn Trượt Ray Đôi (1200mm)",
-        "specs_en": "Heavy cast aluminium sliding bed, laser line guide, recirculating electric coolant pump, 45-degree mitre bevel tilt.",
-        "specs_vi": "Bàn trượt nhôm đúc ray kép, đèn laser dẫn hướng đường cắt, bơm tuần hoàn nước làm mát đĩa kim cương, nghiêng góc 45 độ mòi đá.",
-        "rate_day": "$95",
-        "rate_week": "$340",
-        "badge_en": "Millimeter Precision",
-        "badge_vi": "Cắt Khổ Lớn 1.2m"
-      },
-      {
-        "name_en": "Commercial Structural Dehumidifier (70L/Day)",
-        "name_vi": "Máy Hút Ẩm Công Nghiệp Sấy Khô Công Trình (70L/Ngày)",
-        "specs_en": "Commercial rotary compressor, hot-gas defrost, digital humidistat, high-volume air mover integration for rapid drying.",
-        "specs_vi": "Máy nén xoay công nghiệp hút 70 lít nước/ngày, xả tuyết gas nóng tự động, cài đặt độ ẩm kỹ thuật số, sấy khô nhanh sơn bả và nền gỗ.",
-        "rate_day": "$65",
-        "rate_week": "$195",
-        "badge_en": "Fast Site Drying",
-        "badge_vi": "Sấy Khô Cấp Tốc"
-      }
-    ],
-    "pricing": [
-      {
-        "name_en": "Mobile Aluminium Scaffolding Tower Kit",
-        "name_vi": "Bộ giàn giáo nhôm di động có bánh xe an toàn",
-        "desc_en": "Lightweight high-strength modular aluminium tower, safety trapdoor platforms, kickboards, stabilizing outriggers, and heavy-duty locking castors.",
-        "desc_vi": "Giàn giáo nhôm siêu nhẹ tháo lắp nhanh, sàn thao tác có cửa mở an toàn, chân chống tăng cứng chống lật và 4 bánh xe khóa phanh chắc chắn.",
-        "range": "$120 – $220",
-        "unit_en": "per week",
-        "unit_vi": "Tuần thuê",
-        "popular": false
-      },
-      {
-        "name_en": "Heavy-Duty Dustless Timber Floor Sander & Edger Combo",
-        "name_vi": "Bộ máy chà sàn gỗ hút bụi chuyên dụng kèm máy chà cạnh",
-        "desc_en": "Commercial drum belt floor sander, rotary edge sander, dust collection attachment, and sandpaper available in various grit grades.",
-        "desc_vi": "Máy chà nhám tang trống công suất lớn kèm máy chà mép tường xoay góc, hệ thống hút bụi khép kín không bụi bẩn, có sẵn giấy nhám các số.",
-        "range": "$150 – $260",
-        "unit_en": "per day",
-        "unit_vi": "Ngày thuê",
-        "popular": true
-      },
-      {
-        "name_en": "Heavy-Duty Wet Tile & Stone Saw",
-        "name_vi": "Máy cắt gạch đá nước công nghiệp bàn trượt",
-        "desc_en": "Sliding bed cutter, continuous water pump circulation, laser guide line for cutting large format porcelain tiles and pavers without chipping.",
-        "desc_vi": "Bàn cắt trượt nhẹ nhàng, bơm nước làm mát lưỡi kim cương tự động, tia laser căn chỉnh đường cắt chuẩn xác cho gạch đá khổ lớn.",
-        "range": "$80 – $140",
-        "unit_en": "per day",
-        "unit_vi": "Ngày thuê",
-        "popular": false
-      },
-      {
-        "name_en": "Commercial Structural Dehumidifier & Air Mover",
-        "name_vi": "Máy hút ẩm công nghiệp sấy khô công trình",
-        "desc_en": "Extracts 50-70L water per day, accelerates plaster and paint drying times, and dries moisture from timber subfloors after leaks.",
-        "desc_vi": "Công suất hút ẩm 50-70 lít/ngày, sấy khô nhanh bột bả thạch cao, sơn tường và rút ẩm sàn bê tông/gỗ sau khi bị thấm nước.",
-        "range": "$90 – $160",
-        "unit_en": "per week",
-        "unit_vi": "Tuần thuê",
-        "popular": false
-      }
-    ]
+    "tag_vi": "Tường & Trần",
+    "tag_en": "Drywall & Ceilings",
+    "desc_vi": "Bả skim coat chuẩn Level 5 phẳng mịn, trát xử lý mối nối thạch cao, vách ngăn chống cháy cách âm và cân bằng mặt sàn.",
+    "desc_en": "Level 4 and Level 5 full skim coat plastering, acoustic drywall stopping, and seamless joint taping.",
+    "icon": "square_foot"
   },
   "maintenance": {
     "title_en": "Property Repairs & Maintenance",
@@ -827,7 +759,12 @@
         "unit_vi": "Gói tân trang",
         "popular": false
       }
-    ]
+    ],
+    "tag_vi": "Sửa Chữa Nhà Ở",
+    "tag_en": "Repairs & Maintenance",
+    "desc_vi": "Khắc phục thấm dột, thay thế đà gỗ mục ẩm, cân chỉnh cửa xệ cọ sàn và gói tân trang sửa chữa làm mới trước khi bán nhà.",
+    "desc_en": "Responsive rotten timber remediation, cladding leak repairs, sticking door realignments, and pre-sale property tidy-ups.",
+    "icon": "handyman"
   },
   "equipment": {
     "title_en": "Equipment & Tool Hire",
@@ -930,6 +867,11 @@
         "unit_vi": "Tuần thuê",
         "popular": false
       }
-    ]
+    ],
+    "tag_vi": "Cho Thuê",
+    "tag_en": "Commercial & Hire",
+    "desc_vi": "Cung cấp máy móc chuyên dụng, giàn giáo nhôm di động, máy chà sàn hút bụi và đồ nghề thi công xây dựng cho thuê.",
+    "desc_en": "Commercial machinery hire, mobile scaffolding towers, dustless floor sanders, and specialist renovation tools.",
+    "icon": "construction"
   }
 }

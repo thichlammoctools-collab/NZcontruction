@@ -34,38 +34,38 @@
     "items": {
       "renovations": {
         "title": "Cải Tạo Nhà Trọn Gói",
-        "tag": "Dịch vụ",
-        "desc": "Quản lý cải tạo nhà ở toàn diện từ thiết kế ý tưởng, hỗ trợ xin phép Council, tháo dỡ, gia cố dầm thép chịu lực cho đến hoàn thiện nội thất bàn giao c...",
-        "icon": "construction"
+        "tag": "Cải Tạo Toàn Diện",
+        "desc": "Tái cấu trúc không gian, cơi nới mở rộng và hiện đại hóa toàn diện ngôi nhà theo phong cách sống Kiwi.",
+        "icon": "home_repair_service"
       },
       "bathrooms": {
         "title": "Phòng Tắm Cao Cấp",
-        "tag": "Dịch vụ",
-        "desc": "Biến đổi phòng tắm cũ kỹ thành không gian thư giãn đẳng cấp mang đậm phong cách kiến trúc hiện đại. Chuyên sâu màng chống thấm đạt chứng nhận Council ...",
-        "icon": "construction"
+        "tag": "Khu Vực Ẩm Ướt",
+        "desc": "Thi công chống thấm chuẩn Council, ốp lát đá chuẩn xác, lắp đặt bồn tắm và thiết bị vệ sinh sang trọng.",
+        "icon": "bathtub"
       },
       "cabinets": {
         "title": "Tủ Bếp & Đồ Gỗ Nội Thất",
         "tag": "Nội Thất May Đo",
-        "desc": "Đóng tủ bếp theo yêu cầu, tủ quần áo walk-in và hệ kệ lưu trữ kiến trúc chính xác đến từng milimét.",
+        "desc": "Thiết kế đóng tủ bếp hiện đại, tủ âm tường và hệ kệ lưu trữ kiến trúc chính xác đến từng milimét.",
         "icon": "countertops"
       },
       "flooring": {
         "title": "Giải Pháp Sàn Nhà",
         "tag": "Bề Mặt Sàn",
-        "desc": "Phục hồi sàn gỗ tự nhiên, thi công sàn gỗ sồi xương cá, gạch đá cao cấp và sàn vinyl cách âm chất lượng cao.",
+        "desc": "Phục hồi sàn gỗ tự nhiên, lát sàn gỗ sồi xương cá, gạch men cao cấp và sàn vinyl cách âm chất lượng cao.",
         "icon": "texture"
       },
       "doors": {
-        "title": "Hệ Cửa & Ô Mở Kiến Trúc",
+        "title": "Hệ Thống Cửa & Mộc Hoàn Thiện",
         "tag": "Mộc Xây Dựng",
-        "desc": "Cửa lùa âm tường, cửa chống ồn đặc lõi, cửa mở xếp trượt bifold và phụ kiện mộc ngoại thất cách âm cách nhiệt.",
+        "desc": "Cửa lùa âm tường, cửa chống ồn đặc lõi, cửa xếp trượt bifold và phụ kiện mộc chất lượng cao.",
         "icon": "door_front"
       },
       "painting": {
-        "title": "Sơn Nội Thất & Ngoại Thất",
+        "title": "Sơn Bả & Trát Hoàn Thiện",
         "tag": "Hoàn Thiện",
-        "desc": "Xử lý bề mặt phẳng mịn không tì vết, phủ sơn ngoại thất chịu thời tiết siêu bền và kỹ thuật sơn phun không bọt khí.",
+        "desc": "Bả matit Level 5 phẳng mịn, trát tường vi xi măng (microcement) và sơn ngoại thất chống thấm thời tiết.",
         "icon": "format_paint"
       },
       "plastering": {
@@ -74,10 +74,16 @@
         "desc": "Bả skim coat chuẩn Level 5 phẳng mịn, trát xử lý mối nối thạch cao, vách ngăn chống cháy cách âm và cân bằng mặt sàn.",
         "icon": "square_foot"
       },
+      "maintenance": {
+        "title": "Bảo Trì & Sửa Chữa Nhanh",
+        "tag": "Sửa Chữa Nhà Ở",
+        "desc": "Khắc phục thấm dột, thay thế đà gỗ mục ẩm, cân chỉnh cửa xệ cọ sàn và gói tân trang sửa chữa làm mới trước khi bán nhà.",
+        "icon": "handyman"
+      },
       "equipment": {
-        "title": "Cho Thuê Thiết Bị & Đội Thợ",
-        "tag": "Thương Mại",
-        "desc": "Cho thuê máy móc xây dựng chuyên dụng, giàn giáo, máy mài bê tông và thợ mộc có chứng chỉ với điều khoản linh hoạt.",
+        "title": "Cho Thuê Máy Móc & Thiết Bị",
+        "tag": "Cho Thuê",
+        "desc": "Cung cấp máy móc chuyên dụng, giàn giáo nhôm di động, máy chà sàn hút bụi và đồ nghề thi công xây dựng cho thuê.",
         "icon": "construction"
       }
     }

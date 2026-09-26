@@ -20,9 +20,20 @@ async function writePosts(posts: any[]) {
   }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
     const posts = await readPosts();
+
+    if (id) {
+      const post = posts.find((p) => p.id === id);
+      if (!post) {
+        return NextResponse.json({ error: "Post not found" }, { status: 404 });
+      }
+      return NextResponse.json(post);
+    }
+
     return NextResponse.json(posts);
   } catch (error) {
     return NextResponse.json({ error: "Failed to read posts" }, { status: 500 });
