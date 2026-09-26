@@ -133,11 +133,21 @@ export default function ServicesManager({
                   alt={service.title_en}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
                   <span className="px-2.5 py-1 rounded-md bg-slate-950/85 backdrop-blur-md text-[10px] font-mono font-bold text-amber-400 border border-amber-400/30">
                     /{service.id}
                   </span>
+                  {(service.tag_vi || service.tag_en) && (
+                    <span className="px-2 py-0.5 rounded-md bg-amber-400/90 text-slate-950 text-[10px] font-bold uppercase tracking-wider">
+                      {service.tag_vi || service.tag_en}
+                    </span>
+                  )}
                 </div>
+                {service.icon && (
+                  <div className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-slate-950/80 backdrop-blur-md flex items-center justify-center text-amber-400 border border-slate-700">
+                    <span className="material-symbols-outlined text-[18px]">{service.icon}</span>
+                  </div>
+                )}
               </Link>
 
               {/* Service Content */}
@@ -154,7 +164,7 @@ export default function ServicesManager({
                 </div>
 
                 <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
-                  {service.intro_vi || service.intro_en}
+                  {service.desc_vi || service.intro_vi || service.desc_en || service.intro_en}
                 </p>
 
                 {/* Badges: Features, Pricing, Steps */}

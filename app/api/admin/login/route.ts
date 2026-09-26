@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ADMIN_COOKIE, createSessionToken } from "@/lib/admin-auth";
 import { verifyPassword } from "@/lib/admin-password-kv";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
+  const rl = rateLimit(`admin-login:${clientIp(req)}`, 10, 15 * 60 * 1000);
+  if (rl.remaining <= 0) {
+    return NextResponse.json(
+      { error: "Quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec || 900) } }
+    );
+  }
+
   let password = "";
   try {
     const body = await req.json();
@@ -27,6 +36,7 @@ export async function POST(req: NextRequest) {
   res.cookies.set(ADMIN_COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
+    secure: process.env.NODE_ENV !== "development",
     path: "/",
     maxAge: 60 * 60 * 24 * 7,
   });

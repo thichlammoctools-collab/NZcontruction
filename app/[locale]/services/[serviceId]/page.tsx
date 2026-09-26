@@ -66,7 +66,7 @@ interface PageProps {
 }
 
 function resolveServiceId(id: string): string {
-  if (id === "equipment") return "hiring";
+  if (id === "hiring") return "equipment";
   return id;
 }
 

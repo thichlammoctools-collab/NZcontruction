@@ -32,7 +32,7 @@ const materialIconMap: Record<string, string> = {
   plastering: "square_foot",
   equipment: "construction",
   hiring: "construction",
-  maintenance: "home_repair_service",
+  maintenance: "handyman",
 };
 
 const lucideIconMap: Record<string, any> = {

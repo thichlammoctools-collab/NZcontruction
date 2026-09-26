@@ -6,17 +6,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://nsbuilding.co.nz";
   const locales = ["en", "vi"];
 
-  const serviceIds = [
-    "renovations",
-    "bathrooms",
-    "cabinets",
-    "flooring",
-    "doors",
-    "painting",
-    "plastering",
-    "hiring",
-    "maintenance",
-  ];
+  const servicesData = await readJsonSafe<Record<string, any>>(
+    path.join(process.cwd(), "content", "services_detail.json"),
+    {}
+  );
+  const serviceIds = Object.keys(servicesData);
 
   // Read projects + posts dynamically so new admin-created entries appear.
   const projectsData = await readJsonSafe<any[]>(

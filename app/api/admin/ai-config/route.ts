@@ -28,12 +28,6 @@ export async function GET() {
     const serverGeminiKey = process.env.GEMINI_API_KEY || "";
     const serverOpenaiKey = process.env.OPENAI_API_KEY || "";
 
-    const activeApiKey =
-      config.general?.apiKey ||
-      (config.general?.provider === "openai"
-        ? (config.general?.openaiApiKey || serverOpenaiKey)
-        : (config.general?.geminiApiKey || serverGeminiKey));
-
     const stats = {
       totalFaqs: faqs.length,
       activeFaqs: faqs.filter((f: any) => f.enabled !== false).length,
@@ -42,19 +36,21 @@ export async function GET() {
       activeModel: config.general?.model || "gemini-1.5-flash",
       provider: config.general?.provider || "gemini",
       isEnabled: config.general?.enabled !== false,
-      hasServerApiKey: !!serverGeminiKey || !!serverOpenaiKey || !!config.general?.apiKey,
-      hasEnvGeminiKey: !!serverGeminiKey,
-      hasEnvOpenaiKey: !!serverOpenaiKey,
+      hasServerApiKey:
+        !!serverGeminiKey || !!serverOpenaiKey || !!config.general?.apiKey ||
+        !!config.general?.geminiApiKey || !!config.general?.openaiApiKey,
+      hasEnvGeminiKey: !!serverGeminiKey || !!config.general?.geminiApiKey,
+      hasEnvOpenaiKey: !!serverOpenaiKey || !!config.general?.openaiApiKey,
     };
 
-    // Return config with apiKey for admin editing
+    // Never send provider secrets to the browser.
     const safeConfig = {
       ...config,
       general: {
         ...config.general,
-        apiKey: activeApiKey || "",
-        geminiApiKey: config.general?.geminiApiKey || serverGeminiKey || "",
-        openaiApiKey: config.general?.openaiApiKey || serverOpenaiKey || "",
+        apiKey: "",
+        geminiApiKey: "",
+        openaiApiKey: "",
       },
     };
 
@@ -69,13 +65,24 @@ export async function PUT(req: Request) {
     const body = await req.json();
     const current = (await readConfig()) || {};
 
+    const incomingGeneral = body.general || {};
+    const currentGeneral = current.general || {};
     const updated = {
       ...current,
       ...(body.general
         ? {
             general: {
-              ...current.general,
-              ...body.general,
+              ...currentGeneral,
+              ...incomingGeneral,
+              apiKey: incomingGeneral.apiKey?.trim()
+                ? incomingGeneral.apiKey.trim()
+                : currentGeneral.apiKey || "",
+              geminiApiKey: incomingGeneral.geminiApiKey?.trim()
+                ? incomingGeneral.geminiApiKey.trim()
+                : currentGeneral.geminiApiKey || "",
+              openaiApiKey: incomingGeneral.openaiApiKey?.trim()
+                ? incomingGeneral.openaiApiKey.trim()
+                : currentGeneral.openaiApiKey || "",
             },
           }
         : {}),
@@ -88,10 +95,19 @@ export async function PUT(req: Request) {
 
     await writeConfig(updated);
 
+    const safeUpdated = {
+      ...updated,
+      general: {
+        ...updated.general,
+        apiKey: "",
+        geminiApiKey: "",
+        openaiApiKey: "",
+      },
+    };
     return NextResponse.json({
       success: true,
       message: "Đã lưu thành công cấu hình và dữ liệu huấn luyện AI!",
-      config: updated,
+      config: safeUpdated,
     });
   } catch (error) {
     return NextResponse.json({ error: "Failed to update AI configuration" }, { status: 500 });

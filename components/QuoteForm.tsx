@@ -310,6 +310,7 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                     <option value="painting">Interior & Exterior Painting</option>
                     <option value="plastering">Plastering & Gib Stopping</option>
                     <option value="equipment">Trade / Equipment Hire</option>
+                    <option value="maintenance">Property Maintenance & Repairs</option>
                   </select>
                 </div>
                 <div>

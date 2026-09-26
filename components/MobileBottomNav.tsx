@@ -97,7 +97,13 @@ export default function MobileBottomNav({ locale, dict }: MobileBottomNavProps) 
       tag: isVi ? "Tiêu chuẩn Level 4-5" : "Level 4-5 Finish",
     },
     {
-      id: "hiring",
+      id: "plastering",
+      icon: Hammer,
+      title: dict?.services?.items?.plastering?.title || (isVi ? "Trát bả & Gib Stopping" : "Plastering & Gib Stopping"),
+      tag: isVi ? "Chuẩn Level 5 phẳng mịn" : "Level 5 Skim Coat",
+    },
+    {
+      id: "equipment",
       icon: Construction,
       title: dict?.services?.items?.equipment?.title || (isVi ? "Cho thuê thiết bị công trình" : "Equipment & Machinery Hire"),
       tag: isVi ? "Máy xúc mini, giàn giáo" : "Mini Diggers & Scaffolding",

@@ -1,5 +1,4 @@
 import { getCloudContext, getKV } from "@/lib/cloud-storage";
-import { DEFAULT_PASSWORD_HASH } from "@/lib/admin-auth";
 
 interface ResolvedAuthConfig {
   plainPasswords: string[];
@@ -21,25 +20,7 @@ export async function resolveAuthConfig(): Promise<ResolvedAuthConfig> {
   const passwordHashes: string[] = [];
   let sessionSecret = "";
 
-  // 1. Kiểm tra Cloudflare Worker env (ctx.env từ Cloudflare Dashboard Secrets/Variables)
-  try {
-    const cloudEnv = await getCloudContext();
-    if (cloudEnv) {
-      if (typeof cloudEnv.ADMIN_PASSWORD === "string" && cloudEnv.ADMIN_PASSWORD.trim()) {
-        plainPasswords.push(cloudEnv.ADMIN_PASSWORD.trim());
-      }
-      if (typeof cloudEnv.ADMIN_PASSWORD_HASH === "string" && cloudEnv.ADMIN_PASSWORD_HASH.trim()) {
-        passwordHashes.push(cloudEnv.ADMIN_PASSWORD_HASH.trim());
-      }
-      if (typeof cloudEnv.ADMIN_SESSION_SECRET === "string" && cloudEnv.ADMIN_SESSION_SECRET.trim()) {
-        sessionSecret = cloudEnv.ADMIN_SESSION_SECRET.trim();
-      }
-    }
-  } catch {
-    // Bỏ qua nếu không chạy trên Cloudflare
-  }
-
-  // 2. Kiểm tra Cloudflare KV (nếu được lưu trong KV namespace)
+  // KV values take precedence so a password change can replace deployment config.
   try {
     const kv = await getKV();
     if (kv) {
@@ -56,12 +37,33 @@ export async function resolveAuthConfig(): Promise<ResolvedAuthConfig> {
       if (kvHash1) passwordHashes.push(String(kvHash1).trim());
       if (kvHash2 && kvHash2 !== kvHash1) passwordHashes.push(String(kvHash2).trim());
       if (kvSecret && !sessionSecret) sessionSecret = String(kvSecret).trim();
+
+      if (plainPasswords.length > 0 || passwordHashes.length > 0) {
+        return { plainPasswords, passwordHashes, sessionSecret };
+      }
     }
   } catch {
-    // Bỏ qua lỗi đọc KV
+    // Fall through to deployment environment values.
   }
 
-  // 3. Kiểm tra biến môi trường process.env (Node.js / .env.local)
+  // Cloudflare Worker env values are preferred over process.env.
+  try {
+    const cloudEnv = await getCloudContext();
+    if (cloudEnv) {
+      if (typeof cloudEnv.ADMIN_PASSWORD === "string" && cloudEnv.ADMIN_PASSWORD.trim()) {
+        plainPasswords.push(cloudEnv.ADMIN_PASSWORD.trim());
+      }
+      if (typeof cloudEnv.ADMIN_PASSWORD_HASH === "string" && cloudEnv.ADMIN_PASSWORD_HASH.trim()) {
+        passwordHashes.push(cloudEnv.ADMIN_PASSWORD_HASH.trim());
+      }
+      if (typeof cloudEnv.ADMIN_SESSION_SECRET === "string" && cloudEnv.ADMIN_SESSION_SECRET.trim()) {
+        sessionSecret = cloudEnv.ADMIN_SESSION_SECRET.trim();
+      }
+    }
+  } catch {
+    // Fall through to process.env.
+  }
+
   if (process.env.ADMIN_PASSWORD?.trim()) {
     plainPasswords.push(process.env.ADMIN_PASSWORD.trim());
   }
@@ -70,11 +72,6 @@ export async function resolveAuthConfig(): Promise<ResolvedAuthConfig> {
   }
   if (!sessionSecret && process.env.ADMIN_SESSION_SECRET?.trim()) {
     sessionSecret = process.env.ADMIN_SESSION_SECRET.trim();
-  }
-
-  // 4. Nếu chưa có cấu hình tùy chỉnh nào, dùng fallback mặc định
-  if (passwordHashes.length === 0 && plainPasswords.length === 0) {
-    passwordHashes.push(DEFAULT_PASSWORD_HASH);
   }
 
   return { plainPasswords, passwordHashes, sessionSecret };
@@ -102,18 +99,6 @@ export async function verifyPassword(password: string): Promise<boolean> {
   for (const hash of passwordHashes) {
     const target = hash.startsWith("sha256:") ? hash.slice(7) : hash;
     if (timingSafeEqualStr(actualHash, target.toLowerCase())) {
-      return true;
-    }
-  }
-
-  // 3. Fallback mặc định
-  const hasCustomAuth =
-    plainPasswords.length > 0 ||
-    passwordHashes.some((h) => h.toLowerCase() !== DEFAULT_PASSWORD_HASH.toLowerCase());
-
-  if (!hasCustomAuth) {
-    const defaultTarget = DEFAULT_PASSWORD_HASH.slice(7);
-    if (timingSafeEqualStr(actualHash, defaultTarget.toLowerCase())) {
       return true;
     }
   }

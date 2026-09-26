@@ -1,4 +1,5 @@
-// Simple in-memory fixed-window rate limiter for single-instance deployments.
+// Simple in-memory fixed-window limiter. Use Cloudflare Rate Limiting/KV for
+// enforcement shared across isolates in production.
 // Returns the remaining allowance, or 0 when the caller is over the limit.
 const buckets = new Map<string, { count: number; resetAt: number }>();
 
@@ -8,6 +9,11 @@ export function rateLimit(
   windowMs: number
 ): { remaining: number; retryAfterSec: number } {
   const now = Date.now();
+  if (buckets.size > 5000) {
+    buckets.forEach((bucket, bucketKey) => {
+      if (bucket.resetAt <= now) buckets.delete(bucketKey);
+    });
+  }
   const entry = buckets.get(key);
 
   if (!entry || entry.resetAt <= now) {
@@ -24,7 +30,7 @@ export function rateLimit(
 }
 
 export function clientIp(req: Request): string {
-  const fwd = req.headers.get("x-forwarded-for");
-  if (fwd) return fwd.split(",")[0].trim();
+  const cfIp = req.headers.get("cf-connecting-ip");
+  if (cfIp) return cfIp.trim();
   return req.headers.get("x-real-ip") || "unknown";
 }

@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { kvGetJson, kvPutJson } from "./cloud-storage";
+import { getKV, kvGetJson, kvPutJson } from "./cloud-storage";
 
 import defaultPosts from "@/content/posts.json";
 import defaultProjects from "@/content/projects.json";
@@ -43,13 +43,11 @@ export function resolveKvKey(filePathOrKey: string): string {
 export async function writeJsonAtomic(filePath: string, data: unknown): Promise<void> {
   const key = resolveKvKey(filePath);
 
-  // Sync in-memory default cache for current runtime process
-  if (BUNDLED_DEFAULTS[key] !== undefined) {
-    BUNDLED_DEFAULTS[key] = data;
-  }
-
   // 1. Persist to Cloudflare KV
-  await kvPutJson(key, data);
+  const kv = await getKV();
+  if (kv && !(await kvPutJson(key, data))) {
+    throw new Error(`Failed to persist ${key} to Cloudflare KV`);
+  }
 
   // 2. Also write to local filesystem if supported (for local dev mode)
   try {
@@ -61,11 +59,18 @@ export async function writeJsonAtomic(filePath: string, data: unknown): Promise<
       );
       fs.writeFileSync(tmp, JSON.stringify(data, null, 2), "utf8");
       fs.renameSync(tmp, filePath);
+      if (BUNDLED_DEFAULTS[key] !== undefined) BUNDLED_DEFAULTS[key] = data;
+      return;
     }
-  } catch {
-    // In Cloudflare Workers edge environment, fs is read-only or not writeable.
-    // KV write succeeded, so ignore fs error.
+  } catch (error) {
+    if (!kv) throw error;
   }
+
+  if (kv) {
+    if (BUNDLED_DEFAULTS[key] !== undefined) BUNDLED_DEFAULTS[key] = data;
+    return;
+  }
+  throw new Error(`No durable storage available for ${key}`);
 }
 
 function deepMerge<T = any>(target: any, source: any): T {

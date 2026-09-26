@@ -46,26 +46,32 @@ export async function POST(req: NextRequest) {
 
     // Lưu vào Cloudflare KV
     const kv = await getKV();
-    let savedToKV = false;
-    if (kv) {
-      await kv.put("ADMIN_PASSWORD_HASH", newHash);
+    if (!kv) {
+      return NextResponse.json(
+        { error: "Không thể đổi mật khẩu khi Cloudflare KV chưa được cấu hình." },
+        { status: 503 }
+      );
+    }
+
+    await kv.put("ADMIN_PASSWORD_HASH", newHash);
+    await kv.put(
+      "ADMIN_SESSION_SECRET",
+      Array.from(crypto.getRandomValues(new Uint8Array(32)))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("")
+    );
       // Xóa key plain password cũ trong KV nếu có để ưu tiên hash mới
-      try {
-        await kv.delete("ADMIN_PASSWORD");
-        await kv.delete("admin_password");
-      } catch {
-        // Bỏ qua nếu key không tồn tại
-      }
-      savedToKV = true;
+    try {
+      await kv.delete("ADMIN_PASSWORD");
+      await kv.delete("admin_password");
+    } catch {
+      // Ignore absent legacy keys.
     }
 
     return NextResponse.json({
       success: true,
-      message: savedToKV
-        ? "Đổi mật khẩu thành công! Mật khẩu mới đã được lưu trên Cloudflare KV và có hiệu lực ngay lập tức."
-        : "Đổi mật khẩu thành công! (Mã băm mới: " + newHash + ")",
-      newHash,
-      savedToKV,
+      message: "Đổi mật khẩu thành công. Các phiên đăng nhập cũ đã bị vô hiệu hóa.",
+      savedToKV: true,
     });
   } catch (err: any) {
     return NextResponse.json(

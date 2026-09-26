@@ -90,46 +90,63 @@ export default function Footer({ locale, dict }: FooterProps) {
               {dict?.footer?.services || (isVi ? "Năng Lực & Tay Nghề" : "Trade Services")}
             </h3>
             <ul className="space-y-2.5 text-xs sm:text-sm text-on-surface-variant">
-              <li>
-                <Link href={`/${locale}/services/renovations`} className="hover:text-primary transition-colors">
-                  {dict?.services?.items?.renovations?.title || (isVi ? "Cải Tạo Nhà Trọn Gói" : "Full Home Renovations")}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/bathrooms`} className="hover:text-primary transition-colors">
-                  {dict?.services?.items?.bathrooms?.title || (isVi ? "Phòng Tắm Cao Cấp" : "Luxury Bathroom Renovations")}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/cabinets`} className="hover:text-primary transition-colors">
-                  {dict?.services?.items?.cabinets?.title || (isVi ? "Tủ Bếp & Đồ Gỗ Nội Thất" : "Cabinets & Joinery")}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/flooring`} className="hover:text-primary transition-colors">
-                  {dict?.services?.items?.flooring?.title || (isVi ? "Giải Pháp Sàn Nhà" : "Flooring Solutions")}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/doors`} className="hover:text-primary transition-colors">
-                  {dict?.services?.items?.doors?.title || (isVi ? "Hệ Cửa & Ô Mở Kiến Trúc" : "Doors & Openings")}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/painting`} className="hover:text-primary transition-colors">
-                  {dict?.services?.items?.painting?.title || (isVi ? "Sơn Nội Thất & Ngoại Thất" : "Interior & Exterior Painting")}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/plastering`} className="hover:text-primary transition-colors">
-                  {dict?.services?.items?.plastering?.title || (isVi ? "Trát Bả & Gib Stopping" : "Plastering & Gib Stopping")}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services/hiring`} className="hover:text-primary transition-colors">
-                  {dict?.services?.items?.equipment?.title || dict?.services?.items?.hiring?.title || (isVi ? "Cho Thuê Thiết Bị & Đội Thợ" : "Equipment & Trade Hire")}
-                </Link>
-              </li>
+              {Object.entries(dict?.services?.items || {}).length > 0 ? (
+                Object.entries(dict.services.items).map(([key, s]: [string, any]) => (
+                  <li key={key}>
+                    <Link href={`/${locale}/services/${key}`} className="hover:text-primary transition-colors">
+                      {s?.title || key}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li>
+                    <Link href={`/${locale}/services/renovations`} className="hover:text-primary transition-colors">
+                      {isVi ? "Cải Tạo Nhà Trọn Gói" : "Full Home Renovations"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/${locale}/services/bathrooms`} className="hover:text-primary transition-colors">
+                      {isVi ? "Phòng Tắm Cao Cấp" : "Luxury Bathroom Renovations"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/${locale}/services/cabinets`} className="hover:text-primary transition-colors">
+                      {isVi ? "Tủ Bếp & Đồ Gỗ Nội Thất" : "Cabinets & Joinery"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/${locale}/services/flooring`} className="hover:text-primary transition-colors">
+                      {isVi ? "Giải Pháp Sàn Nhà" : "Flooring Solutions"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/${locale}/services/doors`} className="hover:text-primary transition-colors">
+                      {isVi ? "Hệ Cửa & Ô Mở Kiến Trúc" : "Doors & Openings"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/${locale}/services/painting`} className="hover:text-primary transition-colors">
+                      {isVi ? "Sơn Nội Thất & Ngoại Thất" : "Interior & Exterior Painting"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/${locale}/services/plastering`} className="hover:text-primary transition-colors">
+                      {isVi ? "Trát Bả & Gib Stopping" : "Plastering & Gib Stopping"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/${locale}/services/equipment`} className="hover:text-primary transition-colors">
+                      {isVi ? "Cho Thuê Thiết Bị & Đội Thợ" : "Equipment & Trade Hire"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/${locale}/services/maintenance`} className="hover:text-primary transition-colors">
+                      {isVi ? "Bảo Trì & Sửa Chữa Nhanh" : "Property Repairs & Maintenance"}
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 
