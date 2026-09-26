@@ -275,7 +275,7 @@ export default function ProjectsManager({
                     alt={`${project.title_en} Before`}
                     className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity"
                     onError={(e) => {
-                      (e.target as HTMLElement).style.display = "none";
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80";
                     }}
                   />
                   <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 backdrop-blur-sm text-[9px] font-bold text-slate-300 uppercase">
@@ -289,7 +289,7 @@ export default function ProjectsManager({
                     alt={`${project.title_en} After`}
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      (e.target as HTMLElement).style.display = "none";
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80";
                     }}
                   />
                   <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-amber-400 text-slate-950 text-[9px] font-black uppercase">
