@@ -8,7 +8,7 @@ import defaultProjectsDetail from "@/content/projects_detail.json";
 import defaultServicesDetail from "@/content/services_detail.json";
 import defaultSiteSettings from "@/content/site_settings.json";
 import defaultAiConfig from "@/content/ai_config.json";
-import defaultQuoteLeads from "@/content/quote_leads.json";
+const defaultQuoteLeads: any[] = [];
 import defaultDictVi from "@/content/dictionaries/vi.json";
 import defaultDictEn from "@/content/dictionaries/en.json";
 
