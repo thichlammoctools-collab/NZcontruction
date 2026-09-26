@@ -215,11 +215,19 @@ export default function OverviewStats({
                 key={proj.id}
                 className="flex items-center gap-4 p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-colors"
               >
-                <div className="w-16 h-12 rounded-lg overflow-hidden shrink-0 bg-slate-950 relative">
+                <div className="w-16 h-12 rounded-lg overflow-hidden shrink-0 bg-slate-950 relative border border-slate-800">
                   <img
-                    src={proj.after_image}
-                    alt={proj.title_en}
+                    src={proj.after_image || proj.before_image || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80"}
+                    alt={proj.title_vi || proj.title_en}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (proj.before_image && target.src !== proj.before_image) {
+                        target.src = proj.before_image;
+                      } else {
+                        target.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80";
+                      }
+                    }}
                   />
                 </div>
                 <div className="flex-1 min-w-0">
