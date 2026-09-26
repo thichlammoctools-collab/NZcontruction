@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "build:worker": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion",
-    "deploy": "opennextjs-cloudflare deploy --dangerouslyUseUnsupportedNextVersion",
-    "preview": "opennextjs-cloudflare preview --dangerouslyUseUnsupportedNextVersion"
+    "deploy": "npm run build:worker && opennextjs-cloudflare deploy",
+    "preview": "npm run build:worker && opennextjs-cloudflare preview"
   },
   "dependencies": {
     "lucide-react": "^0.475.0",
