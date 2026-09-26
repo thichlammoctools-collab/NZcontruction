@@ -79,9 +79,9 @@ export default function InterfaceManager({
 
   // Before & After showcase state
   const [baDataVi, setBaDataVi] = useState({
-    badge: initialData?.before_after?.vi?.badge || "",
-    title: initialData?.before_after?.vi?.title || "",
-    subtitle: initialData?.before_after?.vi?.subtitle || "",
+    badge: initialData?.before_after?.vi?.badge || "Minh Chứng Chuyển Đổi Thực Tế",
+    title: initialData?.before_after?.vi?.title || "Thấy Rõ Sự Khác Biệt",
+    subtitle: initialData?.before_after?.vi?.subtitle || "Cảm nhận giá trị, ánh sáng và luồng sinh khí mới được khai phóng qua tay nghề thợ xây dựng có tâm và có tầm.",
     project_name: initialData?.before_after?.vi?.project_name || "Nhà Bungalow Grey Lynn",
     duration: initialData?.before_after?.vi?.duration || "Thời gian: 9 Tuần",
     before_label: initialData?.before_after?.vi?.before_label || "TRƯỚC : Hiện Trạng Cũ",
@@ -93,6 +93,18 @@ export default function InterfaceManager({
       initialData?.before_after?.vi?.after_img ||
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAjzDaHaS2jbKklc2kERlQeGcZt0S643DcIPnvqjnZTr7An7oYBfl15hlloiziUsgvh5Wk1EmxcfJ4ZeqDSL19MHDVbdkmvJiKz3FLOLyKal3R_cgeHEuf1PORQASZ6OAmL7nonhNRXgqvKzTRrKj-9W0zECDwNJlbW5SGXE-am9m4CbCs9PVuXYYTgJ-N0dDSQh3z93CJ8SJ3ZnveKd9LQW58tezEDmwhcCIFWclkC",
   });
+
+  const [baDataEn, setBaDataEn] = useState({
+    badge: initialData?.before_after?.en?.badge || "Proven Project Transformation",
+    title: initialData?.before_after?.en?.title || "See The Difference",
+    subtitle: initialData?.before_after?.en?.subtitle || "Experience the value, natural light, and renewed vitality unlocked through dedicated, high-standard craftsmanship.",
+    project_name: initialData?.before_after?.en?.project_name || "Grey Lynn Bungalow Renovation",
+    duration: initialData?.before_after?.en?.duration || "Duration: 9 Weeks",
+    before_label: initialData?.before_after?.en?.before_label || "BEFORE : Original Layout",
+    after_label: initialData?.before_after?.en?.after_label || "AFTER : NS Building Transformation",
+  });
+
+  const [baPreviewLang, setBaPreviewLang] = useState<"vi" | "en">("vi");
 
   // Toggles state
   const [toggles, setToggles] = useState({
@@ -124,10 +136,10 @@ export default function InterfaceManager({
         before_after: {
           vi: baDataVi,
           en: {
-            ...baDataVi,
-            before_label: "BEFORE : Original Layout",
-            after_label: "AFTER : NS Building Transformation",
-            duration: "Duration: 9 Weeks",
+            ...baDataEn,
+            before_img: baDataVi.before_img,
+            after_img: baDataVi.after_img,
+            drag_hint: initialData?.before_after?.en?.drag_hint || "Drag the handle to compare structural before & after",
           },
         },
         toggles,
@@ -626,48 +638,19 @@ export default function InterfaceManager({
               <span>Cấu Hình Khối So Sánh Trước &amp; Sau (Before / After Showcase)</span>
             </h3>
             <p className="text-xs text-slate-400">
-              Công trình tiêu biểu hiển thị thanh trượt so sánh Before/After tại trung tâm trang chủ.
+              Công trình tiêu biểu hiển thị thanh trượt so sánh Before/After tại trung tâm trang chủ. Ảnh được dùng chung cho cả 2 ngôn ngữ, nội dung chữ có thể tùy biến riêng cho Tiếng Việt và Tiếng Anh.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div>
-                <label className="block font-bold text-slate-300 mb-1">
-                  Tên công trình đại diện
-                </label>
-                <input
-                  type="text"
-                  value={baDataVi.project_name}
-                  onChange={(e) =>
-                    setBaDataVi({ ...baDataVi, project_name: e.target.value })
-                  }
-                  className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-semibold"
-                />
-              </div>
-
-              <div>
-                <label className="block font-bold text-slate-300 mb-1">
-                  Thời gian hoàn thành (Duration)
-                </label>
-                <input
-                  type="text"
-                  value={baDataVi.duration}
-                  onChange={(e) =>
-                    setBaDataVi({ ...baDataVi, duration: e.target.value })
-                  }
-                  className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-semibold"
-                />
-              </div>
-            </div>
-
+            {/* Shared Images */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
               <div className="p-4 bg-slate-900/60 rounded-xl border border-slate-700/70 space-y-2">
                 <ImageUpload
                   label="Ảnh Trước Khi Sửa (Before Image)"
                   required
                   value={baDataVi.before_img}
-                  onChange={(url) =>
-                    setBaDataVi({ ...baDataVi, before_img: url })
-                  }
+                  onChange={(url) => {
+                    setBaDataVi({ ...baDataVi, before_img: url });
+                  }}
                   aspectRatio="video"
                   helperText="Tải file ảnh thực tế hiện trạng từ máy tính hoặc dán link URL"
                 />
@@ -678,29 +661,292 @@ export default function InterfaceManager({
                   label="Ảnh Sau Khi Hoàn Thiện (After Image)"
                   required
                   value={baDataVi.after_img}
-                  onChange={(url) =>
-                    setBaDataVi({ ...baDataVi, after_img: url })
-                  }
+                  onChange={(url) => {
+                    setBaDataVi({ ...baDataVi, after_img: url });
+                  }}
                   aspectRatio="video"
                   helperText="Tải file ảnh thực tế sau hoàn thiện từ máy tính hoặc dán link URL"
                 />
               </div>
             </div>
 
+            {/* Bilingual Content Inputs */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-700/80">
+              {/* Vietnamese */}
+              <div className="bg-slate-900/50 p-5 rounded-xl border border-slate-700/70 space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-700">
+                  <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                    🇻🇳 Tiếng Việt (Trang /vi)
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Huy hiệu phụ (Badge)
+                  </label>
+                  <input
+                    type="text"
+                    value={baDataVi.badge}
+                    onChange={(e) =>
+                      setBaDataVi({ ...baDataVi, badge: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs font-semibold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Tiêu đề chính (Title)
+                  </label>
+                  <input
+                    type="text"
+                    value={baDataVi.title}
+                    onChange={(e) =>
+                      setBaDataVi({ ...baDataVi, title: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs font-semibold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Đoạn mô tả ngắn (Subtitle)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={baDataVi.subtitle}
+                    onChange={(e) =>
+                      setBaDataVi({ ...baDataVi, subtitle: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs leading-relaxed"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Tên công trình
+                    </label>
+                    <input
+                      type="text"
+                      value={baDataVi.project_name}
+                      onChange={(e) =>
+                        setBaDataVi({ ...baDataVi, project_name: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Thời gian hoàn thành
+                    </label>
+                    <input
+                      type="text"
+                      value={baDataVi.duration}
+                      onChange={(e) =>
+                        setBaDataVi({ ...baDataVi, duration: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Nhãn ảnh Trước
+                    </label>
+                    <input
+                      type="text"
+                      value={baDataVi.before_label}
+                      onChange={(e) =>
+                        setBaDataVi({ ...baDataVi, before_label: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Nhãn ảnh Sau
+                    </label>
+                    <input
+                      type="text"
+                      value={baDataVi.after_label}
+                      onChange={(e) =>
+                        setBaDataVi({ ...baDataVi, after_label: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* English */}
+              <div className="bg-slate-900/50 p-5 rounded-xl border border-slate-700/70 space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-700">
+                  <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">
+                    🇳🇿 Tiếng Anh (Trang /en)
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Top Badge
+                  </label>
+                  <input
+                    type="text"
+                    value={baDataEn.badge}
+                    onChange={(e) =>
+                      setBaDataEn({ ...baDataEn, badge: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs font-semibold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Main Title
+                  </label>
+                  <input
+                    type="text"
+                    value={baDataEn.title}
+                    onChange={(e) =>
+                      setBaDataEn({ ...baDataEn, title: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs font-semibold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    Subtitle Description
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={baDataEn.subtitle}
+                    onChange={(e) =>
+                      setBaDataEn({ ...baDataEn, subtitle: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs leading-relaxed"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Project Name
+                    </label>
+                    <input
+                      type="text"
+                      value={baDataEn.project_name}
+                      onChange={(e) =>
+                        setBaDataEn({ ...baDataEn, project_name: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Duration
+                    </label>
+                    <input
+                      type="text"
+                      value={baDataEn.duration}
+                      onChange={(e) =>
+                        setBaDataEn({ ...baDataEn, duration: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Before Label
+                    </label>
+                    <input
+                      type="text"
+                      value={baDataEn.before_label}
+                      onChange={(e) =>
+                        setBaDataEn({ ...baDataEn, before_label: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      After Label
+                    </label>
+                    <input
+                      type="text"
+                      value={baDataEn.after_label}
+                      onChange={(e) =>
+                        setBaDataEn({ ...baDataEn, after_label: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Live Slider Preview */}
             {baDataVi.before_img && baDataVi.after_img && (
               <div className="pt-4 border-t border-slate-700/80">
-                <span className="text-xs font-bold text-amber-400 block mb-3 uppercase tracking-wider">
-                  Xem Trước Thanh Kéo So Sánh Thực Tế:
-                </span>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                    Xem Trước Thanh Kéo So Sánh Thực Tế:
+                  </span>
+                  <div className="inline-flex rounded-lg bg-slate-900 p-1 border border-slate-700 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => setBaPreviewLang("vi")}
+                      className={`px-3 py-1 rounded-md transition-colors ${
+                        baPreviewLang === "vi"
+                          ? "bg-amber-500 text-slate-950 font-bold"
+                          : "text-slate-400 hover:text-white"
+                      }`}
+                    >
+                      🇻🇳 Tiếng Việt
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setBaPreviewLang("en")}
+                      className={`px-3 py-1 rounded-md transition-colors ${
+                        baPreviewLang === "en"
+                          ? "bg-blue-500 text-white font-bold"
+                          : "text-slate-400 hover:text-white"
+                      }`}
+                    >
+                      🇳🇿 English
+                    </button>
+                  </div>
+                </div>
                 <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 p-2">
                   <BeforeAfterSlider
                     beforeImage={baDataVi.before_img}
                     afterImage={baDataVi.after_img}
-                    beforeLabel={baDataVi.before_label}
-                    afterLabel={baDataVi.after_label}
-                    projectName={baDataVi.project_name}
-                    duration={baDataVi.duration}
+                    beforeLabel={
+                      baPreviewLang === "vi"
+                        ? baDataVi.before_label
+                        : baDataEn.before_label
+                    }
+                    afterLabel={
+                      baPreviewLang === "vi"
+                        ? baDataVi.after_label
+                        : baDataEn.after_label
+                    }
+                    projectName={
+                      baPreviewLang === "vi"
+                        ? baDataVi.project_name
+                        : baDataEn.project_name
+                    }
+                    duration={
+                      baPreviewLang === "vi"
+                        ? baDataVi.duration
+                        : baDataEn.duration
+                    }
                   />
                 </div>
               </div>

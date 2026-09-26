@@ -308,9 +308,7 @@ export default async function HomePage({ params }: PageProps) {
         </section>
 
           {/* 5. OUR WORK: PORTFOLIO GALLERY WITH FILTER CONTROLS */}
-          <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 lg:py-24" id="work-section">
-            <PortfolioSection portfolioDict={dict.portfolio} locale={locale as "en" | "vi"} />
-          </section>
+          <PortfolioSection portfolioDict={dict.portfolio} locale={locale as "en" | "vi"} />
 
         {/* 6. BEFORE & AFTER SHOWCASE (INTERACTIVE SPLIT) */}
         {siteSettings?.toggles?.showBeforeAfter !== false && (

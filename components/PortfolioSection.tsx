@@ -49,7 +49,7 @@ export default function PortfolioSection({ portfolioDict, locale = "en" }: Portf
 
   return (
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 lg:py-24" id="work-section">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+      <div className="flex flex-col gap-4 sm:gap-5 mb-10">
         <div>
           <div className="inline-flex items-center gap-2 mb-2">
             <span className="h-0.5 w-5 bg-secondary"></span>
@@ -60,13 +60,14 @@ export default function PortfolioSection({ portfolioDict, locale = "en" }: Portf
           <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
             {portfolioDict.title}
           </h2>
-          <p className="text-sm sm:text-base text-on-surface-variant mt-2 max-w-xl">
-            {portfolioDict.subtitle}
-          </p>
         </div>
 
+        <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl">
+          {portfolioDict.subtitle}
+        </p>
+
         {/* Filter Controls */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 flex-nowrap sm:flex-wrap w-full md:w-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 flex-nowrap sm:flex-wrap w-full -mx-4 px-4 sm:mx-0 sm:px-0 pt-1">
           {filterKeys.map((f) => {
             const isActive = activeFilter === f.key;
             return (
