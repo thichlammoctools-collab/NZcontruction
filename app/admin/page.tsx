@@ -35,13 +35,14 @@ export default function AdminDashboardPage() {
   // Load all dashboard data
   const loadData = useCallback(async (isSilent = false) => {
     if (!isSilent) setIsRefreshing(true);
-    try {
+      const t = Date.now();
+      const fetchOpts = { cache: "no-store" as RequestCache };
       const [projRes, servRes, postRes, ifaceRes, leadsRes] = await Promise.all([
-        fetch("/api/admin/projects"),
-        fetch("/api/admin/services"),
-        fetch("/api/admin/posts"),
-        fetch("/api/admin/interface"),
-        fetch("/api/admin/leads"),
+        fetch(`/api/admin/projects?t=${t}`, fetchOpts),
+        fetch(`/api/admin/services?t=${t}`, fetchOpts),
+        fetch(`/api/admin/posts?t=${t}`, fetchOpts),
+        fetch(`/api/admin/interface?t=${t}`, fetchOpts),
+        fetch(`/api/admin/leads?t=${t}`, fetchOpts),
       ]);
 
       if (projRes.ok) {
