@@ -1,5 +1,4 @@
 import { NextRequest } from "next/server";
-import { getCloudContext, getKV } from "@/lib/cloud-storage";
 
 export const ADMIN_COOKIE = "ns_admin_session";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
@@ -16,6 +15,14 @@ interface ResolvedAuthConfig {
   sessionSecret: string;
 }
 
+function getSecret(): string {
+  return (
+    process.env.ADMIN_SESSION_SECRET ||
+    process.env.ADMIN_PASSWORD_HASH ||
+    DEFAULT_SESSION_SECRET
+  );
+}
+
 /**
  * Lấy cấu hình xác thực từ nhiều nguồn theo thứ tự ưu tiên:
  * 1. Cloudflare KV (key: ADMIN_PASSWORD, ADMIN_PASSWORD_HASH)
@@ -26,10 +33,11 @@ interface ResolvedAuthConfig {
 async function resolveAuthConfig(): Promise<ResolvedAuthConfig> {
   const plainPasswords: string[] = [];
   const passwordHashes: string[] = [];
-  let sessionSecret = "";
+  let sessionSecret = getSecret();
 
   // 1. Kiểm tra Cloudflare Worker env (ctx.env từ Cloudflare Dashboard Secrets/Variables)
   try {
+    const { getCloudContext, getKV } = await import("@/lib/cloud-storage");
     const cloudEnv = await getCloudContext();
     if (cloudEnv) {
       if (typeof cloudEnv.ADMIN_PASSWORD === "string" && cloudEnv.ADMIN_PASSWORD.trim()) {
@@ -42,12 +50,7 @@ async function resolveAuthConfig(): Promise<ResolvedAuthConfig> {
         sessionSecret = cloudEnv.ADMIN_SESSION_SECRET.trim();
       }
     }
-  } catch {
-    // Bỏ qua nếu không chạy trên Cloudflare
-  }
 
-  // 2. Kiểm tra Cloudflare KV (nếu được lưu trong KV namespace)
-  try {
     const kv = await getKV();
     if (kv) {
       const [kvPlain1, kvPlain2, kvHash1, kvHash2, kvSecret] = await Promise.all([
@@ -65,7 +68,7 @@ async function resolveAuthConfig(): Promise<ResolvedAuthConfig> {
       if (kvSecret && !sessionSecret) sessionSecret = String(kvSecret).trim();
     }
   } catch {
-    // Bỏ qua lỗi đọc KV
+    // Bỏ qua nếu không chạy trên Cloudflare hoặc lỗi KV
   }
 
   // 3. Kiểm tra biến môi trường process.env (Node.js / .env.local)
@@ -155,13 +158,8 @@ export async function verifyPassword(password: string): Promise<boolean> {
   return false;
 }
 
-async function getSecret(): Promise<string> {
-  const { sessionSecret } = await resolveAuthConfig();
-  return sessionSecret;
-}
-
 export async function createSessionToken(): Promise<string> {
-  const secret = await getSecret();
+  const secret = getSecret();
   if (!secret) return "";
   const exp = Date.now() + SESSION_TTL_MS;
   const sig = await hmacSha256(String(exp), secret);
@@ -170,7 +168,7 @@ export async function createSessionToken(): Promise<string> {
 
 export async function verifySessionToken(token: string | undefined | null): Promise<boolean> {
   if (!token) return false;
-  const secret = await getSecret();
+  const secret = getSecret();
   if (!secret) return false;
   const [expStr, sig] = token.split(".");
   const exp = Number(expStr);
