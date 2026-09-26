@@ -595,7 +595,7 @@ export default function ProjectEditor({ initialId, isNew = false }: ProjectEdito
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               Bạn có chắc chắn muốn xóa công trình{" "}
-              <strong className="text-white font-mono">"{formData.id}"</strong>?
+              <strong className="text-white font-mono">&quot;{formData.id}&quot;</strong>?
               Thao tác này sẽ gỡ công trình khỏi danh mục và trang web.
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">

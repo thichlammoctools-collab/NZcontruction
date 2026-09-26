@@ -6,15 +6,6 @@ const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
 
 async function getSecret(): Promise<string> {
   try {
-    const env = await getCloudContext();
-    if (typeof env?.ADMIN_SESSION_SECRET === "string" && env.ADMIN_SESSION_SECRET.trim()) {
-      return env.ADMIN_SESSION_SECRET.trim();
-    }
-  } catch {
-    // Fall through to KV/process environment.
-  }
-
-  try {
     const kv = await getKV();
     const secret = await kv?.get("ADMIN_SESSION_SECRET");
     if (typeof secret === "string" && secret.trim()) return secret.trim();

@@ -213,7 +213,7 @@ export default function PostsManager({ posts, onRefresh }: PostsManagerProps) {
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               Bạn có chắc chắn muốn xóa bài viết{" "}
-              <strong className="text-white font-mono">"{deleteConfirmId}"</strong>?
+              <strong className="text-white font-mono">&quot;{deleteConfirmId}&quot;</strong>?
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">
               <button

@@ -324,6 +324,7 @@ export default function LeadsManager({
             </span>
             <div className="flex flex-wrap gap-2">
               {lead.files.map((fileUrl, idx) => {
+                if (!/^\/uploads\/[^\s?#]+$/i.test(fileUrl)) return null;
                 const isImg = /\.(jpe?g|png|webp|gif|avif)$/i.test(fileUrl);
                 const fileName = fileUrl.split("/").pop() || "Tệp";
                 return isImg ? (

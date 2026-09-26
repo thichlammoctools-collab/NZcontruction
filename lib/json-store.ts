@@ -45,9 +45,7 @@ export async function writeJsonAtomic(filePath: string, data: unknown): Promise<
 
   // 1. Persist to Cloudflare KV
   const kv = await getKV();
-  if (kv && !(await kvPutJson(key, data))) {
-    throw new Error(`Failed to persist ${key} to Cloudflare KV`);
-  }
+  const persistedToKv = kv ? await kvPutJson(key, data) : false;
 
   // 2. Also write to local filesystem if supported (for local dev mode)
   try {
@@ -63,10 +61,10 @@ export async function writeJsonAtomic(filePath: string, data: unknown): Promise<
       return;
     }
   } catch (error) {
-    if (!kv) throw error;
+    if (!persistedToKv) throw error;
   }
 
-  if (kv) {
+  if (persistedToKv) {
     if (BUNDLED_DEFAULTS[key] !== undefined) BUNDLED_DEFAULTS[key] = data;
     return;
   }

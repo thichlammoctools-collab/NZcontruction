@@ -235,7 +235,7 @@ export default function ServicesManager({
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               Bạn có chắc chắn muốn xóa dịch vụ{" "}
-              <strong className="text-white font-mono">"{deleteConfirmId}"</strong>?
+              <strong className="text-white font-mono">&quot;{deleteConfirmId}&quot;</strong>?
               Thao tác này sẽ gỡ dịch vụ khỏi danh mục và trang chi tiết của website.
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">

@@ -21,8 +21,4 @@
       "bucket_name": "nzconstruction-media"
     }
   ],
-  "vars": {
-    "ADMIN_PASSWORD_HASH": "sha256:c47fe4eedd6b66a6747460b21a7df3269e5da9ef449a42b48cec4bd916ccea7a",
-    "ADMIN_SESSION_SECRET": "dev-only-change-me-0f3a9c71b2e84d5fa6c1d90e7b2583ac"
-  }
 }

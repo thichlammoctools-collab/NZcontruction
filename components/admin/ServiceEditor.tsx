@@ -747,7 +747,7 @@ export default function ServiceEditor({ initialId, isNew = false }: ServiceEdito
 
                 {formData.features_vi.length === 0 && (
                   <div className="text-center py-8 text-slate-500">
-                    Chưa có tính năng nào. Bấm nút "Thêm tính năng" ở trên để bổ sung.
+                    Chưa có tính năng nào. Bấm nút &quot;Thêm tính năng&quot; ở trên để bổ sung.
                   </div>
                 )}
               </div>
@@ -1020,7 +1020,7 @@ export default function ServiceEditor({ initialId, isNew = false }: ServiceEdito
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               Bạn có chắc chắn muốn xóa dịch vụ{" "}
-              <strong className="text-white font-mono">"{formData.id}"</strong>?
+              <strong className="text-white font-mono">&quot;{formData.id}&quot;</strong>?
               Thao tác này sẽ gỡ dịch vụ khỏi danh mục và trang chi tiết của website.
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">

@@ -132,17 +132,23 @@ export async function POST(req: Request) {
     const finalFilename = `${baseName || "photo"}-${uniqueSuffix}${safeExt}`;
 
     // 1. Upload to Cloudflare R2 bucket
-    await r2PutObject(finalFilename, buffer, detectedMime);
+    const savedToR2 = await r2PutObject(finalFilename, buffer, detectedMime);
 
     // 2. Also save to local public/uploads if fs is writeable (local dev)
+    let savedLocally = false;
     try {
       const uploadDir = path.join(process.cwd(), "public", "uploads");
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }
       fs.writeFileSync(path.join(uploadDir, finalFilename), buffer);
+      savedLocally = true;
     } catch {
       // In Cloudflare Workers edge environment, fs is read-only. Ignore.
+    }
+
+    if (!savedToR2 && !savedLocally) {
+      return NextResponse.json({ error: "Không thể lưu ảnh: storage chưa sẵn sàng." }, { status: 503 });
     }
 
     // Public URL served by Next.js static asset handler or /uploads/[...path]

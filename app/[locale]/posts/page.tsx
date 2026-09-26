@@ -29,11 +29,12 @@ export function generateStaticParams() {
 }
 
 interface PageProps {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }
 
-export function generateMetadata({ params }: PageProps) {
-  const isVi = params.locale === "vi";
+export async function generateMetadata({ params }: PageProps) {
+  const { locale } = await params;
+  const isVi = locale === "vi";
   return {
     title: isVi
       ? "Cẩm Nang & Kinh Nghiệm Xây Dựng | NS Building"
@@ -42,7 +43,7 @@ export function generateMetadata({ params }: PageProps) {
       ? "Chia sẻ kinh nghiệm cải tạo nhà, xây dựng và bảo trì từ đội ngũ thợ lành nghề LBP #BP128842 tại Auckland."
       : "Practical renovation, construction and maintenance insights from our Licensed Building Practitioner team (LBP #BP128842) across Auckland.",
     alternates: {
-      canonical: `/${params.locale}/posts`,
+      canonical: `/${locale}/posts`,
       languages: { en: "/en/posts", vi: "/vi/posts" },
     },
   };
@@ -62,7 +63,7 @@ const CATEGORY_LABELS: Record<string, { vi: string; en: string }> = {
 };
 
 export default async function PostsListPage({ params }: PageProps) {
-  const { locale } = params;
+  const { locale } = await params;
   if (locale !== "en" && locale !== "vi") notFound();
   const isVi = locale === "vi";
   const dict = await getDictionary(locale);

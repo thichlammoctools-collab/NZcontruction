@@ -61,13 +61,13 @@ async function getPageData(locale: string) {
 }
 
 interface PageProps {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
 export default async function HomePage({ params }: PageProps) {
-  const { locale } = params;
+  const { locale } = await params;
 
   if (locale !== "en" && locale !== "vi") {
     notFound();

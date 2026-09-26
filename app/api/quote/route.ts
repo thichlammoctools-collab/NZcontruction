@@ -28,9 +28,35 @@ interface QuoteLead {
 }
 
 const MAX_FIELD = 2000;
+const MAX_REQUEST_BYTES = 160 * 1024 * 1024;
+const PRIVATE_UPLOAD_DIR = path.join(process.cwd(), "content", "private-uploads", "quotes");
+
+function detectQuoteMime(buf: Buffer): string | null {
+  if (buf.length >= 3 && buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return "image/jpeg";
+  if (buf.length >= 8 && buf[0] === 0x89 && buf.toString("ascii", 1, 4) === "PNG") return "image/png";
+  if (buf.length >= 12 && buf.toString("ascii", 0, 4) === "RIFF" && buf.toString("ascii", 8, 12) === "WEBP") return "image/webp";
+  if (buf.length >= 6 && ["GIF87a", "GIF89a"].includes(buf.toString("ascii", 0, 6))) return "image/gif";
+  if (buf.length >= 12 && buf.toString("ascii", 4, 8) === "ftyp" && ["avif", "avis", "mif1"].includes(buf.toString("ascii", 8, 12))) return "image/avif";
+  if (buf.length >= 5 && buf.toString("ascii", 0, 5) === "%PDF-") return "application/pdf";
+  return null;
+}
+
+function safeAttachmentPath(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return /^\/uploads\/[^\s?#]+$/i.test(trimmed) ? trimmed.slice(0, 300) : null;
+}
 
 export async function POST(req: Request) {
   try {
+    const contentLength = Number(req.headers.get("content-length") || 0);
+    if (contentLength > MAX_REQUEST_BYTES) {
+      return NextResponse.json(
+        { success: false, message: "Tổng dung lượng yêu cầu vượt quá giới hạn cho phép." },
+        { status: 413 }
+      );
+    }
+
     // Per-IP throttle: max 5 quote submissions / 10 minutes.
     const ip = clientIp(req);
     const rl = rateLimit(`quote:${ip}`, 5, 10 * 60 * 1000);
@@ -64,7 +90,7 @@ export async function POST(req: Request) {
 
       const fileEntries = formData.getAll("files");
       if (fileEntries.length > 0) {
-        const uploadDir = path.join(process.cwd(), "public", "uploads", "quotes");
+        const uploadDir = PRIVATE_UPLOAD_DIR;
         if (!fs.existsSync(uploadDir)) {
           fs.mkdirSync(uploadDir, { recursive: true });
         }
@@ -86,20 +112,28 @@ export async function POST(req: Request) {
               const finalName = `${base || "quote"}-${unique}${ext}`;
               const r2Key = `quotes/${finalName}`;
               const buf = Buffer.from(await entry.arrayBuffer());
+              const detectedMime = detectQuoteMime(buf);
+              if (!detectedMime) continue;
               
               // 1. Upload to Cloudflare R2
-              await r2PutObject(r2Key, buf, entry.type || "application/octet-stream");
+              const savedToR2 = await r2PutObject(r2Key, buf, detectedMime);
 
               // 2. Also write to local disk if fs is available
+              let savedLocally = false;
               try {
-                const uploadDir = path.join(process.cwd(), "public", "uploads", "quotes");
                 if (!fs.existsSync(uploadDir)) {
                   fs.mkdirSync(uploadDir, { recursive: true });
                 }
                 const dest = path.join(uploadDir, finalName);
                 fs.writeFileSync(dest, buf);
-              } catch {}
+                savedLocally = true;
+              } catch {
+                // Cloudflare Workers do not provide writable local storage.
+              }
 
+              if (!savedToR2 && !savedLocally) {
+                return NextResponse.json({ success: false, message: "Không thể lưu tệp đính kèm." }, { status: 503 });
+              }
               savedFiles.push(`/uploads/${r2Key}`);
             }
           }
@@ -116,7 +150,8 @@ export async function POST(req: Request) {
       if (Array.isArray(body?.files)) {
         for (const f of body.files) {
           if (typeof f === "string" && f.trim().length > 0) {
-            savedFiles.push(f.slice(0, 300));
+            const safePath = safeAttachmentPath(f);
+            if (safePath) savedFiles.push(safePath);
           }
         }
       }

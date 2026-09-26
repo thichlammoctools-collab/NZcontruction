@@ -25,11 +25,11 @@ async function getDictionary(locale: string): Promise<any> {
 }
 
 interface PageProps {
-  params: { locale: string; id: string };
+  params: Promise<{ locale: string; id: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { locale, id } = params;
+  const { locale, id } = await params;
   const post = await getPost(id);
   if (!post) return { title: "Post Not Found | NS Building" };
   const isVi = locale === "vi";
@@ -73,7 +73,7 @@ function toParagraphs(text: string | undefined): string[] {
 }
 
 export default async function PostDetailPage({ params }: PageProps) {
-  const { locale, id } = params;
+  const { locale, id } = await params;
   if (locale !== "en" && locale !== "vi") notFound();
   const isVi = locale === "vi";
 

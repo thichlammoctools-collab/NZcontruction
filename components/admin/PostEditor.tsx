@@ -586,7 +586,7 @@ export default function PostEditor({ initialId, isNew = false }: PostEditorProps
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               Bạn có chắc chắn muốn xóa bài viết{" "}
-              <strong className="text-white font-mono">"{formData.id}"</strong>?
+              <strong className="text-white font-mono">&quot;{formData.id}&quot;</strong>?
               Thao tác này sẽ gỡ bài viết khỏi trang cẩm nang và blog của website.
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">

@@ -83,14 +83,14 @@ async function getDictionary(locale: string) {
 }
 
 interface PageProps {
-  params: {
+  params: Promise<{
     locale: string;
     projectId: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { locale, projectId } = params;
+  const { locale, projectId } = await params;
   const project = await getProjectDetail(projectId);
 
   if (!project) {
@@ -119,7 +119,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ProjectPage({ params }: PageProps) {
-  const { locale, projectId } = params;
+  const { locale, projectId } = await params;
 
   if (locale !== "en" && locale !== "vi") {
     notFound();

@@ -120,7 +120,7 @@ export default function ProjectsManager({
           </h4>
           <p className="text-slate-300 text-xs leading-relaxed">
             Mỗi công trình hiển thị trên website đều gồm bộ đôi <strong>Ảnh Trước (Before)</strong> và <strong>Ảnh Sau (After)</strong>. 
-            Bấm vào nút <strong className="text-amber-400">"Sửa (Trang riêng)"</strong> để chuyển tới trang quản lý riêng biệt với đường link SLUG độc lập.
+            Bấm vào nút <strong className="text-amber-400">&quot;Sửa (Trang riêng)&quot;</strong> để chuyển tới trang quản lý riêng biệt với đường link SLUG độc lập.
           </p>
         </div>
       </div>
@@ -359,7 +359,7 @@ export default function ProjectsManager({
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               Bạn có chắc chắn muốn xóa công trình{" "}
-              <strong className="text-white font-mono">"{deleteConfirmId}"</strong>?
+              <strong className="text-white font-mono">&quot;{deleteConfirmId}&quot;</strong>?
               Công trình sẽ không còn hiển thị trên danh mục dự án trang chủ.
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">

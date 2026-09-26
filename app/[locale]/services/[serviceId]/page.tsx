@@ -59,10 +59,10 @@ async function getDictionary(locale: string): Promise<any> {
 }
 
 interface PageProps {
-  params: {
+  params: Promise<{
     locale: string;
     serviceId: string;
-  };
+  }>;
 }
 
 function resolveServiceId(id: string): string {
@@ -71,7 +71,7 @@ function resolveServiceId(id: string): string {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { locale, serviceId } = params;
+  const { locale, serviceId } = await params;
   const targetId = resolveServiceId(serviceId);
   const services = await getServicesDetail();
   const service = services[targetId];
@@ -113,7 +113,7 @@ const TEMPLATE_MAP: Record<string, React.ComponentType<any>> = {
 };
 
 export default async function ServiceDetailPage({ params }: PageProps) {
-  const { locale, serviceId } = params;
+  const { locale, serviceId } = await params;
 
   if (locale !== "en" && locale !== "vi") notFound();
 
