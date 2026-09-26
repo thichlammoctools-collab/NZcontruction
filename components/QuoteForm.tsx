@@ -1,11 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
-import { CheckCircle2, Phone } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { CheckCircle2, Phone, X, Eye, FileText, UploadCloud } from "lucide-react";
 
 interface QuoteFormProps {
   dict: any;
   preselectedService?: string;
+}
+
+interface UploadedFileItem {
+  id: string;
+  file: File;
+  name: string;
+  size: number;
+  previewUrl?: string;
+  isImage: boolean;
 }
 
 export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) {
@@ -19,14 +28,115 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
     details: "",
   });
 
-  const [files, setFiles] = useState<string[]>([]);
+  const [fileList, setFileList] = useState<UploadedFileItem[]>([]);
+  const [previewModalImg, setPreviewModalImg] = useState<{ url: string; name: string } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  // Revoke object URLs on unmount or file removal to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      fileList.forEach((item) => {
+        if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+      });
+    };
+  }, [fileList]);
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  const addFiles = (newFiles: FileList | File[]) => {
+    const items: UploadedFileItem[] = [];
+    const maxFiles = 10;
+    const remainingSlots = maxFiles - fileList.length;
+    if (remainingSlots <= 0) return;
+
+    const filesToProcess = Array.from(newFiles).slice(0, remainingSlots);
+
+    for (const file of filesToProcess) {
+      const isImg = file.type.startsWith("image/") || /\.(jpe?g|png|webp|gif|avif)$/i.test(file.name);
+      let previewUrl: string | undefined = undefined;
+      if (isImg) {
+        try {
+          previewUrl = URL.createObjectURL(file);
+        } catch {
+          previewUrl = undefined;
+        }
+      }
+      items.push({
+        id: `${file.name}-${file.size}-${Math.random().toString(36).substring(2, 7)}`,
+        file,
+        name: file.name,
+        size: file.size,
+        previewUrl,
+        isImage: isImg,
+      });
+    }
+
+    setFileList((prev) => [...prev, ...items]);
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const names = Array.from(e.target.files).map((f) => f.name);
-      setFiles((prev) => [...prev, ...names]);
+      addFiles(e.target.files);
+      e.target.value = "";
     }
+  };
+
+  const removeFile = (id: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setFileList((prev) => {
+      const target = prev.find((f) => f.id === id);
+      if (target?.previewUrl) {
+        URL.revokeObjectURL(target.previewUrl);
+      }
+      return prev.filter((f) => f.id !== id);
+    });
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      addFiles(e.dataTransfer.files);
+    }
+  };
+
+  const resetForm = () => {
+    fileList.forEach((item) => {
+      if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+    });
+    setFileList([]);
+    setStatus("idle");
+    setFormData({
+      name: "",
+      phone: "",
+      email: "",
+      address: "",
+      service: "renovation",
+      timeframe: "planning",
+      details: "",
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,14 +144,23 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
     setStatus("submitting");
 
     try {
+      const body = new FormData();
+      body.append("name", formData.name);
+      body.append("phone", formData.phone);
+      body.append("email", formData.email);
+      body.append("address", formData.address);
+      body.append("location", formData.address);
+      body.append("service", formData.service);
+      body.append("timeframe", formData.timeframe);
+      body.append("details", formData.details);
+
+      fileList.forEach((item) => {
+        body.append("files", item.file);
+      });
+
       const res = await fetch("/api/quote", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          location: formData.address,
-          files,
-        }),
+        body,
       });
 
       if (res.ok) {
@@ -94,19 +213,7 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                 </a>
                 <button
                   type="button"
-                  onClick={() => {
-                    setStatus("idle");
-                    setFiles([]);
-                    setFormData({
-                      name: "",
-                      phone: "",
-                      email: "",
-                      address: "",
-                      service: "renovation",
-                      timeframe: "planning",
-                      details: "",
-                    });
-                  }}
+                  onClick={resetForm}
                   className="px-5 py-3 rounded-lg border border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-50"
                 >
                   Send Another Request
@@ -249,34 +356,121 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
                 ></textarea>
               </div>
 
-              {/* File Upload Zone */}
-              <label className="block p-6 bg-surface rounded-xl text-center cursor-pointer hover:bg-surface-container-high border-2 border-dashed border-slate-200 transition-colors">
-                <span className="material-symbols-outlined text-[32px] text-secondary mb-2 block mx-auto">
-                  cloud_upload
-                </span>
-                <p className="text-sm font-bold text-primary">
-                  {quoteDict.upload_title || "Have plans or photos ready? (Optional)"}
-                </p>
-                <p className="text-xs text-on-surface-variant mt-1">
-                  {quoteDict.upload_desc || "Drop architectural PDFs or photos here, or click to browse"}
-                </p>
-                <input
-                  id="file-input"
-                  type="file"
-                  multiple
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-                {files.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-2 justify-center">
-                    {files.map((name, i) => (
-                      <span key={i} className="text-xs bg-white px-2.5 py-1 rounded shadow-xs text-primary font-medium">
-                        {name}
-                      </span>
-                    ))}
+              {/* File Upload Zone with Live Image Previews */}
+              <div className="space-y-3">
+                <div
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`p-6 bg-surface rounded-xl text-center cursor-pointer transition-all border-2 border-dashed ${
+                    isDragging
+                      ? "border-secondary bg-secondary/5 scale-[1.01]"
+                      : "border-slate-200 hover:bg-surface-container-high hover:border-slate-300"
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[32px] text-secondary mb-2 block mx-auto">
+                    cloud_upload
+                  </span>
+                  <p className="text-sm font-bold text-primary">
+                    {quoteDict.upload_title || "Have plans or photos ready? (Optional)"}
+                  </p>
+                  <p className="text-xs text-on-surface-variant mt-1">
+                    {quoteDict.upload_desc || "Drop architectural PDFs or photos here, or click to browse"}
+                  </p>
+                  <p className="text-[11px] text-slate-400 mt-1.5">
+                    Hỗ trợ: JPG, PNG, WebP, GIF, PDF (Tối đa 10 tệp)
+                  </p>
+                  <input
+                    ref={fileInputRef}
+                    id="file-input"
+                    type="file"
+                    multiple
+                    accept="image/jpeg,image/png,image/webp,image/gif,image/avif,application/pdf"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </div>
+
+                {/* Previews List */}
+                {fileList.length > 0 && (
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4">
+                    <div className="flex items-center justify-between mb-3 text-xs text-slate-500 font-medium px-1">
+                      <span>Đã chọn ({fileList.length} tệp)</span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          fileList.forEach((item) => {
+                            if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+                          });
+                          setFileList([]);
+                        }}
+                        className="text-red-500 hover:text-red-700 transition-colors text-[11px] font-semibold"
+                      >
+                        Xóa tất cả
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                      {fileList.map((item) => (
+                        <div
+                          key={item.id}
+                          className="relative group bg-white rounded-xl border border-slate-200 p-2 shadow-xs hover:shadow-md transition-all flex flex-col items-center"
+                        >
+                          {/* Remove button */}
+                          <button
+                            type="button"
+                            onClick={(e) => removeFile(item.id, e)}
+                            title="Xóa tệp"
+                            className="absolute -top-2 -right-2 z-10 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+
+                          {/* Image Thumbnail or PDF Icon */}
+                          {item.isImage && item.previewUrl ? (
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPreviewModalImg({ url: item.previewUrl!, name: item.name });
+                              }}
+                              className="relative aspect-square w-full rounded-lg overflow-hidden bg-slate-100 cursor-pointer group/thumb"
+                            >
+                              <img
+                                src={item.previewUrl}
+                                alt={item.name}
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover/thumb:scale-105"
+                              />
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white">
+                                <Eye className="w-5 h-5 drop-shadow" />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="aspect-square w-full rounded-lg bg-red-50 flex flex-col items-center justify-center text-red-500">
+                              <FileText className="w-8 h-8 mb-1" />
+                              <span className="text-[10px] font-bold uppercase tracking-wider">PDF</span>
+                            </div>
+                          )}
+
+                          {/* Filename & size */}
+                          <div className="mt-2 text-center w-full">
+                            <p
+                              className="text-[11px] font-medium text-primary truncate"
+                              title={item.name}
+                            >
+                              {item.name}
+                            </p>
+                            <p className="text-[10px] text-slate-400">
+                              {formatFileSize(item.size)}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
-              </label>
+              </div>
 
               {/* Submit Button & Trust Proof */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -304,6 +498,39 @@ export default function QuoteForm({ dict, preselectedService }: QuoteFormProps) 
           )}
         </div>
       </div>
+
+      {/* Image Lightbox Modal */}
+      {previewModalImg && (
+        <div
+          onClick={() => setPreviewModalImg(null)}
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex flex-col items-center justify-center p-4 animate-in fade-in duration-200"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-4xl max-h-[90vh] flex flex-col items-center bg-slate-900 rounded-2xl p-2 sm:p-4 shadow-2xl border border-slate-700"
+          >
+            <div className="w-full flex items-center justify-between pb-3 px-2 text-white">
+              <span className="text-xs sm:text-sm font-semibold truncate max-w-md">
+                {previewModalImg.name}
+              </span>
+              <button
+                type="button"
+                onClick={() => setPreviewModalImg(null)}
+                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors ml-2"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="overflow-auto max-h-[78vh] rounded-lg">
+              <img
+                src={previewModalImg.url}
+                alt={previewModalImg.name}
+                className="max-h-[75vh] w-auto object-contain rounded-lg"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -104,7 +104,7 @@ export default function SocialChatButtons({
 
   return (
     <div
-      className="fixed bottom-36 sm:bottom-24 right-4 sm:right-6 z-40 flex flex-col items-end gap-3 pointer-events-none"
+      className="fixed bottom-[134px] sm:bottom-[84px] right-4 sm:right-6 z-40 flex flex-col items-end gap-3 pointer-events-none"
       aria-label={isVi ? "Kênh chat nhanh" : "Quick chat channels"}
     >
       {/* 1. WHATSAPP CHAT BUTTON */}
@@ -129,7 +129,7 @@ export default function SocialChatButtons({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={isVi ? "Chat trực tiếp qua WhatsApp" : "Chat directly on WhatsApp"}
-            className="relative w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white flex items-center justify-center shadow-lg hover:shadow-2xl shadow-emerald-900/30 transition-all duration-300 hover:scale-110 active:scale-95 border-2 border-white/90"
+            className="relative w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white flex items-center justify-center shadow-lg hover:shadow-2xl shadow-emerald-900/30 transition-all duration-300 hover:scale-110 active:scale-95 border-2 border-white/90"
           >
             {/* Ping animation indicator */}
             <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
@@ -137,7 +137,7 @@ export default function SocialChatButtons({
               <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-400 border border-white"></span>
             </span>
 
-            <WhatsAppIcon className="w-6 h-6 sm:w-7 sm:h-7" />
+            <WhatsAppIcon className="w-6 h-6" />
           </a>
         </div>
       )}
@@ -161,9 +161,9 @@ export default function SocialChatButtons({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={isVi ? "Chat qua Facebook Messenger" : "Chat on Facebook Messenger"}
-            className="relative w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-gradient-to-tr from-[#0066FF] to-[#00C6FF] hover:from-[#0055dd] hover:to-[#00b0e8] text-white flex items-center justify-center shadow-lg hover:shadow-2xl shadow-blue-900/30 transition-all duration-300 hover:scale-110 active:scale-95 border-2 border-white/90"
+            className="relative w-12 h-12 rounded-full bg-gradient-to-tr from-[#0066FF] to-[#00C6FF] hover:from-[#0055dd] hover:to-[#00b0e8] text-white flex items-center justify-center shadow-lg hover:shadow-2xl shadow-blue-900/30 transition-all duration-300 hover:scale-110 active:scale-95 border-2 border-white/90"
           >
-            <MessengerIcon className="w-6 h-6 sm:w-7 sm:h-7" />
+            <MessengerIcon className="w-6 h-6" />
           </a>
         </div>
       )}

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { Phone, Smartphone, Mail, AtSign, MapPin, CheckCircle2 } from "lucide-react";
 import siteSettings from "@/content/site_settings.json";
 import { WhatsAppIcon, MessengerIcon, formatWhatsAppUrl } from "@/components/SocialChatButtons";
 import Logo from "@/components/Logo";
@@ -26,7 +27,7 @@ export default function Footer({ locale, dict }: FooterProps) {
             </p>
             <div className="pt-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container text-on-secondary-container rounded-lg text-xs font-semibold">
-                <span className="material-symbols-outlined text-[16px]">verified</span>
+                <CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
                 {dict.footer.rights}
               </span>
             </div>
@@ -137,31 +138,31 @@ export default function Footer({ locale, dict }: FooterProps) {
             </h3>
             <div className="space-y-3 text-xs sm:text-sm text-on-surface-variant">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-secondary text-[18px]">call</span>
+                <Phone className="w-4 h-4 text-secondary shrink-0" />
                 <a href="tel:0276666510" className="hover:text-primary font-bold">
                   027 666 6510
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-secondary text-[18px]">smartphone</span>
+                <Smartphone className="w-4 h-4 text-secondary shrink-0" />
                 <a href="tel:0211531510" className="hover:text-primary font-bold">
                   021 153 1510
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-secondary text-[18px]">mail</span>
+                <Mail className="w-4 h-4 text-secondary shrink-0" />
                 <a href="mailto:contact@nsbuilding.co.nz" className="hover:text-primary truncate">
                   contact@nsbuilding.co.nz
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-secondary text-[18px]">alternate_email</span>
+                <AtSign className="w-4 h-4 text-secondary shrink-0" />
                 <a href="mailto:nsbuildingcompany@gmail.com" className="hover:text-primary truncate">
                   nsbuildingcompany@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-secondary text-[18px]">home_pin</span>
+                <MapPin className="w-4 h-4 text-secondary shrink-0" />
                 <span>Auckland & Greater NZ Region</span>
               </div>
               <div className="flex items-center gap-2 pt-1">
@@ -207,7 +208,21 @@ export default function Footer({ locale, dict }: FooterProps) {
             <span className="text-slate-300">•</span>
             <span>Licensed Building Practitioner NZ</span>
           </div>
-          <div>{dict.footer.copyright}</div>
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-3 gap-y-1">
+            <span>{dict.footer.copyright}</span>
+            <span className="text-slate-300 hidden sm:inline">•</span>
+            <span>
+              Made with love -{" "}
+              <a
+                href="https://drvinh.io.vn"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary font-medium underline underline-offset-2 transition-colors"
+              >
+                Drvinh.io.vn
+              </a>
+            </span>
+          </div>
         </div>
       </div>
     </footer>

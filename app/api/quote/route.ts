@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import fs from "fs";
 import path from "path";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
 import {
@@ -21,6 +22,7 @@ interface QuoteLead {
   service: string;
   location: string;
   details: string;
+  files?: string[];
   createdAt: string;
 }
 
@@ -38,13 +40,73 @@ export async function POST(req: Request) {
       );
     }
 
-    const body = await req.json();
-    const name = sanitizeString(body?.name, 200);
-    const email = sanitizeString(body?.email, 200);
-    const phone = normalizePhone(body?.phone || "").slice(0, 20);
-    const service = sanitizeString(body?.service, 200);
-    const location = sanitizeString(body?.location, 200);
-    const details = sanitizeString(body?.details, 2000);
+    const contentType = req.headers.get("content-type") || "";
+    let name = "";
+    let email = "";
+    let phone = "";
+    let service = "";
+    let location = "";
+    let details = "";
+    const savedFiles: string[] = [];
+
+    if (contentType.includes("multipart/form-data")) {
+      const formData = await req.formData();
+      name = sanitizeString(formData.get("name")?.toString(), 200);
+      email = sanitizeString(formData.get("email")?.toString(), 200);
+      phone = normalizePhone(formData.get("phone")?.toString() || "").slice(0, 20);
+      service = sanitizeString(formData.get("service")?.toString(), 200);
+      location = sanitizeString(
+        formData.get("location")?.toString() || formData.get("address")?.toString(),
+        200
+      );
+      details = sanitizeString(formData.get("details")?.toString(), 2000);
+
+      const fileEntries = formData.getAll("files");
+      if (fileEntries.length > 0) {
+        const uploadDir = path.join(process.cwd(), "public", "uploads", "quotes");
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        for (const entry of fileEntries.slice(0, 10)) {
+          if (entry instanceof File && entry.size > 0 && entry.size <= 15 * 1024 * 1024) {
+            const origName = entry.name || "file";
+            const ext = path.extname(origName).toLowerCase();
+            if (/\.(jpe?g|png|webp|gif|avif|pdf)$/i.test(ext)) {
+              const base = path
+                .basename(origName, ext)
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "")
+                .slice(0, 40);
+              const unique = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+              const finalName = `${base || "quote"}-${unique}${ext}`;
+              const dest = path.join(uploadDir, finalName);
+              const buf = Buffer.from(await entry.arrayBuffer());
+              fs.writeFileSync(dest, buf);
+              savedFiles.push(`/uploads/quotes/${finalName}`);
+            }
+          }
+        }
+      }
+    } else {
+      const body = await req.json();
+      name = sanitizeString(body?.name, 200);
+      email = sanitizeString(body?.email, 200);
+      phone = normalizePhone(body?.phone || "").slice(0, 20);
+      service = sanitizeString(body?.service, 200);
+      location = sanitizeString(body?.location || body?.address, 200);
+      details = sanitizeString(body?.details, 2000);
+      if (Array.isArray(body?.files)) {
+        for (const f of body.files) {
+          if (typeof f === "string" && f.trim().length > 0) {
+            savedFiles.push(f.slice(0, 300));
+          }
+        }
+      }
+    }
 
     if (!name || (!phone && !email)) {
       return NextResponse.json(
@@ -75,6 +137,7 @@ export async function POST(req: Request) {
       service,
       location,
       details,
+      files: savedFiles,
       createdAt: new Date().toISOString(),
     };
 

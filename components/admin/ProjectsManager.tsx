@@ -194,6 +194,20 @@ export default function ProjectsManager({
         </div>
       )}
 
+      {/* Guide Banner for Before & After */}
+      <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-xs flex items-start gap-3.5">
+        <Layers className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <h4 className="font-bold text-amber-300 text-sm">
+            Quản Lý &amp; Cập Nhật Hình Ảnh Before &amp; After (Trước &amp; Sau Thi Công)
+          </h4>
+          <p className="text-slate-300 text-xs leading-relaxed">
+            Mỗi công trình hiển thị trên website đều gồm bộ đôi <strong>Ảnh Trước (Before)</strong> và <strong>Ảnh Sau (After)</strong> để tạo thanh trượt so sánh trực quan. 
+            Để thay ảnh hoặc thêm dự án mới: bấm nút <strong className="text-amber-400">"Sửa &amp; Đổi Ảnh Before/After"</strong> trên từng thẻ công trình bên dưới, hoặc bấm <strong className="text-amber-400">"Thêm Dự Án Mới"</strong>.
+          </p>
+        </div>
+      </div>
+
       {/* Toolbar: Search, Category Filters, and Add Button */}
       <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700 space-y-4">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
@@ -249,13 +263,20 @@ export default function ProjectsManager({
           >
             <div>
               {/* Dual Thumbnail: Before & After */}
-              <div className="relative aspect-[16/10] w-full bg-slate-950 flex overflow-hidden">
+              <div
+                onClick={() => handleOpenEdit(project)}
+                className="relative aspect-[16/10] w-full bg-slate-950 flex overflow-hidden cursor-pointer group/thumb"
+                title="Bấm để sửa thông tin và đổi ảnh Before/After"
+              >
                 {/* Before Thumbnail */}
                 <div className="w-1/2 h-full relative border-r border-slate-900">
                   <img
                     src={project.before_image}
                     alt={`${project.title_en} Before`}
                     className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = "none";
+                    }}
                   />
                   <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 backdrop-blur-sm text-[9px] font-bold text-slate-300 uppercase">
                     Trước
@@ -267,13 +288,24 @@ export default function ProjectsManager({
                     src={project.after_image}
                     alt={`${project.title_en} After`}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = "none";
+                    }}
                   />
                   <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-amber-400 text-slate-950 text-[9px] font-black uppercase">
                     Sau
                   </span>
                 </div>
 
-                <div className="absolute top-2.5 left-2.5">
+                {/* Hover overlay hint */}
+                <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                  <span className="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 text-xs font-bold flex items-center gap-1.5 shadow-lg">
+                    <Edit2 className="w-3.5 h-3.5" />
+                    <span>Đổi ảnh Trước / Sau</span>
+                  </span>
+                </div>
+
+                <div className="absolute top-2.5 left-2.5 z-10">
                   <span className="px-2 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-amber-400 border border-amber-400/30">
                     {project.category}
                   </span>
@@ -311,16 +343,17 @@ export default function ProjectsManager({
                 className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1.5 transition-colors"
               >
                 <Eye className="w-3.5 h-3.5" />
-                <span>Thanh Trượt</span>
+                <span>Xem Trượt</span>
               </button>
 
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleOpenEdit(project)}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition-colors flex items-center gap-1.5 border border-slate-700"
+                  className="px-3.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+                  title="Chỉnh sửa thông tin & thay đổi ảnh Before / After"
                 >
-                  <Edit2 className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Sửa</span>
+                  <Edit2 className="w-3.5 h-3.5" />
+                  <span>Sửa &amp; Đổi Ảnh</span>
                 </button>
                 <button
                   onClick={() => setDeleteConfirmId(project.id)}
@@ -435,131 +468,109 @@ export default function ProjectsManager({
               </button>
             </div>
 
-            <form onSubmit={handleSaveProject} className="p-6 space-y-5 text-xs max-h-[75vh] overflow-y-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-bold text-slate-300 mb-1">
-                    Tên dự án (Tiếng Việt) *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="ví dụ: Cải tạo biệt thự Remuera"
-                    value={formData.title_vi}
-                    onChange={(e) =>
-                      setFormData({ ...formData, title_vi: e.target.value })
-                    }
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-bold text-slate-300 mb-1">
-                    Tên dự án (Tiếng Anh) *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Remuera Architectural Modernisation"
-                    value={formData.title_en}
-                    onChange={(e) =>
-                      setFormData({ ...formData, title_en: e.target.value })
-                    }
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
-                  />
-                </div>
+            <form onSubmit={handleSaveProject} className="p-6 space-y-6 text-xs max-h-[75vh] overflow-y-auto">
+              {/* Quick Jump Buttons */}
+              <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
+                <span className="text-[11px] text-slate-400 font-medium mr-1">Chuyển nhanh:</span>
+                <a
+                  href="#modal-section-images"
+                  className="px-3 py-1 rounded-lg bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 font-bold border border-amber-400/30 flex items-center gap-1.5 transition-colors"
+                >
+                  <ImageIcon className="w-3.5 h-3.5" />
+                  <span>1. Ảnh Before / After</span>
+                </a>
+                <a
+                  href="#modal-section-info"
+                  className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium border border-slate-700 transition-colors"
+                >
+                  2. Thông Tin Dự Án
+                </a>
+                <a
+                  href="#modal-section-desc"
+                  className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium border border-slate-700 transition-colors"
+                >
+                  3. Mô Tả Chi Tiết
+                </a>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="block font-bold text-slate-300 mb-1">
-                    Khu vực tại New Zealand (Suburb) *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="ví dụ: Remuera, Auckland"
-                    value={formData.suburb}
-                    onChange={(e) =>
-                      setFormData({ ...formData, suburb: e.target.value })
-                    }
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
-                  />
+              {/* Section 1: BEFORE & AFTER IMAGES (MOST IMPORTANT) */}
+              <div id="modal-section-images" className="p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-amber-500/10 to-amber-500/5 border border-amber-500/30 space-y-4 shadow-inner">
+                <div className="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-amber-500/20">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-black text-xs">
+                      1
+                    </div>
+                    <div>
+                      <h3 className="font-extrabold text-amber-300 text-sm flex items-center gap-1.5">
+                        <ImageIcon className="w-4 h-4 text-amber-400" />
+                        <span>Hình Ảnh So Sánh Trước &amp; Sau (Before / After Images)</span>
+                        <span className="text-red-400">*</span>
+                      </h3>
+                      <p className="text-[11px] text-slate-400">
+                        Bắt buộc 2 ảnh để kích hoạt thanh kéo tương tác so sánh hiện trạng và công trình hoàn thiện
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-full border border-amber-400/30">
+                    Hỗ trợ Upload file ảnh &amp; Link URL
+                  </span>
                 </div>
 
-                <div>
-                  <label className="block font-bold text-slate-300 mb-1">
-                    Danh mục công trình
-                  </label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
-                    }
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
-                  >
-                    <option value="renovations">Cải tạo trọn gói (Renovations)</option>
-                    <option value="bathrooms">Phòng tắm (Bathrooms)</option>
-                    <option value="cabinets">Tủ bếp (Cabinets)</option>
-                    <option value="flooring">Sàn nhà (Flooring)</option>
-                    <option value="doors">Cửa &amp; Mộc (Doors)</option>
-                    <option value="painting">Sơn bả (Painting)</option>
-                    <option value="hiring">Cho thuê thiết bị (Hiring)</option>
-                  </select>
-                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
+                  {/* Before Image Input */}
+                  <div className="p-3.5 bg-slate-900/80 rounded-xl border border-slate-700/80 space-y-2">
+                    <div className="flex items-center justify-between pb-1">
+                      <span className="px-2 py-0.5 rounded bg-black/80 text-[10px] font-bold uppercase tracking-wider text-slate-300 border border-slate-700">
+                        ẢNH TRƯỚC (BEFORE)
+                      </span>
+                      <span className="text-[10px] text-slate-400">Hiện trạng cũ</span>
+                    </div>
+                    <ImageUpload
+                      label="Ảnh Trước Khi Sửa (Before Image)"
+                      required
+                      value={formData.before_image}
+                      onChange={(url) =>
+                        setFormData({ ...formData, before_image: url })
+                      }
+                      aspectRatio="video"
+                      helperText="Tải ảnh hiện trạng công trình trước khi thi công hoặc dán link URL"
+                    />
+                  </div>
 
-                <div>
-                  <label className="block font-bold text-slate-300 mb-1">
-                    Năm hoàn thành
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="2026"
-                    value={formData.completed_year}
-                    onChange={(e) =>
-                      setFormData({ ...formData, completed_year: e.target.value })
-                    }
-                    className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-4 pt-2 border-t border-slate-800">
-                <span className="font-bold text-amber-400 block uppercase tracking-wider text-[11px]">
-                  Hình Ảnh So Sánh Before &amp; After (Hai Hình Ảnh)
-                </span>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <ImageUpload
-                    label="Ảnh Trước Khi Sửa (Before Image)"
-                    required
-                    value={formData.before_image}
-                    onChange={(url) =>
-                      setFormData({ ...formData, before_image: url })
-                    }
-                    aspectRatio="video"
-                    helperText="Tải ảnh hiện trạng công trình trước khi thi công"
-                  />
-
-                  <ImageUpload
-                    label="Ảnh Sau Khi Hoàn Thiện (After Image)"
-                    required
-                    value={formData.after_image}
-                    onChange={(url) =>
-                      setFormData({ ...formData, after_image: url })
-                    }
-                    aspectRatio="video"
-                    helperText="Tải ảnh công trình sau khi hoàn thiện"
-                  />
+                  {/* After Image Input */}
+                  <div className="p-3.5 bg-slate-900/80 rounded-xl border border-amber-500/40 space-y-2">
+                    <div className="flex items-center justify-between pb-1">
+                      <span className="px-2 py-0.5 rounded bg-amber-400 text-[10px] font-black uppercase tracking-wider text-slate-950">
+                        ẢNH SAU (AFTER)
+                      </span>
+                      <span className="text-[10px] text-amber-300 font-semibold">Sau hoàn thiện</span>
+                    </div>
+                    <ImageUpload
+                      label="Ảnh Sau Khi Hoàn Thiện (After Image)"
+                      required
+                      value={formData.after_image}
+                      onChange={(url) =>
+                        setFormData({ ...formData, after_image: url })
+                      }
+                      aspectRatio="video"
+                      helperText="Tải ảnh công trình sau khi hoàn thiện hoặc dán link URL"
+                    />
+                  </div>
                 </div>
 
                 {/* Instant Dual Preview */}
                 {formData.before_image && formData.after_image && (
-                  <div className="pt-2">
-                    <span className="text-[11px] text-slate-400 block mb-2 font-medium">
-                      Xem trước thanh trượt so sánh trực tiếp:
-                    </span>
-                    <div className="max-w-xl mx-auto rounded-xl overflow-hidden border border-slate-700 bg-slate-950 p-1">
+                  <div className="pt-3 border-t border-amber-500/20">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>Xem trước thanh trượt tương tác thực tế:</span>
+                      </span>
+                      <span className="text-[11px] text-slate-400 italic">
+                        Kéo nút tròn ở giữa để so sánh
+                      </span>
+                    </div>
+                    <div className="max-w-2xl mx-auto rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 p-2 shadow-2xl">
                       <BeforeAfterSlider
                         beforeImage={formData.before_image}
                         afterImage={formData.after_image}
@@ -572,7 +583,117 @@ export default function ProjectsManager({
                 )}
               </div>
 
-              <div className="space-y-4 pt-2 border-t border-slate-800">
+              {/* Section 2: PROJECT INFO */}
+              <div id="modal-section-info" className="space-y-4 pt-2">
+                <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
+                  <div className="w-7 h-7 rounded-lg bg-slate-800 text-white flex items-center justify-center font-black text-xs">
+                    2
+                  </div>
+                  <h3 className="font-bold text-white text-sm">
+                    Thông Tin Định Danh Công Trình
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-300 mb-1">
+                      Tên dự án (Tiếng Việt) *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="ví dụ: Cải tạo biệt thự Remuera"
+                      value={formData.title_vi}
+                      onChange={(e) =>
+                        setFormData({ ...formData, title_vi: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-300 mb-1">
+                      Tên dự án (Tiếng Anh) *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Remuera Architectural Modernisation"
+                      value={formData.title_en}
+                      onChange={(e) =>
+                        setFormData({ ...formData, title_en: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-300 mb-1">
+                      Khu vực tại New Zealand (Suburb) *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="ví dụ: Remuera, Auckland"
+                      value={formData.suburb}
+                      onChange={(e) =>
+                        setFormData({ ...formData, suburb: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-300 mb-1">
+                      Danh mục công trình
+                    </label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) =>
+                        setFormData({ ...formData, category: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white"
+                    >
+                      <option value="renovations">Cải tạo trọn gói (Renovations)</option>
+                      <option value="bathrooms">Phòng tắm (Bathrooms)</option>
+                      <option value="cabinets">Tủ bếp (Cabinets)</option>
+                      <option value="flooring">Sàn nhà (Flooring)</option>
+                      <option value="doors">Cửa &amp; Mộc (Doors)</option>
+                      <option value="painting">Sơn bả (Painting)</option>
+                      <option value="hiring">Cho thuê thiết bị (Hiring)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-300 mb-1">
+                      Năm hoàn thành
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="2026"
+                      value={formData.completed_year}
+                      onChange={(e) =>
+                        setFormData({ ...formData, completed_year: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Section 3: SCOPE & DESCRIPTION */}
+              <div id="modal-section-desc" className="space-y-4 pt-2">
+                <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
+                  <div className="w-7 h-7 rounded-lg bg-slate-800 text-white flex items-center justify-center font-black text-xs">
+                    3
+                  </div>
+                  <h3 className="font-bold text-white text-sm">
+                    Mô Tả Hạng Mục &amp; Phạm Vi Công Việc Thi Công
+                  </h3>
+                </div>
+
                 <div>
                   <label className="block font-bold text-slate-300 mb-1">
                     Mô tả công việc thực hiện (Tiếng Việt)

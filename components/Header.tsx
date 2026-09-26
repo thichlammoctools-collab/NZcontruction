@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Phone, PhoneCall } from "lucide-react";
+import { Phone, Smartphone, Mail, MapPin, PhoneCall } from "lucide-react";
 import siteSettings from "@/content/site_settings.json";
 import { WhatsAppIcon, MessengerIcon, formatWhatsAppUrl } from "@/components/SocialChatButtons";
 import Logo from "@/components/Logo";
@@ -47,21 +47,21 @@ export default function Header({ locale, dict, onToggleLocale }: HeaderProps) {
         <div className="max-w-7xl mx-auto flex items-center justify-between text-xs font-medium">
           <div className="flex items-center space-x-6">
             <span className="flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-secondary-fixed text-[16px]">call</span>
+              <Phone className="w-3.5 h-3.5 text-secondary-fixed shrink-0" />
               Phone:{" "}
               <a href="tel:0276666510" className="hover:underline text-surface-bright font-bold">
                 027 666 6510
               </a>
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-secondary-fixed text-[16px]">smartphone</span>
+              <Smartphone className="w-3.5 h-3.5 text-secondary-fixed shrink-0" />
               Mobile:{" "}
               <a href="tel:0211531510" className="hover:underline text-surface-bright font-bold">
                 021 153 1510
               </a>
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-secondary-fixed text-[16px]">mail</span>
+              <Mail className="w-3.5 h-3.5 text-secondary-fixed shrink-0" />
               <a href="mailto:contact@nsbuilding.co.nz" className="hover:underline text-surface-bright">
                 contact@nsbuilding.co.nz
               </a>
@@ -99,7 +99,7 @@ export default function Header({ locale, dict, onToggleLocale }: HeaderProps) {
 
           <div className="flex items-center space-x-6">
             <span className="flex items-center gap-1.5 text-slate-300">
-              <span className="material-symbols-outlined text-secondary-fixed text-[16px]">location_on</span>
+              <MapPin className="w-3.5 h-3.5 text-secondary-fixed shrink-0" />
               {dict.nav.location}
             </span>
 

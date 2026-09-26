@@ -112,20 +112,34 @@ export default function AIChatWidget({ locale }: AIChatWidgetProps) {
       : (aiConfig?.leadCapture?.promptChips_en || ["Bathroom Renovation", "Flooring Solution", "Kitchen Cabinets", "Get a Free Quote"]);
 
   return (
-    <div className="fixed bottom-[74px] right-3 sm:bottom-6 sm:right-6 z-40 sm:z-50">
+    <div className="fixed bottom-[74px] right-4 sm:bottom-6 sm:right-6 z-40 sm:z-50">
       {/* TRIGGER BUTTON */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="relative group bg-primary hover:bg-primary-dark text-white p-3 sm:p-4 rounded-full shadow-2xl flex items-center justify-center border-2 border-bronze transition-transform hover:scale-105 active:scale-95"
-          aria-label="Open AI Assistant"
-        >
-          <span className="absolute -top-1 -right-1 flex h-4 w-4">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500"></span>
-          </span>
-          <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-bronze" />
-        </button>
+        <div className="relative group flex items-center">
+          {/* Tooltip on hover */}
+          <div
+            role="tooltip"
+            className="hidden sm:flex items-center gap-1.5 absolute right-full mr-3 px-3 py-1.5 bg-slate-900/95 text-white text-xs font-semibold rounded-xl shadow-xl whitespace-nowrap opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-200 pointer-events-none border border-slate-700/60"
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>
+              {locale === "vi" ? "Trợ lý AI tư vấn 24/7" : "24/7 AI Renovation Assistant"}
+            </span>
+          </div>
+
+          <button
+            onClick={() => setIsOpen(true)}
+            className="relative w-12 h-12 rounded-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center shadow-lg hover:shadow-2xl shadow-black/40 transition-all duration-300 hover:scale-110 active:scale-95 border-2 border-bronze"
+            aria-label="Open AI Assistant"
+          >
+            {/* Ping animation indicator */}
+            <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-400 border border-white"></span>
+            </span>
+            <MessageSquare className="w-6 h-6 text-bronze" />
+          </button>
+        </div>
       )}
 
       {/* CHAT WINDOW */}

@@ -14,6 +14,8 @@ import {
   Trash2,
   Download,
   Filter,
+  FileText,
+  ExternalLink,
 } from "lucide-react";
 
 export type LeadStatus =
@@ -58,6 +60,7 @@ interface Lead {
   message?: string;
   status?: LeadStatus;
   notes?: string;
+  files?: string[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -179,6 +182,7 @@ export default function LeadsManager({
       "suburb/location",
       "service",
       "details/message",
+      "files",
       "status",
       "createdAt",
     ];
@@ -191,6 +195,7 @@ export default function LeadsManager({
         l.suburb || l.location || "",
         l.service || "",
         (l.details || l.message || "").replace(/\n/g, " "),
+        (l.files || []).join("; "),
         l.status || "new",
         l.createdAt || "",
       ]
@@ -266,6 +271,48 @@ export default function LeadsManager({
           <p className="text-xs text-slate-300 leading-relaxed bg-slate-900/50 rounded-lg p-3 border border-slate-800 line-clamp-3">
             {message}
           </p>
+        )}
+
+        {lead.files && lead.files.length > 0 && (
+          <div className="bg-slate-900/60 rounded-xl p-3 border border-slate-800 space-y-2">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+              Tệp đính kèm ({lead.files.length}):
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {lead.files.map((fileUrl, idx) => {
+                const isImg = /\.(jpe?g|png|webp|gif|avif)$/i.test(fileUrl);
+                const fileName = fileUrl.split("/").pop() || "Tệp";
+                return isImg ? (
+                  <a
+                    key={idx}
+                    href={fileUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative group w-14 h-14 rounded-lg overflow-hidden border border-slate-700 bg-slate-950 block shrink-0 hover:border-amber-400 transition-colors"
+                    title={fileName}
+                  >
+                    <img
+                      src={fileUrl}
+                      alt={fileName}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    />
+                  </a>
+                ) : (
+                  <a
+                    key={idx}
+                    href={fileUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs bg-slate-950 border border-slate-700 hover:border-amber-400 text-slate-300 hover:text-white px-2.5 py-1.5 rounded-lg transition-colors"
+                  >
+                    <FileText className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                    <span className="truncate max-w-[130px]">{fileName}</span>
+                    <ExternalLink className="w-3 h-3 text-slate-500" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
         )}
 
         {lead.notes && (
