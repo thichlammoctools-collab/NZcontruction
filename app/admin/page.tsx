@@ -35,6 +35,7 @@ export default function AdminDashboardPage() {
   // Load all dashboard data
   const loadData = useCallback(async (isSilent = false) => {
     if (!isSilent) setIsRefreshing(true);
+    try {
       const t = Date.now();
       const fetchOpts = { cache: "no-store" as RequestCache };
       const [projRes, servRes, postRes, ifaceRes, leadsRes] = await Promise.all([
