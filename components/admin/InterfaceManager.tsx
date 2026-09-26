@@ -12,6 +12,10 @@ import {
   Eye,
   Layers,
   ArrowRight,
+  Lock,
+  Key,
+  ShieldCheck,
+  AlertCircle,
 } from "lucide-react";
 import BeforeAfterSlider from "../BeforeAfterSlider";
 import ImageUpload from "./ImageUpload";
@@ -31,12 +35,20 @@ export default function InterfaceManager({
   initialData,
   onSaveSuccess,
 }: InterfaceManagerProps) {
-  const [subTab, setSubTab] = useState<"hero" | "contact" | "before_after" | "toggles">(
-    "hero"
-  );
+  const [subTab, setSubTab] = useState<
+    "hero" | "contact" | "before_after" | "toggles" | "security"
+  >("hero");
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Password change state
+  const [currPassword, setCurrPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   // Hero state
   const [heroVi, setHeroVi] = useState({
@@ -216,6 +228,18 @@ export default function InterfaceManager({
         >
           <Sliders className="w-4 h-4" />
           <span>Tùy Chọn Bật/Tắt Khối</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setSubTab("security")}
+          className={`flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all whitespace-nowrap ${
+            subTab === "security"
+              ? "border-amber-400 text-amber-400 bg-amber-400/10 rounded-t-xl"
+              : "border-transparent text-slate-400 hover:text-white"
+          }`}
+        >
+          <Lock className="w-4 h-4" />
+          <span>Mật Khẩu & Bảo Mật</span>
         </button>
       </div>
 
@@ -1028,21 +1052,201 @@ export default function InterfaceManager({
           </div>
         )}
 
-        {/* Global Save Button */}
-        <div className="flex justify-end pt-2">
-          <button
-            type="submit"
-            disabled={saving}
-            className="px-8 py-3.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-xl shadow-amber-400/20 flex items-center gap-2"
-          >
-            {saving ? (
-              <span className="animate-spin inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full" />
-            ) : (
-              <Save className="w-4 h-4" />
-            )}
-            <span>{saving ? "Đang Lưu Cấu Hình..." : "Lưu & Xuất Bản Giao Diện Mới"}</span>
-          </button>
-        </div>
+        {/* SUBTAB 5: SECURITY & ADMIN PASSWORD */}
+        {subTab === "security" && (
+          <div className="space-y-6">
+            {/* 1. Form đổi mật khẩu trực tiếp qua Cloudflare KV */}
+            <div className="bg-slate-800/90 p-6 rounded-2xl border border-slate-700 space-y-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-400/10 text-amber-400 flex items-center justify-center">
+                  <Key className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-amber-400">
+                    Đổi Mật Khẩu Quản Trị Trực Tiếp
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Mật khẩu mới sẽ được mã hoá và lưu trực tiếp lên Cloudflare KV, có hiệu lực ngay lập tức.
+                  </p>
+                </div>
+              </div>
+
+              {passwordSuccess && (
+                <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-xs text-emerald-400 flex items-center gap-3">
+                  <CheckCircle2 className="w-5 h-5 shrink-0" />
+                  <span>{passwordSuccess}</span>
+                </div>
+              )}
+
+              {passwordError && (
+                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-xs text-red-400 flex items-center gap-3">
+                  <AlertCircle className="w-5 h-5 shrink-0" />
+                  <span>{passwordError}</span>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase text-slate-300 mb-2">
+                    Mật khẩu hiện tại
+                  </label>
+                  <input
+                    type="password"
+                    value={currPassword}
+                    onChange={(e) => setCurrPassword(e.target.value)}
+                    placeholder="Nhập mật khẩu đang dùng"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:border-amber-400 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase text-slate-300 mb-2">
+                    Mật khẩu mới
+                  </label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Tối thiểu 6 ký tự"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:border-amber-400 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase text-slate-300 mb-2">
+                    Xác nhận mật khẩu mới
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Nhập lại mật khẩu mới"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:border-amber-400 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end pt-2">
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setPasswordError("");
+                    setPasswordSuccess("");
+
+                    if (!currPassword) {
+                      setPasswordError("Vui lòng nhập mật khẩu hiện tại.");
+                      return;
+                    }
+                    if (!newPassword || newPassword.length < 6) {
+                      setPasswordError("Mật khẩu mới phải có ít nhất 6 ký tự.");
+                      return;
+                    }
+                    if (newPassword !== confirmPassword) {
+                      setPasswordError("Xác nhận mật khẩu mới không khớp.");
+                      return;
+                    }
+
+                    setPasswordSaving(true);
+                    try {
+                      const res = await fetch("/api/admin/change-password", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          currentPassword: currPassword,
+                          newPassword,
+                        }),
+                      });
+                      const data = await res.json();
+                      if (!res.ok) {
+                        throw new Error(data.error || "Đổi mật khẩu thất bại.");
+                      }
+                      setPasswordSuccess(data.message || "Đã đổi mật khẩu thành công!");
+                      setCurrPassword("");
+                      setNewPassword("");
+                      setConfirmPassword("");
+                    } catch (err: any) {
+                      setPasswordError(err.message || "Có lỗi xảy ra.");
+                    } finally {
+                      setPasswordSaving(false);
+                    }
+                  }}
+                  disabled={passwordSaving}
+                  className="px-6 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg shadow-amber-400/20"
+                >
+                  {passwordSaving ? (
+                    <span className="animate-spin inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full" />
+                  ) : (
+                    <ShieldCheck className="w-4 h-4" />
+                  )}
+                  <span>{passwordSaving ? "Đang Cập Nhật..." : "Cập Nhật Mật Khẩu"}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 2. Hướng dẫn cấu hình qua Cloudflare Dashboard */}
+            <div className="bg-slate-800/60 p-6 rounded-2xl border border-slate-700/80 space-y-4">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
+                <Lock className="w-4 h-4 text-amber-400" />
+                <span>Cách Cấu Hình Mật Khẩu Trên Cloudflare Dashboard</span>
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Hệ thống hỗ trợ cấu hình mật khẩu quản trị linh hoạt qua Cloudflare theo các cách sau:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                  <div className="text-xs font-bold text-amber-400">Cách 1: Workers &amp; Pages Secrets (Khuyên Dùng)</div>
+                  <p className="text-[12px] text-slate-300 leading-relaxed">
+                    Vào <strong>Cloudflare Dashboard</strong> &rarr; <strong>Workers &amp; Pages</strong> &rarr; chọn <code>ns-building-nz</code> &rarr; <strong>Settings</strong> &rarr; <strong>Variables and Secrets</strong>.
+                  </p>
+                  <p className="text-[12px] text-slate-300">
+                    Thêm biến Secret mới:
+                  </p>
+                  <ul className="text-[11px] text-slate-400 list-disc list-inside space-y-1 font-mono">
+                    <li><strong className="text-amber-300 font-sans">Tên biến:</strong> ADMIN_PASSWORD</li>
+                    <li><strong className="text-amber-300 font-sans">Giá trị:</strong> Mật khẩu bạn muốn đặt (ví dụ: MatKhauCuaBan123)</li>
+                  </ul>
+                  <p className="text-[11px] text-slate-400 italic">
+                    * Có thể nhập trực tiếp mật khẩu text thường, hệ thống tự động kiểm tra bảo mật.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                  <div className="text-xs font-bold text-amber-400">Cách 2: Cloudflare KV Namespace</div>
+                  <p className="text-[12px] text-slate-300 leading-relaxed">
+                    Vào <strong>Cloudflare Dashboard</strong> &rarr; <strong>Workers &amp; Pages</strong> &rarr; <strong>KV</strong> &rarr; chọn namespace <code>KV</code> (ID: <code>df55e8be...</code>).
+                  </p>
+                  <p className="text-[12px] text-slate-300">
+                    Thêm Key mới:
+                  </p>
+                  <ul className="text-[11px] text-slate-400 list-disc list-inside space-y-1 font-mono">
+                    <li><strong className="text-amber-300 font-sans">Key:</strong> ADMIN_PASSWORD</li>
+                    <li><strong className="text-amber-300 font-sans">Value:</strong> Mật khẩu mới của bạn</li>
+                  </ul>
+                  <p className="text-[11px] text-slate-400 italic">
+                    * Lưu vào KV có hiệu lực ngay trong vài giây mà không cần Redeploy Worker.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Global Save Button (Ẩn khi ở tab Security vì có nút lưu riêng) */}
+        {subTab !== "security" && (
+          <div className="flex justify-end pt-2">
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-8 py-3.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-xl shadow-amber-400/20 flex items-center gap-2"
+            >
+              {saving ? (
+                <span className="animate-spin inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full" />
+              ) : (
+                <Save className="w-4 h-4" />
+              )}
+              <span>{saving ? "Đang Lưu Cấu Hình..." : "Lưu & Xuất Bản Giao Diện Mới"}</span>
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

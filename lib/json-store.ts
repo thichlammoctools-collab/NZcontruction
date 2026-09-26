@@ -71,6 +71,15 @@ export async function readJsonSafe<T>(filePath: string, fallback: T): Promise<T>
   try {
     const remoteData = await kvGetJson<T>(key);
     if (remoteData !== null && remoteData !== undefined) {
+      if (
+        typeof remoteData === "object" &&
+        !Array.isArray(remoteData) &&
+        BUNDLED_DEFAULTS[key] &&
+        typeof BUNDLED_DEFAULTS[key] === "object" &&
+        !Array.isArray(BUNDLED_DEFAULTS[key])
+      ) {
+        return { ...(BUNDLED_DEFAULTS[key] as any), ...(remoteData as any) } as T;
+      }
       return remoteData;
     }
   } catch (err) {

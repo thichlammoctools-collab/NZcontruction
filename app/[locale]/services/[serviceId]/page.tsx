@@ -28,6 +28,7 @@ export function generateStaticParams() {
     "painting",
     "plastering",
     "hiring",
+    "equipment",
     "maintenance",
   ];
 
@@ -64,10 +65,16 @@ interface PageProps {
   };
 }
 
+function resolveServiceId(id: string): string {
+  if (id === "equipment") return "hiring";
+  return id;
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, serviceId } = params;
+  const targetId = resolveServiceId(serviceId);
   const services = await getServicesDetail();
-  const service = services[serviceId];
+  const service = services[targetId];
   if (!service) return {};
 
   const isVi = locale === "vi";
@@ -78,10 +85,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `${title} | NS Building Auckland`,
     description: intro,
     alternates: {
-      canonical: `/${locale}/services/${serviceId}`,
+      canonical: `/${locale}/services/${targetId}`,
       languages: {
-        en: `/en/services/${serviceId}`,
-        vi: `/vi/services/${serviceId}`,
+        en: `/en/services/${targetId}`,
+        vi: `/vi/services/${targetId}`,
       },
     },
     openGraph: {
@@ -101,6 +108,7 @@ const TEMPLATE_MAP: Record<string, React.ComponentType<any>> = {
   painting: SurfaceFinishingServiceTemplate,
   plastering: SurfaceFinishingServiceTemplate,
   hiring: EquipmentHireServiceTemplate,
+  equipment: EquipmentHireServiceTemplate,
   maintenance: PropertyMaintenanceServiceTemplate,
 };
 
@@ -109,8 +117,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
   if (locale !== "en" && locale !== "vi") notFound();
 
+  const targetId = resolveServiceId(serviceId);
   const services = await getServicesDetail();
-  const service = services[serviceId];
+  const service = services[targetId];
   if (!service) notFound();
 
   const dict = await getDictionary(locale);
@@ -118,9 +127,9 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
   // Find related project for this service
   const relatedProject =
-    projectsData.find((p) => p.category === serviceId) || projectsData[0];
+    projectsData.find((p) => p.category === targetId) || projectsData[0];
 
-  const TemplateComponent = TEMPLATE_MAP[serviceId] || RenovationServiceTemplate;
+  const TemplateComponent = TEMPLATE_MAP[targetId] || RenovationServiceTemplate;
 
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface antialiased">
@@ -128,7 +137,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
       <main className="flex-1 pt-16 md:pt-20">
         <TemplateComponent
-          serviceId={serviceId}
+          serviceId={targetId}
           service={service}
           locale={locale as "en" | "vi"}
           dict={dict}
