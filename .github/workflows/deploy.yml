@@ -19,11 +19,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
+
+      - name: Build Next.js & Cloudflare Worker
+        run: npm run build:worker
 
       - name: Deploy via OpenNext & Cloudflare Wrangler
         run: npm run deploy
