@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Phone, Smartphone, Mail, MapPin, PhoneCall } from "lucide-react";
@@ -38,7 +38,42 @@ export default function Header({ locale, dict, onToggleLocale }: HeaderProps) {
     }
   };
 
-  const isHomeActive = pathname === `/${locale}` || pathname === `/${locale}/` || pathname === "/";
+  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/` || pathname === "/";
+  const [activeSection, setActiveSection] = useState("home");
+
+  useEffect(() => {
+    if (!isHomePage) {
+      setActiveSection("");
+      return;
+    }
+
+    const sectionIds = ["services", "work-section", "about", "reviews", "contact"];
+    const updateActiveSection = () => {
+      const headerOffset = window.innerWidth >= 768 ? 150 : 100;
+      const currentSection = sectionIds.reduce<string | null>((activeId, id) => {
+        const section = document.getElementById(id);
+        if (!section || section.getBoundingClientRect().top - headerOffset > 0) return activeId;
+        return id;
+      }, null);
+
+      setActiveSection(currentSection || "home");
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
+  }, [isHomePage]);
+
+  const navLinkClass = (section: string) =>
+    `transition-colors px-3 py-2 rounded-lg ${
+      activeSection === section
+        ? "bg-surface-container-high text-on-surface font-bold"
+        : "text-on-surface-variant hover:text-on-surface"
+    }`;
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-surface/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-border-light">
@@ -142,41 +177,37 @@ export default function Header({ locale, dict, onToggleLocale }: HeaderProps) {
         <nav className="hidden lg:flex items-center gap-3 font-semibold text-sm">
           <Link
             href={`/${locale}`}
-            className={`transition-colors px-3 py-2 rounded-lg ${
-              isHomeActive
-                ? "bg-surface-container-high text-on-surface font-bold"
-                : "text-on-surface-variant hover:text-on-surface"
-            }`}
+            className={navLinkClass("home")}
           >
             {dict.nav.home}
           </Link>
           <Link
             href={`/${locale}/#services`}
-            className="text-on-surface-variant hover:text-on-surface transition-colors px-3 py-2 rounded-lg"
+            className={navLinkClass("services")}
           >
             {dict.nav.services}
           </Link>
           <Link
             href={`/${locale}/#work-section`}
-            className="text-on-surface-variant hover:text-on-surface transition-colors px-3 py-2 rounded-lg"
+            className={navLinkClass("work-section")}
           >
             {dict.nav.work}
           </Link>
           <Link
             href={`/${locale}/#about`}
-            className="text-on-surface-variant hover:text-on-surface transition-colors px-3 py-2 rounded-lg"
+            className={navLinkClass("about")}
           >
             {dict.nav.about || "About"}
           </Link>
           <Link
             href={`/${locale}/#reviews`}
-            className="text-on-surface-variant hover:text-on-surface transition-colors px-3 py-2 rounded-lg"
+            className={navLinkClass("reviews")}
           >
             {dict.nav.reviews}
           </Link>
           <Link
             href={`/${locale}/#contact`}
-            className="text-on-surface-variant hover:text-on-surface transition-colors px-3 py-2 rounded-lg"
+            className={navLinkClass("contact")}
           >
             {dict.nav.contact}
           </Link>

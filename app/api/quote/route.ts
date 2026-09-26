@@ -206,6 +206,7 @@ export async function POST(req: Request) {
       message: "Quote request successfully registered.",
     });
   } catch (error) {
+    console.error("Quote API error:", error);
     return NextResponse.json(
       { success: false, message: "Error processing quote request." },
       { status: 500 }

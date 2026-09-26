@@ -98,6 +98,32 @@ function deepMerge<T = any>(target: any, source: any): T {
   return result as T;
 }
 
+function hasVietnameseText(value: unknown): boolean {
+  return typeof value === "string" && /[À-ỹĐđ]/.test(value);
+}
+
+// Older KV data can contain values copied from the Vietnamese editor. Keep the
+// English dictionary aligned with its bundled defaults for known bilingual fields.
+function repairEnglishDictionary<T>(key: string, data: T): T {
+  if (key !== "content:dict_en" || !data || typeof data !== "object") return data;
+
+  const dictionary = data as any;
+  const defaults = BUNDLED_DEFAULTS[key] as any;
+  const repaired = { ...dictionary };
+
+  for (const section of ["before_after", "quick_contact"]) {
+    if (!dictionary[section] || !defaults?.[section]) continue;
+    repaired[section] = { ...dictionary[section] };
+    for (const field of Object.keys(defaults[section])) {
+      if (hasVietnameseText(repaired[section][field])) {
+        repaired[section][field] = defaults[section][field];
+      }
+    }
+  }
+
+  return repaired as T;
+}
+
 // Durable JSON read: checks Cloudflare KV first -> local fs -> bundled JSON -> fallback
 export async function readJsonSafe<T>(filePath: string, fallback: T): Promise<T> {
   const key = resolveKvKey(filePath);
@@ -120,9 +146,12 @@ export async function readJsonSafe<T>(filePath: string, fallback: T): Promise<T>
         typeof BUNDLED_DEFAULTS[key] === "object" &&
         !Array.isArray(BUNDLED_DEFAULTS[key])
       ) {
-        return deepMerge(BUNDLED_DEFAULTS[key], remoteData) as T;
+        return repairEnglishDictionary(
+          key,
+          deepMerge(BUNDLED_DEFAULTS[key], remoteData) as T
+        );
       }
-      return remoteData;
+      return repairEnglishDictionary(key, remoteData);
     }
   } catch (err) {
     console.warn(`[Read Warning] KV get failed for ${key}:`, err);
@@ -131,7 +160,10 @@ export async function readJsonSafe<T>(filePath: string, fallback: T): Promise<T>
   // 2. Try reading from local filesystem if available (local dev)
   try {
     if (fs.existsSync(filePath)) {
-      return JSON.parse(fs.readFileSync(filePath, "utf8")) as T;
+      return repairEnglishDictionary(
+        key,
+        JSON.parse(fs.readFileSync(filePath, "utf8")) as T
+      );
     }
   } catch (err) {
     console.error(`Error reading ${filePath}:`, err);
@@ -139,7 +171,7 @@ export async function readJsonSafe<T>(filePath: string, fallback: T): Promise<T>
 
   // 3. Fall back to bundled default content (useful when running on Cloudflare Workers before KV is initialized or fs is unavailable)
   if (BUNDLED_DEFAULTS[key] !== undefined) {
-    return BUNDLED_DEFAULTS[key] as T;
+    return repairEnglishDictionary(key, BUNDLED_DEFAULTS[key] as T);
   }
 
   return fallback;
@@ -151,13 +183,16 @@ export function readJsonSafeSync<T>(filePath: string, fallback: T): T {
   // Try reading from local filesystem first if exists
   try {
     if (fs.existsSync(filePath)) {
-      return JSON.parse(fs.readFileSync(filePath, "utf8")) as T;
+      return repairEnglishDictionary(
+        key,
+        JSON.parse(fs.readFileSync(filePath, "utf8")) as T
+      );
     }
   } catch {}
 
   // Fall back to bundled defaults
   if (BUNDLED_DEFAULTS[key] !== undefined) {
-    return BUNDLED_DEFAULTS[key] as T;
+    return repairEnglishDictionary(key, BUNDLED_DEFAULTS[key] as T);
   }
   return fallback;
 }
