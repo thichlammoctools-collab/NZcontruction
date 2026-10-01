@@ -72,6 +72,9 @@ export default function AIChatWidget({ locale }: AIChatWidgetProps) {
       });
 
       const data = await res.json();
+      if (!res.ok || typeof data.reply !== "string" || !data.reply.trim()) {
+        throw new Error("Chat service returned an invalid response");
+      }
       setIsTyping(false);
 
       if (data.leadCaptured) {

@@ -22,6 +22,7 @@ interface QuoteLead {
   email: string;
   service: string;
   location: string;
+  timeframe: string;
   details: string;
   files?: string[];
   createdAt: string;
@@ -73,6 +74,7 @@ export async function POST(req: Request) {
     let phone = "";
     let service = "";
     let location = "";
+    let timeframe = "";
     let details = "";
     const savedFiles: string[] = [];
 
@@ -86,6 +88,7 @@ export async function POST(req: Request) {
         formData.get("location")?.toString() || formData.get("address")?.toString(),
         200
       );
+      timeframe = sanitizeString(formData.get("timeframe")?.toString(), 100);
       details = sanitizeString(formData.get("details")?.toString(), 2000);
 
       const fileEntries = formData.getAll("files");
@@ -146,6 +149,7 @@ export async function POST(req: Request) {
       phone = normalizePhone(body?.phone || "").slice(0, 20);
       service = sanitizeString(body?.service, 200);
       location = sanitizeString(body?.location || body?.address, 200);
+      timeframe = sanitizeString(body?.timeframe, 100);
       details = sanitizeString(body?.details, 2000);
       if (Array.isArray(body?.files)) {
         for (const f of body.files) {
@@ -185,6 +189,7 @@ export async function POST(req: Request) {
       email,
       service,
       location,
+      timeframe,
       details,
       files: savedFiles,
       createdAt: new Date().toISOString(),

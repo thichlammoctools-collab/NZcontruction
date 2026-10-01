@@ -246,10 +246,12 @@ export async function DELETE(req: Request) {
     id = id.trim();
 
     const services = await readServicesDetail();
-    if (services[id]) {
-      delete services[id];
-      await writeServicesDetail(services);
+    if (!services[id]) {
+      return NextResponse.json({ error: "Service not found" }, { status: 404 });
     }
+
+    delete services[id];
+    await writeServicesDetail(services);
 
     await syncDictionaries(id, {}, true);
     revalidateContent();

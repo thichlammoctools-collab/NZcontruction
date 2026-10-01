@@ -65,6 +65,7 @@ export interface Lead {
   suburb?: string;
   service?: string;
   location?: string;
+  timeframe?: string;
   details?: string;
   message?: string;
   status?: LeadStatus;
@@ -908,6 +909,15 @@ export default function LeadsManager({
                   <span className="text-slate-400 block text-[11px] mb-1 font-bold">Dịch vụ yêu cầu:</span>
                   <span className="inline-block text-xs font-bold text-amber-300 bg-amber-400/10 border border-amber-400/20 px-2.5 py-1 rounded-lg">
                     {viewingLead.service}
+                  </span>
+                </div>
+              )}
+
+              {viewingLead.timeframe && (
+                <div>
+                  <span className="text-slate-400 block text-[11px] mb-1 font-bold">Thá»i gian dá»± kiáº¿n:</span>
+                  <span className="inline-block text-xs font-bold text-slate-200 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-lg">
+                    {viewingLead.timeframe}
                   </span>
                 </div>
               )}
